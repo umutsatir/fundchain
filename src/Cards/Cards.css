@@ -1,0 +1,127 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap; /* Kartlar çok büyükse alt satıra geçmelerini sağlar */
+    justify-content: space-between; /* Kartlar arasında ve kenarlarda eşit boşluk */
+    /* align-items: flex-start; */
+
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.card {
+    border: none;
+    background: none;
+    border-radius: 10px;
+    display: inline-block;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    position: relative; /* CHECK THİSSSSSS*/
+
+    width: 350px;
+    height: 300px;
+
+    margin: 30px;
+    padding: 5px;
+}
+
+.card:hover {
+    background-color: rgba(137, 43, 226, 0.15);
+    height: auto;
+}
+
+.card-image {
+    width: 95%;
+    max-height: 200px;
+    border-radius: 20px;
+    display: block;
+    padding: 5px;
+    margin: 5px;
+    
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+}
+
+.card-proporties {
+    display: block;
+    padding: 2px;
+    margin-left: 2px;
+
+}
+
+.card-subimage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 10px;
+    margin-top: -20px;
+
+}
+
+.card-title {
+    text-align: left;
+    margin-top: 4px;
+    margin-bottom: -8px;
+    font-size: 1.9em;
+    font-family: monospace;
+}
+
+.card-owner {
+    text-align: left;
+    margin-top: 1px;
+    margin-left: 2px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 00;
+    font-size: 0.85em;
+}
+
+.card-deadline {
+    font-size: 1em;
+    font-family: inherit;
+    font-weight: 500;
+    margin-top: -16px;
+}
+
+.card-deadline .fa-clock {
+    color: blueviolet;
+    margin-right: 5px;
+}
+
+.card-deadline .fa-clock:hover {
+    color: #000000;
+}
+
+.card-saved-button {
+    border: none;
+    background: none;    
+    color: rgba(129, 56, 197, 0.195);
+    cursor: pointer;
+    font-size: 0.5rem;
+    margin-top: -40px;
+    margin-left: auto;
+    margin-right: 15px;
+    padding: 10px;
+}
+
+.card-saved-button.saved {
+    color: blueviolet;
+}
+
+.card-saved-button:hover {
+    color:#000000;
+}
+
+.card-saved-button .fa-bookmark {
+    font-size: 1.4rem;
+}
+
+.card-text {
+    text-align: left;
+    margin-left: 70px;
+    margin-right: 30px;
+}
