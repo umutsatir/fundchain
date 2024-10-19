@@ -1,13 +1,24 @@
 import "../styles/Home.css";
-import  CardGrid from "../Cards/CardGrid.jsx";
-
+import Navbar from "../Navbar/Navbar.jsx";
 
 function Home() {
     return (
-        <div>
-            <h1>Home</h1>
-            <CardGrid />
-        </div>
+        <>
+            <Navbar />
+            <div>
+                <h1>Home</h1>
+                <h1>Home</h1>
+                <h1>Home</h1>
+                <h1>Home</h1>
+                <h1>Home</h1>
+                <h1>Home</h1>
+                <h1>Home</h1>
+                <h1>Home</h1>
+                <h1>Home</h1>
+                <h1>Home</h1>
+                <h1>Home</h1>
+            </div> 
+        </>
     );
 }
 
