@@ -1,0 +1,91 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: fixed;    
+    top: 0;
+    left: 0;
+    background-color: #fff; 
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    justify-content: space-between;
+}
+
+.fundchainText {
+    padding: 0 20px;
+    margin: 0;
+    font-size: 40px;
+    color: #65558F;
+}
+
+.searchContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.searchInput {
+    padding: 0 20px;
+    padding-right: 40px;
+    width: 500px;
+    height: 40px;
+    border: 1px solid #cccccc;
+    border-radius: 40px;
+    font-size: 16px;
+    outline: none;  
+    flex: 1;
+}
+
+.searchInput::placeholder {
+    color: #999999;
+}
+
+.deleteIcon {
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.deleteIcon img {
+    width: 15px;
+    height: 15px;
+}
+
+.navbarButtons {
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.startProjectButton, .loginButton {
+    padding: 10px 20px;
+    flex: 0 0 auto;
+    cursor: pointer;
+    border-radius: 40px;
+    outline: none;
+}
+
+.startProjectButton {
+    color: #65558F;
+    background-color: #ffffff;
+    border: 2px solid #65558F; 
+}
+
+.loginButton {
+    color: white;
+    background-color: #65558F;
+    border: none;
+}
+
+.profileImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border-color: #65558F;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
