@@ -2,12 +2,11 @@
     display: flex;
     align-items: center;
     width: 100%;
-    position: fixed;    
     top: 0;
     left: 0;
-    background-color: #fff; 
+    background-color: #ffffff;
     padding: 10px 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     justify-content: space-between;
 }
@@ -16,7 +15,7 @@
     padding: 0 20px;
     margin: 0;
     font-size: 40px;
-    color: #65558F;
+    color: #65558f;
 }
 
 .searchContainer {
@@ -33,7 +32,7 @@
     border: 1px solid #cccccc;
     border-radius: 40px;
     font-size: 16px;
-    outline: none;  
+    outline: none;
     flex: 1;
 }
 
@@ -61,7 +60,8 @@
     gap: 20px;
 }
 
-.startProjectButton, .loginButton {
+.startProjectButton,
+.loginButton {
     padding: 10px 20px;
     flex: 0 0 auto;
     cursor: pointer;
@@ -70,22 +70,48 @@
 }
 
 .startProjectButton {
-    color: #65558F;
+    color: #65558f;
     background-color: #ffffff;
-    border: 2px solid #65558F; 
+    border: 2px solid #65558f;
+    transition: all 0.3s ease;
+}
+
+.startProjectButton:hover {
+    background-color: #65558f;
+    border: 2px solid #65558f;
+    color: white;
 }
 
 .loginButton {
     color: white;
-    background-color: #65558F;
+    background-color: #65558f;
     border: none;
+    transition: all 0.3s ease;
+}
+
+.loginButton:hover {
+    background-color: #4c3c78;
 }
 
 .profileImage {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border-color: #65558F;
+    border-color: #65558f;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.profileImage:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.deleteIcon a {
+    color: rgba(0, 0, 0, 0.8);
+    transition: all 0.3s ease;
+}
+
+.deleteIcon a:hover {
+    color: darkgray;
 }

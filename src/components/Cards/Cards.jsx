@@ -1,22 +1,24 @@
-import React, {useState} from "react";
-import Proptypes from 'prop-types';
-import './Cards.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-
+import React, { useState } from "react";
+import Proptypes from "prop-types";
+import "./Cards.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function Cards(props) {
-
-    const [isSaved, setIsSaved] = useState(false);  //Is clicked the saved button?
+    const [isSaved, setIsSaved] = useState(false); //Is clicked the saved button?
 
     const handleSaveClick = () => {
         setIsSaved(!isSaved);
-    }
+    };
 
-    return(
+    return (
         <div className="card">
             <img className="card-image" src={props.img} alt="Photo" />
             <div className="card-header">
-                <img className="card-subimage" src={props.subimg} alt="SubPhoto" />
+                <img
+                    className="card-subimage"
+                    src={props.subimg}
+                    alt="SubPhoto"
+                />
                 <div className="card-proporties">
                     <h2 className="card-title">{props.title}</h2>
                     <p className="card-owner">{props.owner}</p>
@@ -26,11 +28,14 @@ function Cards(props) {
                     </p>
                 </div>
                 {/* save button */}
-                <button className={`card-saved-button ${isSaved ? "saved": ""}`} onClick={handleSaveClick}>
-                    <i className="fa fa-bookmark"></i>  {/* FontAwesome Save Icon */}
+                <button
+                    className={`card-saved-button ${isSaved ? "saved" : ""}`}
+                    onClick={handleSaveClick}
+                >
+                    <i className="fa fa-bookmark"></i>{" "}
+                    {/* FontAwesome Save Icon */}
                 </button>
             </div>
-            <p className="card-text">{props.text}</p>
         </div>
     );
 }
@@ -41,7 +46,6 @@ Cards.proptypes = {
     title: Proptypes.string,
     owner: Proptypes.string,
     deadline: Proptypes.number,
-    text: Proptypes.string,
-}
+};
 
-export default Cards
+export default Cards;

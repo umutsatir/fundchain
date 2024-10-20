@@ -16,10 +16,9 @@
     overflow: hidden;
     transition: all 0.3s ease;
 
-    position: relative; /* CHECK THİSSSSSS*/
+    position: relative;
 
     width: 350px;
-    height: 300px;
 
     margin: 30px;
     padding: 5px;
@@ -27,7 +26,6 @@
 
 .card:hover {
     background-color: rgba(137, 43, 226, 0.15);
-    height: auto;
 }
 
 .card-image {
@@ -37,7 +35,6 @@
     display: block;
     padding: 5px;
     margin: 5px;
-    
 }
 
 .card-header {
@@ -48,10 +45,11 @@
 }
 
 .card-proporties {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
     padding: 2px;
     margin-left: 2px;
-
 }
 
 .card-subimage {
@@ -60,7 +58,6 @@
     border-radius: 50%;
     margin: 10px;
     margin-top: -20px;
-
 }
 
 .card-title {
@@ -98,7 +95,7 @@
 
 .card-saved-button {
     border: none;
-    background: none;    
+    background: none;
     color: rgba(129, 56, 197, 0.195);
     cursor: pointer;
     font-size: 0.5rem;
@@ -113,7 +110,7 @@
 }
 
 .card-saved-button:hover {
-    color:#000000;
+    color: #000000;
 }
 
 .card-saved-button .fa-bookmark {
