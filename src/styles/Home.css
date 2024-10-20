@@ -36,7 +36,12 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 2rem 4rem;
+    padding: 2rem 5rem;
+}
+
+.projects > .name {
+    font-size: 18px;
+    padding-left: 30px;
 }
 
 .projects > .cards {
@@ -68,5 +73,6 @@
 
     .projects > .cards {
         justify-content: center;
+        align-items: center;
     }
 }
