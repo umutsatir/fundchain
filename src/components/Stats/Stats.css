@@ -34,3 +34,9 @@
     color: #757575;
     margin: 0;
 }
+
+@media (max-width: 1200px) {
+    .stat {
+        padding: 30px 50px;
+    }
+}

@@ -2,13 +2,11 @@ import "../styles/Home.css";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import Cards from "../components/Cards/Cards";
-import CardGrid from "../components/Cards/CardGrid";
 import Stats from "../components/Stats/Stats";
 
 function Home() {
     return (
         <div className="body">
-            <Navbar />
             <div className="stats-wrapper">
                 <div className="title">
                     <h1>Fundchain</h1>
@@ -59,7 +57,6 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     );
 }

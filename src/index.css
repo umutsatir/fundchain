@@ -13,6 +13,10 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.content {
+    min-height: 100vh; /* Make content at least the height of the viewport */
+}
+
 body {
     margin: 0;
     padding: 0;

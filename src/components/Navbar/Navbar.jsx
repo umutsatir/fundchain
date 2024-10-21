@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import "./Navbar.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -34,7 +35,9 @@ function Navbar() {
     return (
         <div>
             <nav className="navbar">
-                <h1 className="fundchainText">Fundchain</h1>
+                <Link to="/" className="fundchainText">
+                    Fundchain
+                </Link>
                 {!isHamburger && (
                     <>
                         <div className="searchContainer">
@@ -52,15 +55,13 @@ function Navbar() {
                             </div>
                         </div>
                         <div className="navbarButtons">
-                            <button className="startProjectButton">
+                            <Link to="/create" className="startProjectButton">
                                 Start a Project
-                            </button>
-                            <button className="loginButton">Login</button>
-                            <img
-                                className="profileImage"
-                                src="/profilePicture.png"
-                                alt="Profile"
-                            />
+                            </Link>
+                            <Link to="/login" className="loginButton">
+                                Login
+                            </Link>
+                            <Link to="/profile" className="profileImage" />
                         </div>
                     </>
                 )}
@@ -89,15 +90,13 @@ function Navbar() {
                         </div>
                     </div>
                     <div className="navbarButtons">
-                        <button className="startProjectButton">
+                        <Link to="/create" className="startProjectButton">
                             Start a Project
-                        </button>
-                        <button className="loginButton">Login</button>
-                        <img
-                            className="profileImage"
-                            src="/profilePicture.png"
-                            alt="Profile"
-                        />
+                        </Link>
+                        <Link to="/login" className="loginButton">
+                            Login
+                        </Link>
+                        <Link to="/profile" className="profileImage" />
                     </div>
                 </div>
             )}
