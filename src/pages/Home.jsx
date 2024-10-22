@@ -7,6 +7,7 @@ import Stats from "../components/Stats/Stats";
 function Home() {
     return (
         <div className="body">
+            <Navbar />
             <div className="stats-wrapper">
                 <div className="title">
                     <h1>Fundchain</h1>
@@ -57,6 +58,7 @@ function Home() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

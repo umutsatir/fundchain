@@ -12,12 +12,9 @@ import Project from "./pages/Project";
 import Signup from "./pages/Signup";
 import Error from "./pages/Error";
 import Profile from "./pages/Profile";
-import Navbar from "./components/Navbar/Navbar";
-import Footer from "./components/Footer/Footer";
 
 createRoot(document.getElementById("root")).render(
     <Router>
-        <Navbar />
         <div className="content">
             <Routes>
                 <Route path="/" element={<Home />} />
@@ -29,6 +26,5 @@ createRoot(document.getElementById("root")).render(
                 <Route path="*" element={<Error />} />
             </Routes>
         </div>
-        <Footer />
     </Router>
 );
