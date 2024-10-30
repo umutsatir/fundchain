@@ -15,6 +15,7 @@ function Navbar() {
                 setIsHamburger(true);
             } else {
                 setIsHamburger(false);
+                setIsMenuOpen(false);
             }
         };
         window.addEventListener("resize", handleResize);
@@ -32,6 +33,14 @@ function Navbar() {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            if (searchText.trim() === "") return;
+            window.location.href = "/search?q=" + searchText;
+        }
+    };
+
     return (
         <div>
             <nav className="navbar">
@@ -47,6 +56,7 @@ function Navbar() {
                                 placeholder="Search..."
                                 value={searchText}
                                 onChange={(e) => setSearchText(e.target.value)}
+                                onKeyDown={handleKeyDown}
                             />
                             <div className="deleteIcon">
                                 <a onClick={deleteClick} className="xmark">
@@ -82,6 +92,7 @@ function Navbar() {
                             placeholder="Search..."
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
+                            onKeyDown={handleKeyDown}
                         />
                         <div className="deleteIcon">
                             <a onClick={deleteClick} className="xmark">

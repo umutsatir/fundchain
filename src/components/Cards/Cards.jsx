@@ -10,6 +10,11 @@ function Cards(props) {
         setIsSaved(!isSaved);
     };
 
+    const handlePage = (e) => {
+        e.preventDefault();
+        window.location.href = "/project/" + props.id;
+    };
+
     return (
         <div className="card">
             <img className="card-image" src={props.img} alt="Photo" />
@@ -20,7 +25,9 @@ function Cards(props) {
                     alt="SubPhoto"
                 />
                 <div className="card-proporties">
-                    <h2 className="card-title">{props.title}</h2>
+                    <h2 className="card-title" onClick={(e) => handlePage(e)}>
+                        {props.title}
+                    </h2>
                     <p className="card-owner">{props.owner}</p>
                     <p className="card-deadline">
                         <i className="fa fa-clock"></i> {/* time symbol */}
@@ -41,6 +48,7 @@ function Cards(props) {
 }
 
 Cards.proptypes = {
+    id: Proptypes.number,
     img: Proptypes.string,
     subimg: Proptypes.string,
     title: Proptypes.string,

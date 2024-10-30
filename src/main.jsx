@@ -12,6 +12,7 @@ import Project from "./pages/Project";
 import Signup from "./pages/Signup";
 import Error from "./pages/Error";
 import Profile from "./pages/Profile";
+import Search from "./pages/Search";
 
 createRoot(document.getElementById("root")).render(
     <Router>
@@ -22,6 +23,7 @@ createRoot(document.getElementById("root")).render(
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/project/:id" element={<Project />} />
+                <Route path="/search" element={<Search />} />
 
                 <Route path="*" element={<Error />} />
             </Routes>
