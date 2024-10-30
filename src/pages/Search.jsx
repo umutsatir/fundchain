@@ -41,6 +41,7 @@ function Search() {
                     <h2>Projects found:</h2>
                     {projects.map((project) => (
                         <Cards
+                            id={project.id}
                             img={project.img}
                             subimg={project.subimg}
                             title={project.title}

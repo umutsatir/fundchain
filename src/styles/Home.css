@@ -50,6 +50,10 @@
     justify-content: space-evenly;
 }
 
+.card-title {
+    cursor: pointer;
+}
+
 @media (max-width: 768px) {
     .stats-wrapper {
         height: 100vh;
