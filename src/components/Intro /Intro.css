@@ -1,0 +1,71 @@
+.intro {
+    display: flex;
+    flex-direction: column; /* Başlığı üstte, video ve fonlama altta olacak şekilde yerleştir */
+    padding: 20px;
+    background-color: #fff;
+    color: #000000;
+    font-family: Arial, sans-serif;
+}
+
+.title {
+    text-align: center;
+    width: 100%; /* Başlık alanının tam genişlikte olmasını sağlar */
+}
+
+.video-funding-container {
+    display: flex; /* Video ve fonlama alanlarını yan yana yerleştirir */
+    gap: 20px;
+    padding: 20px;
+    border-radius: 8px;
+
+}
+
+.video {
+    flex: 0 0 60%; /* Genişliği %60 yap */
+    display: flex; /* İçeriklerin düzgün yerleşimi için */
+    justify-content: flex-start; /* Videoyu sola dayayın */
+
+}
+
+.project-video {
+    width: 100%; /* Videoyu kapsayıcısına göre genişlet */
+    border-radius: 8px;
+    border: 2px solid #64558F;
+}
+
+.funding {
+    flex: 0 0 40%; /* Genişliği %40 yap */
+    border-radius: 8px;
+    border: 2px solid #64558F;
+
+
+}
+
+.info-container {
+    display: flex;
+    align-items: center; /* Dikeyde ortala */
+    justify-content: flex-start; /* Videoyu sola dayayın */
+   
+}
+
+.info-item {
+    display: flex;
+    padding: 20px;
+    align-items: center; /* İkon ve metin dikeyde ortalansın */
+}
+
+.divider {
+    width: 1px; /* Dikey çizginin genişliği */
+    height: 35px; /* Dikey çizginin yüksekliği */
+    background-color: #ccc; /* Çizgi rengi */
+    margin: 0 10px; /* Çizgi ile diğer elemanlar arasında boşluk */
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+}
+
+.info-item i {
+    margin-right: 10px; /* İkon ile metin arasında boşluk */
+}
