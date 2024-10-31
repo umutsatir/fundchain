@@ -1,19 +1,41 @@
 import "./Stats.css";
+import React, { useEffect, useState } from "react";
+import $ from "jquery";
 
-function Stats(props) {
+function Stats() {
+    const [stats, setStats] = useState([]);
+
+    function getResults() {
+        $.ajax({
+            url: "http://localhost:8000/stats.php",
+            type: "GET",
+            success: function (data) {
+                setStats(JSON.parse(data));
+            },
+            error: function (error) {
+                console.log(error);
+                setStats([0, 0, 0]);
+            },
+        });
+    }
+
+    useEffect(() => {
+        getResults();
+    }, []);
+
     return (
         <div className="stats">
             <div className="stat">
-                <h1>{props.fundedCount}</h1>
+                <h1>{stats["fundedProjects"]}</h1>
                 <p>projects funded</p>
             </div>
             <div className="stat">
-                <h1>{props.workCount}</h1>
-                <p>towards creative work</p>
+                <h1>{stats["users"]}</h1>
+                <p>users</p>
             </div>
             <div className="stat">
-                <h1>{props.pledgeCount}</h1>
-                <p>pledges</p>
+                <h1>{stats["stillFunding"]}</h1>
+                <p>projects still funding</p>
             </div>
         </div>
     );

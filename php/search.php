@@ -5,7 +5,7 @@
     $search = $_GET['search'];
     $pdo = (new PDOClass())->connect();
     if(!empty($search)){
-        $stmt = $pdo->prepare("SELECT * FROM projects WHERE title LIKE :search");
+        $stmt = $pdo->prepare("SELECT * FROM projects WHERE title LIKE :search LIMIT 20");
         $stmt->execute(['search' => "%$search%"]);
         $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $query = $pdo->prepare("SELECT * FROM users WHERE userId = :userId");
