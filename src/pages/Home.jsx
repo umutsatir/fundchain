@@ -28,6 +28,19 @@ function Home() {
         fetchProjects();
     }, []);
 
+    function getDeadline(dbDate) {
+        const currentDate = new Date(); // Current date
+        const targetDate = new Date(dbDate); // Date from the database
+
+        // Calculate the difference in milliseconds
+        const diffInMs = currentDate - targetDate;
+
+        // Convert milliseconds to days
+        const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+        return diffInDays;
+    }
+
     if (isLoading) {
         return <Loading />;
     }
@@ -55,7 +68,7 @@ function Home() {
                                 subimg={project.subimg}
                                 title={project.title}
                                 owner={project.owner}
-                                deadline={project.deadline}
+                                deadline={getDeadline(project.deadline)}
                                 key={project.id + 3214}
                             />
                         ))}
@@ -73,7 +86,7 @@ function Home() {
                                 subimg={project.subimg}
                                 title={project.title}
                                 owner={project.owner}
-                                deadline={project.deadline}
+                                deadline={getDeadline(project.deadline)}
                                 key={project.id + 123}
                             />
                         ))}
