@@ -50,6 +50,7 @@ function Home() {
                     <div className="cards">
                         {projects["popular"].map((project) => (
                             <Cards
+                                id={project.id}
                                 img={project.img}
                                 subimg={project.subimg}
                                 title={project.title}
@@ -67,6 +68,7 @@ function Home() {
                     <div className="cards">
                         {projects["trending"].map((project) => (
                             <Cards
+                                id={project.id}
                                 img={project.img}
                                 subimg={project.subimg}
                                 title={project.title}
