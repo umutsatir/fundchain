@@ -1,0 +1,101 @@
+.profile-card {
+    width: 400px;
+    height: 350px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: #333;
+  }
+  
+  .profile-frame {
+    width: 350px;
+    height: 170px;
+    background-color: transparent;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    border-radius: 4px;
+    position: relative;
+    top: 30px; 
+  }
+  
+  .profile-image img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: fixed;
+    z-index: 1;
+    top : 100px;
+    margin-left: 30px;
+  }
+  
+  .profile-info h2 {
+    font-size: 20px;
+    color: #333;
+    margin: 50px 0 0 0;
+  }
+  
+  .profile-info p {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+  }
+
+  .rating {
+    display: flex;
+    align-items: center; 
+  }
+
+  .rating-value {
+    margin-left: 6px; 
+    font-size: 14px; 
+    color: #666; 
+  }
+
+  .rating .star {
+    font-size: 24px;
+    color: #ccc;
+    position: relative;
+  }
+  
+  .rating .star.full {
+    color: gold;
+  }
+  
+  .rating .star.half {
+    color: #ccc;
+    overflow: hidden;
+  }
+  
+  .rating .star.half::before {
+    content: '★';
+    color: gold;
+    position: absolute;
+    left: 0;
+    width: 50%;
+    overflow: hidden;
+  }
+  
+  .profile-description p {
+    font-size: 14px;
+    color: #666;
+    margin: 15px 0 0 0;
+  }
+  
+  .see-more {
+    color: #65558f;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .see-more:hover {
+    color: #4c3c78;
+  }
+  
