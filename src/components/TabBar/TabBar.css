@@ -10,7 +10,7 @@
 .line {
     height: 1px; /* Çizgi kalınlığı */
     width: 100%; /* Başlık alanının tam genişlikte olmasını sağlar */
-    background-color: cc#ccc; /* Çizgi rengi */
+    background-color: #ccc; /* Çizgi rengi */
     margin: 0; /* Kenar boşlukları sıfır */
 }
 
@@ -28,7 +28,6 @@
     align-items: center; /* Dikeyde ortala */
     justify-content: flex-start; /* Tablar arasında eşit boşluk */
     width: 100%; /* Tabs bölümünün genişliği */
- 
 }
 
 .tab {
@@ -40,14 +39,13 @@
 }
 
 .tab.active {
-    color: #5e3c8f;
-
+    color: var(--primary-color-hover);
 }
 
 .indicator {
     position: absolute;
     bottom: 0;
     height: 3px;
-    background-color: #5e3c8f;
+    background-color: var(--primary-color-hover);
     transition: left 0.3s ease;
 }

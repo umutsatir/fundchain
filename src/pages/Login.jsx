@@ -1,11 +1,10 @@
-import React, {useState} from "react";
-import "./Login.css";
+import React, { useState } from "react";
+import "../styles/Login.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
-
-    const [isConfirmed, setIsConfirmed] = useState(false);  //State to handling the confirmed situation.
+    const [isConfirmed, setIsConfirmed] = useState(false); //State to handling the confirmed situation.
     const navigate = useNavigate();
 
     const handleButtonClick = () => {
@@ -13,25 +12,32 @@ function Login() {
     };
 
     const handleLogin = () => {
-        navigate("/Profile")
-    }
+        navigate("/profile");
+    };
 
     return (
         <div className="login-container">
             <h1 className="login-title">Log in</h1>
             <form onSubmit={handleLogin}>
-                <input type="email" placeholder="Email" required/>
-                <input type="password" placeholder="Password" required/>
+                <input type="email" placeholder="Email" required />
+                <input type="password" placeholder="Password" required />
             </form>
-            <Link to="#" className="forgot-password">Forgot your password?</Link>
-            <button className="login-button" onClick={handleLogin}>Log in</button>
+            <Link to="#" className="forgot-password">
+                Forgot your password?
+            </Link>
+            <button className="login-button" onClick={handleLogin}>
+                Log in
+            </button>
             {/*Remember me section*/}
             <div className="remember-me">
                 <button
-                    className={`remember-button ${isConfirmed ? "confirmed" : ""}`}
+                    className={`remember-button ${
+                        isConfirmed ? "confirmed" : ""
+                    }`}
                     onClick={handleButtonClick}
                 >
-                    {isConfirmed && <i className="fas fa-check"></i>}   {/* check sign*/}
+                    {isConfirmed && <i className="fas fa-check"></i>}{" "}
+                    {/* check sign*/}
                 </button>
                 <span className="remember-text">Remember me</span>
             </div>
@@ -39,7 +45,9 @@ function Login() {
             {/* redirecting to signup page */}
             <div className="redirecting-signup">
                 <span className="signup-text">New to Fundchain?</span>
-                <Link to="/Signup" className="signup-link">Sign up</Link>
+                <Link to="/signup" className="signup-link">
+                    Sign up
+                </Link>
             </div>
         </div>
     );

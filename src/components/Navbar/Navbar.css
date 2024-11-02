@@ -16,7 +16,7 @@
     margin: 0;
     font-size: 40px;
     font-weight: 700;
-    color: #65558f;
+    color: var(--primary-color);
     text-decoration: none;
 }
 
@@ -78,15 +78,15 @@
 }
 
 .startProjectButton {
-    color: #65558f;
+    color: var(--primary-color);
     background-color: #ffffff;
-    border: 2px solid #65558f;
+    border: 2px solid var(--primary-color);
     transition: all 0.3s ease;
 }
 
 .startProjectButton:hover {
-    background-color: #65558f;
-    border: 2px solid #65558f;
+    background-color: var(--primary-color);
+    border: 2px solid var(--primary-color);
     color: white;
 }
 
@@ -98,7 +98,7 @@
 }
 
 .loginButton:hover {
-    background-color: #4c3c78;
+    background-color: var(--primary-color-hover);
     color: white;
 }
 
@@ -107,7 +107,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border-color: #65558f;
+    border-color: var(--primary-color);
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
@@ -137,7 +137,7 @@
 }
 
 .hamburger > a {
-    color: #65558f;
+    color: var(--primary-color);
     cursor: pointer;
     transition: all 0.3s ease;
 }

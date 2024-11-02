@@ -1,0 +1,25 @@
+.bottom {
+    display: flex;
+    justify-content: space-around;
+    gap: 100px;
+    padding: 0 50px;
+}
+
+.projectOwner {
+    margin-top: 50px;
+}
+
+.campaign {
+    flex-shrink: 1;
+}
+
+@media screen and (max-width: 1200px) {
+    .bottom {
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    .projectOwner {
+        display: none;
+    }
+}

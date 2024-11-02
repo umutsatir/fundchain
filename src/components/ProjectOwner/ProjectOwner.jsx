@@ -1,7 +1,9 @@
-import './ProjectOwner.css';
+import { useEffect, useState } from "react";
+import "./ProjectOwner.css";
 
-const ProjectOwner = () => {
-    const rating = 3.5;
+const ProjectOwner = ({ name, rating, info }) => {
+    const createdCount = 0;
+    const backedCount = 0;
 
     return (
         <div className="profile-card">
@@ -13,25 +15,37 @@ const ProjectOwner = () => {
                     <h2>John Doe</h2>
                     <div className="rating">
                         {Array.from({ length: 5 }, (_, index) => {
-                        const isFullStar = index + 1 <= Math.floor(rating /* rating */);
-                        const isHalfStar = !isFullStar && index < rating /* rating */;
+                            const isFullStar =
+                                index + 1 <= Math.floor(rating /* rating */);
+                            const isHalfStar =
+                                !isFullStar && index < rating; /* rating */
 
-                        return (
-                            <span
-                            key={index}
-                            className={`star ${isFullStar ? 'full' : isHalfStar ? 'half' : 'empty'}`}
-                            >
-                            ★
-                            </span>
-                        );
+                            return (
+                                <span
+                                    key={index}
+                                    className={`star ${
+                                        isFullStar
+                                            ? "full"
+                                            : isHalfStar
+                                            ? "half"
+                                            : "empty"
+                                    }`}
+                                >
+                                    ★
+                                </span>
+                            );
                         })}
-                        <span className="rating-value">({rating /* rating */})</span>
+                        <span className="rating-value">
+                            ({rating /* rating */})
+                        </span>
                     </div>
-                    <p>8 created | 23 backed</p>
-                </div> 
+                    <p>
+                        {createdCount} created | {backedCount} backed
+                    </p>
+                </div>
             </div>
             <div className="profile-description">
-            <p>information about product manager <span className="see-more">See more</span></p>
+                <p>{info}</p>
             </div>
         </div>
     );
