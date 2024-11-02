@@ -47,6 +47,11 @@
 .projects > .cards {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.card-title {
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {
