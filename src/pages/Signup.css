@@ -1,4 +1,4 @@
-.login-container {
+.Signup-container {
     border: 1px solid rgba(137, 43, 226, 0.132);
     background-color: rgba(112, 77, 145, 0.065);
     border-radius: 10px;
@@ -10,7 +10,6 @@
     justify-content: center;    
     /*determines how the elements in the flexbox or grid layout container are aligned on the vertical axis */
     align-items: center;
-    
 
     position: absolute;
     top: 50%;
@@ -27,7 +26,7 @@
     font-family: inherit;
 }
 
-.login-title {
+.Signup-title {
     text-align: left;
     width: 85%;
     font-size: 2.5em;;
@@ -35,15 +34,15 @@
     margin-top: -10px;
 }
 
-.login-container form {
-    display: flex; /* Flexbox kullanarak hizalamak için */
-    flex-direction: column; /* Dikey yönde yerleştirir */
-    align-items: center; /* İçindeki elemanları ortalar */
-    width: 100%; /* Formun genişliğini ayarlayın */
+.Signup-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 
-.login-container input {
+.Signup-container input {
     display: block;
     border: 1px solid rgba(222, 184, 135, 0.388);
     border-radius: 2px;
@@ -56,11 +55,11 @@
     font-family: sans-serif;
 }
 
-.login-container input:hover {
+.Signup-container input:hover {
     border: 1px solid burlywood;
 }
 
-.login-button {
+.Signup-button {
     border: 1px solid burlywood;
     border-radius: 1px;
     background-color: burlywood;
@@ -68,27 +67,27 @@
     width: 85%;
 
     padding: 12px;
-    margin: 15px;
+    margin: 20px;
 
     font-family: sans-serif;
     font-size: 1.2em;
 }
 
-.login-button:hover {
+.Signup-button:hover {
     background-color: rgb(194, 159, 112);
     cursor: pointer;
 }
 
-.remember-me {
+.Signup-condition {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     text-align: left;
     width: 85%;
-    margin: 5px;
+    margin: 10px;
 }
 
-.remember-button {
+.condition-button {
     border: 1px solid burlywood;
     border-radius: 2px;
     width: 22px;
@@ -96,24 +95,25 @@
     margin-right: 15px;
 }
 
-.remember-button.confirmed {
+.condition-button.confirmed {
     background-color: rgba(137, 43, 226, 0.323);
     color: blueviolet;
 }
 
-.remember-text {
+.condition-text {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.04em;
+    width: 95%;
 }
 
-.login-container .divider {
+.Signup-container .divider {
     width: 100%;
     height: 1px;
     background-color: rgba(0, 0, 0, 0.208);
-    margin: 30px;
+    margin: 35px;
 }
 
-.redirecting-signup {
+.redirecting-loginPage {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -122,20 +122,11 @@
     font-family: sans-serif;
 }
 
-.signup-link {
+.loginPage-link {
     margin-left: 10px;
     color: blueviolet;
 }
 
-.signup-text {
+.redirecting-text {
     color: black;
 }
-
-.forgot-password {
-    width: 85%;
-    margin: 5px;
-    color: blueviolet;
-    font-family: sans-serif;
-    font-size: 1em;
-}
-

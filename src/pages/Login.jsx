@@ -23,6 +23,7 @@ function Login() {
                 <input type="email" placeholder="Email" required/>
                 <input type="password" placeholder="Password" required/>
             </form>
+            <Link to="#" className="forgot-password">Forgot your password?</Link>
             <button className="login-button" onClick={handleLogin}>Log in</button>
             {/*Remember me section*/}
             <div className="remember-me">
@@ -40,7 +41,6 @@ function Login() {
                 <span className="signup-text">New to Fundchain?</span>
                 <Link to="/Signup" className="signup-link">Sign up</Link>
             </div>
-            <div className="divider"></div>
         </div>
     );
 }
