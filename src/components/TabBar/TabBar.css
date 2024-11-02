@@ -1,0 +1,53 @@
+/* TabBar.css */
+
+.tab-bar {
+    display: flex;
+    flex-direction: column; /* Dikey hizalama */
+    align-items: stretch; /* Çizgilerin tam genişlikte olmasını sağlamak için */
+    position: relative;
+}
+
+.line {
+    height: 1px; /* Çizgi kalınlığı */
+    width: 100%; /* Başlık alanının tam genişlikte olmasını sağlar */
+    background-color: cc#ccc; /* Çizgi rengi */
+    margin: 0; /* Kenar boşlukları sıfır */
+}
+
+.top-line {
+    margin-bottom: 10px; /* Üst çizgi ile tablar arasında boşluk */
+}
+
+.bottom-line {
+    margin-top: 10px; /* Alt çizgi ile tablar arasında boşluk */
+}
+
+.tabs {
+    display: flex; /* Tabların yan yana olmasını sağlamak için */
+    padding: 5px;
+    align-items: center; /* Dikeyde ortala */
+    justify-content: flex-start; /* Tablar arasında eşit boşluk */
+    width: 100%; /* Tabs bölümünün genişliği */
+ 
+}
+
+.tab {
+    padding: 10px;
+    width: 10%; /* Tabs bölümünün genişliği */
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.tab.active {
+    color: #5e3c8f;
+
+}
+
+.indicator {
+    position: absolute;
+    bottom: 0;
+    height: 3px;
+    background-color: #5e3c8f;
+    transition: left 0.3s ease;
+}
