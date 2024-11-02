@@ -1,0 +1,77 @@
+.progress-container {
+  width: 300px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  color: #333;
+  text-align: center;
+}
+
+.progress-background {
+    width: 100%;
+    height: 5px;
+    background-color: #e0e0e0; /* Açık renkli arka plan */
+    border-radius: 2.5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+.progress-bar {
+  height: 5px;
+  background-color: #65558f;
+  border-radius: 2.5px;
+}
+
+.progress-info {
+  text-align: left;
+}
+
+.progress-info h1 {
+  font-size: 24px;
+  color: #65558f;
+  margin: 0;
+}
+
+.progress-info p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.back-button {
+  width: 100%;
+  padding: 10px;
+  color: white;
+  background-color: #65558f;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.share-button,
+.remind-button {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  color: #65558f;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.share-button:hover,
+.remind-button:hover {
+  background-color: #65558f;
+  color: white;
+}
+
+.back-button:hover {
+  background-color: #4c3c78;
+  color: white;
+}
