@@ -1,37 +1,69 @@
-import './ProjectOwner.css';
+import { useEffect, useState } from "react";
+import "./ProjectOwner.css";
+import $ from "jquery";
 
-const ProjectOwner = () => {
-    const rating = 3.5;
+const ProjectOwner = ({ userId }) => {
+    const rating = 4.5;
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        $.ajax({
+            url: "http://localhost:8000/projectOwner.php",
+            type: "GET",
+            data: {
+                userId,
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.status) setUser(data);
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    }, []);
 
     return (
         <div className="profile-card">
             <div className="profile-frame">
                 <div className="profile-image">
-                    <img src="https://via.placeholder.com/80" alt="Profile" />
+                    <img src={user.profilePic} alt="Profile" />
                 </div>
                 <div className="profile-info">
-                    <h2>John Doe</h2>
+                    <h2>{user.username}</h2>
                     <div className="rating">
                         {Array.from({ length: 5 }, (_, index) => {
-                        const isFullStar = index + 1 <= Math.floor(rating /* rating */);
-                        const isHalfStar = !isFullStar && index < rating /* rating */;
+                            const isFullStar =
+                                index + 1 <= Math.floor(rating /* rating */);
+                            const isHalfStar =
+                                !isFullStar && index < rating; /* rating */
 
-                        return (
-                            <span
-                            key={index}
-                            className={`star ${isFullStar ? 'full' : isHalfStar ? 'half' : 'empty'}`}
-                            >
-                            ★
-                            </span>
-                        );
+                            return (
+                                <span
+                                    key={index}
+                                    className={`star ${
+                                        isFullStar
+                                            ? "full"
+                                            : isHalfStar
+                                            ? "half"
+                                            : "empty"
+                                    }`}
+                                >
+                                    ★
+                                </span>
+                            );
                         })}
-                        <span className="rating-value">({rating /* rating */})</span>
+                        <span className="rating-value">
+                            ({rating /* rating */})
+                        </span>
                     </div>
-                    <p>8 created | 23 backed</p>
-                </div> 
+                    <p>
+                        {user.projectCount} created | {user.backedCount} backed
+                    </p>
+                </div>
             </div>
             <div className="profile-description">
-            <p>information about product manager <span className="see-more">See more</span></p>
+                <p>{user.description}</p>
             </div>
         </div>
     );

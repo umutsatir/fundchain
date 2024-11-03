@@ -5,7 +5,6 @@ import Footer from "../components/Footer/Footer";
 import Cards from "../components/Cards/Cards";
 import Stats from "../components/Stats/Stats";
 import Loading from "../components/Loading/Loading";
-import $ from "jquery";
 
 function Home() {
     const [projects, setProjects] = useState({ popular: [], trending: [] });

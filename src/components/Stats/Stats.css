@@ -23,7 +23,7 @@
 
 .stat h1 {
     font-size: 40px;
-    color: #64558f;
+    color: var(--primary-color);
     font-weight: 500;
     margin: 0;
 }

@@ -1,11 +1,6 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    BrowserRouter,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Project from "./pages/Project";
@@ -26,6 +21,7 @@ createRoot(document.getElementById("root")).render(
                 <Route path="/" element={<Home />} />
                 <Route path="/project/:id" element={<Project />} />
                 <Route path="/search" element={<Search />} />
+                <Route path="/error" element={<Error />} />
                 {cookies.get("loggedIn") ? (
                     <>
                         <Route path="/profile" element={<Profile />} />

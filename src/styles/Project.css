@@ -1,0 +1,37 @@
+.main {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-around;
+    gap: 75px;
+    padding: 0 50px;
+}
+
+.projectOwner {
+    margin-top: 50px;
+}
+
+.campaign {
+    flex-shrink: 1;
+}
+
+.TabBar,
+.Intro,
+.RecommendedProjects {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 1200px) {
+    .bottom {
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    .projectOwner {
+        display: none;
+    }
+}

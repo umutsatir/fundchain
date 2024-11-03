@@ -14,38 +14,28 @@
 
 .video-funding-container {
     display: flex; /* Video ve fonlama alanlarını yan yana yerleştirir */
+    justify-content: space-around;
     gap: 20px;
     padding: 20px;
     border-radius: 8px;
-
 }
 
 .video {
     flex: 0 0 60%; /* Genişliği %60 yap */
     display: flex; /* İçeriklerin düzgün yerleşimi için */
     justify-content: flex-start; /* Videoyu sola dayayın */
-
 }
 
 .project-video {
     width: 100%; /* Videoyu kapsayıcısına göre genişlet */
     border-radius: 8px;
-    border: 2px solid #64558F;
-}
-
-.funding {
-    flex: 0 0 40%; /* Genişliği %40 yap */
-    border-radius: 8px;
-    border: 2px solid #64558F;
-
-
+    border: 2px solid var(--primary-color);
 }
 
 .info-container {
     display: flex;
     align-items: center; /* Dikeyde ortala */
     justify-content: flex-start; /* Videoyu sola dayayın */
-   
 }
 
 .info-item {
@@ -68,4 +58,23 @@
 
 .info-item i {
     margin-right: 10px; /* İkon ile metin arasında boşluk */
+}
+
+@media screen and (max-width: 992px) {
+    .video-funding-container {
+        flex-direction: column; /* Video ve fonlama alanlarını alt alta yerleştir */
+    }
+
+    .video {
+        flex: 0 0 100%; /* Genişliği %100 yap */
+    }
+
+    .info-item {
+        padding: 10px;
+    }
+
+    .info-item i,
+    .info-item span {
+        font-size: 14px;
+    }
 }
