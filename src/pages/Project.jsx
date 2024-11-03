@@ -27,8 +27,8 @@ function Project() {
                 projectId: id,
             },
             success: function (data) {
-                console.log(data);
-                if (data.status == "true") setProject(data.project);
+                data = JSON.parse(data);
+                if (data.success) setProject(data);
                 // else window.location.href = "/error";
             },
             error: function (error) {
@@ -42,17 +42,17 @@ function Project() {
         <div>
             <Navbar />
             <div className="main">
-                <Intro />
+                <Intro project={project} />
                 <TabBar />
                 <div className="bottom">
                     <div className="campaign">
                         <Campaign />
                     </div>
                     <div className="projectOwner">
-                        <ProjectOwner />
+                        <ProjectOwner userId={project.userId} />
                     </div>
                 </div>
-                <RecommendedProjects />
+                <RecommendedProjects userId={project.userId} />
             </div>
             <Footer />
         </div>

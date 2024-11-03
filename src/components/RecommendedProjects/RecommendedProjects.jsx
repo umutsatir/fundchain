@@ -1,7 +1,7 @@
 import Cards from "../Cards/Cards";
 import "./RecommendedProjects.css";
 
-function RecommendedProjects() {
+function RecommendedProjects({ userId }) {
     return (
         <div className="projects">
             <div className="name">

@@ -13,12 +13,16 @@
         $user = $query->fetch(PDO::FETCH_ASSOC);
         $project['subimage'] = $user['profilePic'];
 
+        $query = $pdo->prepare("SELECT * FROM categories WHERE categoryId = :categoryId");
+        $query->execute(['categoryId' => $project['categoryId']]);
+        $category = $query->fetch(PDO::FETCH_ASSOC);
+
         $json = array(
-            'status' => true,
+            'success' => true,
             'message' => 'Project found',
             'id' => $project['projectId'],
             'userId' => $project['userId'],
-            'categoryId' => $project['categoryId'],
+            'category' => $category['category'],
             'title' => $project['title'],
             'description' => $project['description'],
             'location' => $project['location'],
