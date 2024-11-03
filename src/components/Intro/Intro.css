@@ -68,4 +68,13 @@
     .video {
         flex: 0 0 100%; /* Genişliği %100 yap */
     }
+
+    .info-item {
+        padding: 10px;
+    }
+
+    .info-item i,
+    .info-item span {
+        font-size: 14px;
+    }
 }

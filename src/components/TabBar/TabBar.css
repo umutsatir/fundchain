@@ -32,7 +32,7 @@
 
 .tab {
     padding: 10px;
-    width: 10%; /* Tabs bölümünün genişliği */
+    width: 100px; /* Tabs bölümünün genişliği */
     text-align: center;
     cursor: pointer;
     font-weight: bold;

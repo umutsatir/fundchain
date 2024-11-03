@@ -36,9 +36,9 @@ function TabBar() {
                     style={{
                         left:
                             activeTab === "Campaign"
-                                ? "20px"
-                                : "calc(8% + 50px)",
-                        width: "8%",
+                                ? "5px"
+                                : "calc(100px + 10px)",
+                        width: "100px",
                     }}
                 ></div>
             </div>

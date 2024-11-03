@@ -57,4 +57,13 @@
     .campaign-tabs {
         display: none;
     }
+
+    .campaign-bar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .description-container {
+        margin-left: 0px;
+    }
 }
