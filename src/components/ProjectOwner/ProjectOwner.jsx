@@ -11,7 +11,7 @@ const ProjectOwner = ({ userId }) => {
             url: "http://localhost:8000/projectOwner.php",
             type: "GET",
             data: {
-                userId,
+                id: userId,
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -21,7 +21,7 @@ const ProjectOwner = ({ userId }) => {
                 console.log(error);
             },
         });
-    }, []);
+    }, [userId]);
 
     return (
         <div className="profile-card">

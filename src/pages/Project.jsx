@@ -1,10 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import $ from "jquery";
 import Intro from "../components/Intro/Intro";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
-import Funding from "../components/Funding/Funding";
 import Campaign from "../components/Campaign/Campaign";
 import ProjectOwner from "../components/ProjectOwner/ProjectOwner";
 import TabBar from "../components/TabBar/TabBar";
@@ -14,10 +13,11 @@ import "../styles/Project.css";
 function Project() {
     const { id } = useParams();
     const [project, setProject] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (isNaN(id)) {
-            window.location.href = "/error";
+            navigate("/error");
             return;
         }
         $.ajax({
@@ -29,11 +29,11 @@ function Project() {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.success) setProject(data);
-                // else window.location.href = "/error";
+                else navigate("/error");
             },
             error: function (error) {
                 console.log(error);
-                window.location.href = "/error";
+                navigate("/error");
             },
         });
     }, []);

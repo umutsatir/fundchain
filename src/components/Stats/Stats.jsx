@@ -5,7 +5,7 @@ import $ from "jquery";
 function Stats() {
     const [stats, setStats] = useState([]);
 
-    function getResults() {
+    useEffect(() => {
         $.ajax({
             url: "http://localhost:8000/stats.php",
             type: "GET",
@@ -17,10 +17,6 @@ function Stats() {
                 setStats([0, 0, 0]);
             },
         });
-    }
-
-    useEffect(() => {
-        getResults();
     }, []);
 
     return (
