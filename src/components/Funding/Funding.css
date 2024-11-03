@@ -73,9 +73,18 @@
     color: white;
 }
 
+.share-button:active,
+.remind-button:active {
+    background-color: var(--primary-color-hover);
+}
+
 .back-button:hover {
     background-color: var(--primary-color-hover);
     color: white;
+}
+
+.back-button:active {
+    background-color: var(--primary-color-click);
 }
 
 @media screen and (max-width: 992px) {

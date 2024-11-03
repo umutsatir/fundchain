@@ -9,6 +9,7 @@
     -moz-osx-font-smoothing: grayscale;
     --primary-color: #65558f;
     --primary-color-hover: #4c3c78;
+    --primary-color-click: #3a2b5e;
 }
 
 .content {
