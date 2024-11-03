@@ -3,17 +3,22 @@
     include './pdo.php';
     $pdo = (new PDOClass())->connect();
 
+    if (!isset($_GET['id'])) {
+        echo json_encode(['status' => false, 'message' => 'User ID not provided']);
+        exit;
+    }
+
     $stmt = $pdo->prepare("SELECT * FROM users WHERE userId = :userId");
-    $stmt->execute(['userId' => $_GET['userId']]);
+    $stmt->execute(['userId' => $_GET['id']]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM projects WHERE userId = :userId AND status = 2");
-    $stmt->execute(['userId' => $_GET['userId']]);
+    $stmt->execute(['userId' => $_GET['id']]);
     $backed = $stmt->fetch(PDO::FETCH_ASSOC);
     $backed = $backed['COUNT(*)'];
 
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM projects WHERE userId = :userId");
-    $stmt->execute(['userId' => $_GET['userId']]);
+    $stmt->execute(['userId' => $_GET['id']]);
     $projectCount = $stmt->fetch(PDO::FETCH_ASSOC);
     $projectCount = $projectCount['COUNT(*)'];
 

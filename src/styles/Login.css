@@ -77,6 +77,10 @@
     cursor: pointer;
 }
 
+.login-button:active {
+    background-color: var(--primary-color-click);
+}
+
 .remember-me {
     display: flex;
     align-items: center;
