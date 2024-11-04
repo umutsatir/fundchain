@@ -1,39 +1,12 @@
-import React, { useEffect, useState } from "react";
-import Proptypes from "prop-types";
+import React from "react";
+import PropTypes from "prop-types";
 import "./Cards.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import $ from "jquery";
 import { Cookies } from "react-cookie";
 
 function Cards(props) {
-    const [isSaved, setIsSaved] = useState(false); //Is clicked the saved button?
     const cookies = new Cookies();
-
-    useEffect(() => {
-        if (cookies.get("loggedIn") == false) {
-            return;
-        }
-
-        $.ajax({
-            url: "http://localhost:8000/checkSave.php",
-            type: "POST",
-            data: {
-                projectId: props.id,
-                username: cookies.get("username"),
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data.status) {
-                    setIsSaved(true);
-                } else {
-                    setIsSaved(false);
-                }
-            },
-            error: function (error) {
-                console.log(error);
-            },
-        });
-    }, []);
 
     const handleSaveClick = () => {
         if (cookies.get("loggedIn") == false) {
@@ -51,12 +24,12 @@ function Cards(props) {
             data: {
                 projectId: props.id,
                 username: cookies.get("username"),
-                willBeSaved: !isSaved,
+                willBeSaved: !props.isSaved,
             },
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.status) {
-                    setIsSaved(!isSaved);
+                    props.onSaveToggle(props.id);
                 } else {
                     console.log(data.message);
                 }
@@ -81,7 +54,7 @@ function Cards(props) {
                     src={props.subimg}
                     alt="SubPhoto"
                 />
-                <div className="card-proporties">
+                <div className="card-properties">
                     <h2 className="card-title" onClick={(e) => handlePage(e)}>
                         {props.title}
                     </h2>
@@ -93,24 +66,27 @@ function Cards(props) {
                 </div>
                 {/* save button */}
                 <button
-                    className={`card-saved-button ${isSaved ? "saved" : ""}`}
+                    className={`card-saved-button ${
+                        props.isSaved ? "saved" : ""
+                    }`}
                     onClick={handleSaveClick}
                 >
                     <i className="fa fa-bookmark"></i>{" "}
-                    {/* FontAwesome Save Icon */}
                 </button>
             </div>
         </div>
     );
 }
 
-Cards.proptypes = {
-    id: Proptypes.number,
-    img: Proptypes.string,
-    subimg: Proptypes.string,
-    title: Proptypes.string,
-    owner: Proptypes.string,
-    deadline: Proptypes.number,
+Cards.propTypes = {
+    id: PropTypes.number.isRequired,
+    img: PropTypes.string,
+    subimg: PropTypes.string,
+    title: PropTypes.string,
+    owner: PropTypes.string,
+    deadline: PropTypes.number,
+    isSaved: PropTypes.bool,
+    onSaveToggle: PropTypes.func,
 };
 
 export default Cards;

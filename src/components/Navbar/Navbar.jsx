@@ -5,7 +5,7 @@ import "./Navbar.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Cookies } from "react-cookie";
 
-function Navbar() {
+function Navbar({ onLogout }) {
     const [searchText, setSearchText] = useState("");
     const [isHamburger, setIsHamburger] = useState(window.innerWidth <= 1200);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -71,15 +71,37 @@ function Navbar() {
                             </div>
                         </div>
                         <div className="navbarButtons">
-                            <Link to="/create" className="startProjectButton">
-                                Start a Project
-                            </Link>
                             {getCookie("loggedIn") == true ? (
-                                <Link to="/profile" className="profileImage" />
+                                <>
+                                    <Link
+                                        className="startProjectButton"
+                                        onClick={onLogout}
+                                    >
+                                        Logout
+                                    </Link>
+                                    <Link
+                                        to="/create"
+                                        className="startProjectButton"
+                                    >
+                                        Start a Project
+                                    </Link>
+                                    <Link
+                                        to="/profile"
+                                        className="profileImage"
+                                    />
+                                </>
                             ) : (
-                                <Link to="/login" className="loginButton">
-                                    Login
-                                </Link>
+                                <>
+                                    <Link
+                                        to="/create"
+                                        className="startProjectButton"
+                                    >
+                                        Start a Project
+                                    </Link>
+                                    <Link to="/login" className="loginButton">
+                                        Login
+                                    </Link>
+                                </>
                             )}
                         </div>
                     </>

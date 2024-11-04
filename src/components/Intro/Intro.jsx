@@ -9,7 +9,7 @@ const Intro = ({ project }) => {
         const targetDate = new Date(dbDate); // Date from the database
 
         // Calculate the difference in milliseconds
-        const diffInMs = currentDate - targetDate;
+        const diffInMs = targetDate - currentDate;
 
         // Convert milliseconds to days
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
@@ -39,7 +39,7 @@ const Intro = ({ project }) => {
                 <div className="info-item">
                     <i className="fas fa-clock"></i>
                     <span>
-                        Created {getDeadline(project.launchDate)} day ago
+                        Created {getDeadline(project.launchDate)} day(s) ago
                     </span>
                 </div>
                 <div className="divider"></div> {/* Dikey çizgi */}

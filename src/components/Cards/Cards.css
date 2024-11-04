@@ -44,7 +44,7 @@
     margin: 5px;
 }
 
-.card-proporties {
+.card-properties {
     display: flex;
     flex-direction: column;
     gap: 3px;

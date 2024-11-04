@@ -14,7 +14,7 @@ function RecommendedProjects({ userId }) {
                     subimg="https://via.placeholder.com/150"
                     title="Project 3"
                     owner="Owner 3"
-                    deadline="2022-12-31"
+                    deadline={10}
                 />
                 <Cards
                     id={4}
@@ -22,7 +22,7 @@ function RecommendedProjects({ userId }) {
                     subimg="https://via.placeholder.com/150"
                     title="Project 4"
                     owner="Owner 4"
-                    deadline="2022-12-31"
+                    deadline={5}
                 />
                 <Cards
                     id={5}
@@ -30,7 +30,7 @@ function RecommendedProjects({ userId }) {
                     subimg="https://via.placeholder.com/150"
                     title="Project 5"
                     owner="Owner 5"
-                    deadline="2022-12-31"
+                    deadline={20}
                 />
             </div>
         </div>

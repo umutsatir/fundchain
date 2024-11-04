@@ -40,7 +40,6 @@ function Project() {
 
     return (
         <div>
-            <Navbar />
             <div className="main">
                 <Intro project={project} />
                 <TabBar />
@@ -54,7 +53,6 @@ function Project() {
                 </div>
                 <RecommendedProjects userId={project.userId} />
             </div>
-            <Footer />
         </div>
     );
 }

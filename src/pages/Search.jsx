@@ -35,7 +35,6 @@ function Search() {
 
     return (
         <>
-            <Navbar />
             {projects.length > 0 ? (
                 <div className="projects">
                     <h2>Projects found:</h2>
@@ -56,7 +55,6 @@ function Search() {
                     <h2>No projects found</h2>
                 </div>
             )}
-            <Footer />
         </>
     );
 }
