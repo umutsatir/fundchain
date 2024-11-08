@@ -33,7 +33,7 @@ function Login({ onLogin }) {
             data: {
                 email: email,
                 password: password,
-                isConfirmed: isConfirmed,
+                isRemembered: isConfirmed,
             },
             success: function (data) {
                 data = JSON.parse(data);

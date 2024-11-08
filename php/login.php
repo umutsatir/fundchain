@@ -9,6 +9,13 @@
         $gump = new GUMP();
         $_POST = $gump->sanitize($_POST);
         $secretKey = "fundchainApiSecretKey";
+        $expTime = 0;
+
+        if (isset($_POST['isRemembered']) && $_POST['isRemembered']) {
+            $expTime = time() + 3600 * 6; // 6 hours
+        } else {
+            $expTime = time() + 3600; // 1 hour
+        }
 
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -20,7 +27,7 @@
             $payload = [
                 'iss' => 'fundchain-api', // Issuer
                 'iat' => time(), // Issued at
-                'exp' => time() + 3600, // Expiration time
+                'exp' => $expTime, // Expiration time
                 'username' => $query['username'], // Custom claim
             ];
             $token = JWT::encode($payload, $secretKey, 'HS256');
