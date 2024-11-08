@@ -19,7 +19,8 @@ function Signup() {
         setIsConfirmedSecond(!isConfirmedSecond);
     };
 
-    const handleCreateAccount = () => {
+    const handleCreateAccount = (e) => {
+        e.preventDefault();
         $.ajax({
             url: "http://localhost:8000/signup.php",
             type: "POST",
@@ -30,11 +31,10 @@ function Signup() {
             },
             success: function (data) {
                 data = JSON.parse(data);
-                if (data.success) {
-                    console.log("Account created successfully");
+                if (data.status) {
                     navigate("/login");
                 } else {
-                    console.log(data);
+                    console.log(data.message);
                 }
             },
             error: function (error) {
@@ -67,7 +67,7 @@ function Signup() {
             <div className="divider"></div>
 
             <h1 className="Signup-title">Sign up</h1>
-            <form>
+            <form onSubmit={handleCreateAccount}>
                 <input
                     type="text"
                     placeholder="Username"
@@ -86,42 +86,39 @@ function Signup() {
                     required
                     onChange={handlePassword}
                 />
+
+                <div className="Signup-condition">
+                    <button
+                        className={`condition-button ${
+                            isConfirmedFirst ? "confirmed" : ""
+                        }`}
+                        onClick={handleButtonClickFirst}
+                    >
+                        {isConfirmedFirst && <i className="fas fa-check"></i>}{" "}
+                    </button>
+                    <span className="condition-text">
+                        Send me a weekly mix of handpicked projects, plus
+                        occasional Fundchain news
+                    </span>
+                </div>
+
+                <div className="Signup-condition">
+                    <button
+                        className={`condition-button ${
+                            isConfirmedSecond ? "confirmed" : ""
+                        }`}
+                        onClick={handleButtonClickSecond}
+                    >
+                        {isConfirmedSecond && <i className="fas fa-check"></i>}{" "}
+                        {/* check sign*/}
+                    </button>
+                    <span className="condition-text">
+                        Contact me about participating in Fundchain research
+                    </span>
+                </div>
+
+                <button className="Signup-button">Create account</button>
             </form>
-
-            <div className="Signup-condition">
-                <button
-                    className={`condition-button ${
-                        isConfirmedFirst ? "confirmed" : ""
-                    }`}
-                    onClick={handleButtonClickFirst}
-                >
-                    {isConfirmedFirst && <i className="fas fa-check"></i>}{" "}
-                    {/* check sign*/}
-                </button>
-                <span className="condition-text">
-                    Send me a weekly mix of handpicked projects, plus occasional
-                    Fundchain news
-                </span>
-            </div>
-
-            <div className="Signup-condition">
-                <button
-                    className={`condition-button ${
-                        isConfirmedSecond ? "confirmed" : ""
-                    }`}
-                    onClick={handleButtonClickSecond}
-                >
-                    {isConfirmedSecond && <i className="fas fa-check"></i>}{" "}
-                    {/* check sign*/}
-                </button>
-                <span className="condition-text">
-                    Contact me about participating in Fundchain research
-                </span>
-            </div>
-
-            <button className="Signup-button" onClick={handleCreateAccount}>
-                Create account
-            </button>
         </div>
     );
 }

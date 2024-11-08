@@ -6,7 +6,7 @@ import { Cookies } from "react-cookie";
 import $ from "jquery";
 
 function Login({ onLogin }) {
-    const [isConfirmed, setIsConfirmed] = useState(false); //State to handling the confirmed situation.
+    const [isConfirmed, setIsConfirmed] = useState(false);
     const [error, setError] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -23,13 +23,17 @@ function Login({ onLogin }) {
         console.log(error);
     }, [error]);
 
-    const handleLogin = async () => {
+    const handleSubmit = (event) => {
+        event.preventDefault(); // Prevent default form submission
+
+        // Send AJAX request if inputs are valid
         $.ajax({
             url: "http://localhost:8000/login.php",
             type: "POST",
             data: {
                 email: email,
                 password: password,
+                isConfirmed: isConfirmed,
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -61,7 +65,7 @@ function Login({ onLogin }) {
     return (
         <div className="login-container">
             <h1 className="login-title">Log in</h1>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <input
                     type="email"
                     placeholder="Email"
@@ -74,34 +78,34 @@ function Login({ onLogin }) {
                     required
                     onChange={handlePassword}
                 />
+                <Link to="#" className="forgot-password">
+                    Forgot your password?
+                </Link>
+                <button type="submit" className="login-button">
+                    Log in
+                </button>
             </form>
-            <Link to="#" className="forgot-password">
-                Forgot your password?
-            </Link>
-            <button className="login-button" onClick={handleLogin}>
-                Log in
-            </button>
-            {/*Remember me section*/}
+            {/* Remember me section */}
             <div className="remember-me">
                 <button
+                    type="button"
                     className={`remember-button ${
                         isConfirmed ? "confirmed" : ""
                     }`}
                     onClick={handleButtonClick}
                 >
-                    {isConfirmed && <i className="fas fa-check"></i>}{" "}
-                    {/* check sign*/}
+                    {isConfirmed && <i className="fas fa-check"></i>}
                 </button>
                 <span className="remember-text">Remember me</span>
             </div>
             <div className="divider"></div>
-            {/* redirecting to signup page */}
             <div className="redirecting-signup">
                 <span className="signup-text">New to Fundchain?</span>
                 <Link to="/signup" className="signup-link">
                     Sign up
                 </Link>
             </div>
+            {error && <p className="error-message">{error}</p>}
         </div>
     );
 }
