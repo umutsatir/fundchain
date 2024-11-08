@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import "./Cards.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -7,9 +7,35 @@ import { Cookies } from "react-cookie";
 
 function Cards(props) {
     const cookies = new Cookies();
+    const [isSaved, setIsSaved] = useState(props.isSaved);
+
+    useEffect(() => {
+        $.ajax({
+            url: "http://localhost:8000/checkSave.php",
+            type: "POST",
+            data: {
+                projectId: props.id,
+                username: cookies.get("username"),
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.status) {
+                    setIsSaved(true);
+                } else {
+                    setIsSaved(false);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    }, [props.isSaved]);
 
     const handleSaveClick = () => {
-        if (cookies.get("loggedIn") == false) {
+        if (
+            cookies.get("loggedIn") == false ||
+            cookies.get("loggedIn") == null
+        ) {
             window.location.href = "/login";
             return;
         }
@@ -24,12 +50,13 @@ function Cards(props) {
             data: {
                 projectId: props.id,
                 username: cookies.get("username"),
-                willBeSaved: !props.isSaved,
+                willBeSaved: !isSaved,
             },
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.status) {
                     props.onSaveToggle(props.id);
+                    setIsSaved(!isSaved);
                 } else {
                     console.log(data.message);
                 }
@@ -66,9 +93,7 @@ function Cards(props) {
                 </div>
                 {/* save button */}
                 <button
-                    className={`card-saved-button ${
-                        props.isSaved ? "saved" : ""
-                    }`}
+                    className={`card-saved-button ${isSaved ? "saved" : ""}`}
                     onClick={handleSaveClick}
                 >
                     <i className="fa fa-bookmark"></i>{" "}

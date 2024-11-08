@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar/Navbar";
-import Footer from "../components/Footer/Footer";
 import Cards from "../components/Cards/Cards";
 import Stats from "../components/Stats/Stats";
 import Loading from "../components/Loading/Loading";
