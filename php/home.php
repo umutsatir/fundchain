@@ -7,7 +7,7 @@
     $stmt->execute();
     $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $stmt = $pdo->prepare("SELECT * FROM projects ORDER BY goal DESC LIMIT 20"); // limit can be added here
+    $stmt = $pdo->prepare("SELECT * FROM projects ORDER BY fundCount DESC LIMIT 20"); // limit can be added here
     $stmt->execute();
     $popular = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

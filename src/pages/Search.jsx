@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import Footer from "../components/Footer/Footer";
-import Navbar from "../components/Navbar/Navbar";
 import Cards from "../components/Cards/Cards";
 import $ from "jquery";
 import "../styles/Home.css";
 
 function Search() {
     const [projects, setProjects] = useState([]);
+    const [savedProjects, setSavedProjects] = useState({}); // Track saved status
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -15,6 +14,13 @@ function Search() {
             getResults(searchText);
         }
     }, []);
+
+    const handleSaveToggle = (projectId) => {
+        setSavedProjects((prevSavedProjects) => ({
+            ...prevSavedProjects,
+            [projectId]: !prevSavedProjects[projectId],
+        }));
+    };
 
     function getResults(searchText) {
         $.ajax({
@@ -35,7 +41,6 @@ function Search() {
 
     return (
         <>
-            <Navbar />
             {projects.length > 0 ? (
                 <div className="projects">
                     <h2>Projects found:</h2>
@@ -48,6 +53,8 @@ function Search() {
                             owner={project.owner}
                             deadline={project.deadline}
                             key={project.id}
+                            onSaveToggle={handleSaveToggle}
+                            isSaved={savedProjects[project.id] || false}
                         />
                     ))}
                 </div>
@@ -56,7 +63,6 @@ function Search() {
                     <h2>No projects found</h2>
                 </div>
             )}
-            <Footer />
         </>
     );
 }
