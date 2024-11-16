@@ -1,19 +1,15 @@
-import React, { useEffect, useState } from "react";
-import Proptypes from "prop-types";
+import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import "./Cards.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import $ from "jquery";
 import { Cookies } from "react-cookie";
 
 function Cards(props) {
-    const [isSaved, setIsSaved] = useState(false); //Is clicked the saved button?
     const cookies = new Cookies();
+    const [isSaved, setIsSaved] = useState(props.isSaved);
 
     useEffect(() => {
-        if (cookies.get("loggedIn") == false) {
-            return;
-        }
-
         $.ajax({
             url: "http://localhost:8000/checkSave.php",
             type: "POST",
@@ -33,10 +29,13 @@ function Cards(props) {
                 console.log(error);
             },
         });
-    }, []);
+    }, [props.isSaved]);
 
     const handleSaveClick = () => {
-        if (cookies.get("loggedIn") == false) {
+        if (
+            cookies.get("loggedIn") == false ||
+            cookies.get("loggedIn") == null
+        ) {
             window.location.href = "/login";
             return;
         }
@@ -56,6 +55,7 @@ function Cards(props) {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.status) {
+                    props.onSaveToggle(props.id);
                     setIsSaved(!isSaved);
                 } else {
                     console.log(data.message);
@@ -81,7 +81,7 @@ function Cards(props) {
                     src={props.subimg}
                     alt="SubPhoto"
                 />
-                <div className="card-proporties">
+                <div className="card-properties">
                     <h2 className="card-title" onClick={(e) => handlePage(e)}>
                         {props.title}
                     </h2>
@@ -97,20 +97,21 @@ function Cards(props) {
                     onClick={handleSaveClick}
                 >
                     <i className="fa fa-bookmark"></i>{" "}
-                    {/* FontAwesome Save Icon */}
                 </button>
             </div>
         </div>
     );
 }
 
-Cards.proptypes = {
-    id: Proptypes.number,
-    img: Proptypes.string,
-    subimg: Proptypes.string,
-    title: Proptypes.string,
-    owner: Proptypes.string,
-    deadline: Proptypes.number,
+Cards.propTypes = {
+    id: PropTypes.number.isRequired,
+    img: PropTypes.string,
+    subimg: PropTypes.string,
+    title: PropTypes.string,
+    owner: PropTypes.string,
+    deadline: PropTypes.number,
+    isSaved: PropTypes.bool,
+    onSaveToggle: PropTypes.func,
 };
 
 export default Cards;

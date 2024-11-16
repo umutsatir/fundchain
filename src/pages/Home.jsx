@@ -1,13 +1,11 @@
-import "../styles/Home.css";
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar/Navbar";
-import Footer from "../components/Footer/Footer";
 import Cards from "../components/Cards/Cards";
 import Stats from "../components/Stats/Stats";
 import Loading from "../components/Loading/Loading";
 
 function Home() {
     const [projects, setProjects] = useState({ popular: [], trending: [] });
+    const [savedProjects, setSavedProjects] = useState({}); // Track saved status
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -16,6 +14,13 @@ function Home() {
                 const response = await fetch("http://localhost:8000/home.php");
                 const data = await response.json();
                 setProjects(data);
+
+                // Initialize savedProjects based on the response data
+                const initialSavedState = {};
+                data.popular.concat(data.trending).forEach((project) => {
+                    initialSavedState[project.id] = project.isSaved || false;
+                });
+                setSavedProjects(initialSavedState);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setProjects({ popular: [], trending: [] });
@@ -27,16 +32,18 @@ function Home() {
         fetchProjects();
     }, []);
 
+    const handleSaveToggle = (projectId) => {
+        setSavedProjects((prevSavedProjects) => ({
+            ...prevSavedProjects,
+            [projectId]: !prevSavedProjects[projectId],
+        }));
+    };
+
     function getDeadline(dbDate) {
-        const currentDate = new Date(); // Current date
-        const targetDate = new Date(dbDate); // Date from the database
-
-        // Calculate the difference in milliseconds
-        const diffInMs = currentDate - targetDate;
-
-        // Convert milliseconds to days
+        const currentDate = new Date();
+        const targetDate = new Date(dbDate);
+        const diffInMs = targetDate - currentDate;
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-
         return diffInDays;
     }
 
@@ -46,7 +53,6 @@ function Home() {
 
     return (
         <div className="body">
-            <Navbar />
             <div className="stats-wrapper">
                 <div className="title">
                     <h1>Fundchain</h1>
@@ -60,15 +66,17 @@ function Home() {
                         <h3>Popular Projects</h3>
                     </div>
                     <div className="cards">
-                        {projects["popular"].map((project) => (
+                        {projects.popular.map((project) => (
                             <Cards
+                                key={project.id}
                                 id={project.id}
                                 img={project.img}
                                 subimg={project.subimg}
                                 title={project.title}
                                 owner={project.owner}
                                 deadline={getDeadline(project.deadline)}
-                                key={project.id + 3214}
+                                isSaved={savedProjects[project.id] || false}
+                                onSaveToggle={handleSaveToggle}
                             />
                         ))}
                     </div>
@@ -78,21 +86,22 @@ function Home() {
                         <h3>Trending Projects</h3>
                     </div>
                     <div className="cards">
-                        {projects["trending"].map((project) => (
+                        {projects.trending.map((project) => (
                             <Cards
+                                key={project.id}
                                 id={project.id}
                                 img={project.img}
                                 subimg={project.subimg}
                                 title={project.title}
                                 owner={project.owner}
                                 deadline={getDeadline(project.deadline)}
-                                key={project.id + 123}
+                                isSaved={savedProjects[project.id] || false}
+                                onSaveToggle={handleSaveToggle}
                             />
                         ))}
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     );
 }

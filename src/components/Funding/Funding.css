@@ -67,6 +67,10 @@
     margin-top: 10px;
 }
 
+.buttons {
+    margin-top: auto;
+}
+
 .share-button:hover,
 .remind-button:hover {
     background-color: var(--primary-color);
