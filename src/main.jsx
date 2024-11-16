@@ -7,6 +7,7 @@ import Project from "./pages/Project";
 import Signup from "./pages/Signup";
 import Error from "./pages/Error";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 import Search from "./pages/Search";
 import Create from "./pages/Create";
 import { Cookies } from "react-cookie";
@@ -22,6 +23,7 @@ createRoot(document.getElementById("root")).render(
                 <Route path="/project/:id" element={<Project />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/error" element={<Error />} />
+                <Route path="/settings" element={<Settings />} />
                 {cookies.get("loggedIn") ? (
                     <>
                         <Route path="/profile" element={<Profile />} />

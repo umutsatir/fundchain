@@ -1,0 +1,27 @@
+.body .settings-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.settings-title {
+    text-align: left;
+    width: 85%;
+    margin-left: 5%;
+}
+
+@media (max-width: 768px) {
+    .settings-title {
+        font-size: 1.5em;
+    }
+
+    .settings-wrapper {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        flex-direction: column;
+    }
+}
