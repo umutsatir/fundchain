@@ -7,12 +7,10 @@ import SettingsTab from "../components/SettingsTab/SettingsTab";
 function Settings() {
     return (
         <div className="body">
-            <Navbar />
             <h1 className="settings-title">Settings</h1>
             <div className="settings-wrapper">
                 <SettingsTab />
             </div>
-            <Footer />
         </div>
     );
 }
