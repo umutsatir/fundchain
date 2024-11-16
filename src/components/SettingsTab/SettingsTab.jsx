@@ -1,5 +1,6 @@
 import "./SettingsTab.css";
 import React, { useState } from "react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const SettingsTab = () => {
     const [activeTab, setActiveTab] = useState("account");
@@ -38,7 +39,7 @@ const SettingsTab = () => {
                     className={activeTab === "paymentMethods" ? "active" : ""}
                     onClick={() => handleTabClick("paymentMethods")}
                 >
-                    Payment Methods
+                    Wallet Connection
                 </button>
                 <button
                     className={activeTab === "shippingAddress" ? "active" : ""}
@@ -155,11 +156,7 @@ const EditProfile = () => (
 const Notifications = () => <div>Notification Settings</div>;
 const PaymentMethods = () => (
     <div className="payment-tab">
-        <form>
-            <button className="wallet-button" type="button">
-                Link Wallet
-            </button>
-        </form>
+        <ConnectButton />
     </div>
 );
 const ShippingAddress = () => <div>Shipping Address</div>;
