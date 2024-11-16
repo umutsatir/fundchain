@@ -13,6 +13,7 @@ import Project from "./pages/Project";
 import Signup from "./pages/Signup";
 import Error from "./pages/Error";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 import Search from "./pages/Search";
 import Create from "./pages/Create";
 import { Cookies } from "react-cookie";
@@ -60,6 +61,7 @@ const App = () => {
                         <>
                             <Route path="/profile" element={<Profile />} />
                             <Route path="/create" element={<Create />} />
+                            <Route path="/settings" element={<Settings />} />
                         </>
                     ) : (
                         <>
