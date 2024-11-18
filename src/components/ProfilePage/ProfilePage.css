@@ -2,7 +2,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* Kapak Fotoğrafı */
 .profile-cover {
   width: 100%;
   height: 200px;
@@ -11,7 +10,6 @@
   position: relative;
 }
 
-/* Profil Fotoğrafı */
 .profile-image {
   width: 120px;
   height: 120px;
@@ -30,7 +28,6 @@
   object-fit: cover;
 }
 
-/* Kullanıcı Adı */
 .profile-name {
   margin-top: 70px;
 }
@@ -43,41 +40,36 @@
 .line {
   height: 1px;
   background-color: #ccc;
-  width: 100%; /* Line'ı container genişliğine yaymak için */
-  margin: 20px 0; /* location ile bio arasındaki mesafeyi ayarlıyoruz */
+  width: 100%; 
+  margin: 20px 0; 
 }
 
 .info-container {
   max-width: 600px;
-  text-align: left; /* İçeriği sola hizalama */
-  margin: 0 auto; /* İçeriği sayfa ortasına getirme */
+  text-align: left; 
+  margin: 0 auto;
   margin-top: 50px;
-
-  /* Flexbox kullanarak öğeleri dikey olarak sıralıyoruz */
+ 
   display: flex;
-  flex-direction: column; /* Öğeleri dikey hizalamak için */
-  align-items: flex-start; /* Üst hizalamayı sağla */
-  gap: 20px; /* Paragraflar arasındaki mesafeyi artırıyoruz */
+  flex-direction: column; 
+  align-items: flex-start; 
+  gap: 20px; 
 }
 
-
-/* Biography ve içerik için yatay düzenleme */
 .info-item {
   display: flex;
-  flex-direction: row; /* Yatayda sıralama */
-
+  flex-direction: row; 
 }
 
 .info-item p {
   font-size: 16px;
   color: #666;
-  line-height: 1.5; /* Daha rahat bir okuma için satır aralığını artırma */
-  margin-left: 50px; /* Başlık ile içerik arasına boşluk ekliyoruz */
+  line-height: 1.5; 
+  margin-left: 50px; 
 }
 
 .info-item strong {
   width: 100px;
   font-weight: bold;
   color: #333;
-
 }
