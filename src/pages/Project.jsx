@@ -2,8 +2,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import $ from "jquery";
 import Intro from "../components/Intro/Intro";
-import Navbar from "../components/Navbar/Navbar";
-import Footer from "../components/Footer/Footer";
 import Campaign from "../components/Campaign/Campaign";
 import ProjectOwner from "../components/ProjectOwner/ProjectOwner";
 import TabBar from "../components/TabBar/TabBar";
