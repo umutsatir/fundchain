@@ -67,6 +67,11 @@
     margin-top: 10px;
 }
 
+.saved {
+    color: white;
+    background-color: var(--primary-color);
+}
+
 .buttons {
     margin-top: auto;
 }

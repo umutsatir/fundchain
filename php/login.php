@@ -31,7 +31,7 @@
                 'username' => $query['username'], // Custom claim
             ];
             $token = JWT::encode($payload, $secretKey, 'HS256');
-            echo json_encode(['status' => true, 'token' => $token]);
+            echo json_encode(['status' => true, 'token' => $token, 'username' => $query['username']]);
         } else {
             echo json_encode(['status' => false, 'message' => 'Invalid email or password']);
         }
