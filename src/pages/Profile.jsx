@@ -22,20 +22,17 @@ function Profile() {
             <img src={user.profileImage} alt={`${user.name} ${user.surname}`} />
           </div>
         </div>
-
         <div className="profile-name">
           <h2>
             {user.name} {user.surname}
           </h2>
         </div>
       </div>
-
       <div className="info-container">
         <div className="info-item">
           <strong>Location</strong> <p>{user.location}</p>
         </div>
         <div className="line"></div>
-
         <div className="info-item">
           <strong>Biography</strong> <p>{user.biography}</p>
         </div>
