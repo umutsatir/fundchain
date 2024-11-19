@@ -7,7 +7,7 @@
     position: relative;
 }
 
-.line {
+.tabbar-line {
     height: 1px; /* Çizgi kalınlığı */
     width: 100%; /* Başlık alanının tam genişlikte olmasını sağlar */
     background-color: #ccc; /* Çizgi rengi */

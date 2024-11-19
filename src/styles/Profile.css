@@ -1,0 +1,76 @@
+.Pprofile-wrapper {
+    font-family: Arial, sans-serif;
+}
+
+.Pprofile-cover {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.Pprofile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    overflow: hidden;
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.Pprofile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.Pprofile-name {
+    margin-top: 70px;
+    text-align: center;
+}
+
+.Pprofile-name h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+.line {
+    height: 1px;
+    background-color: #ccc;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.infos-container {
+    max-width: 600px;
+    text-align: left;
+    margin: 0 auto;
+    margin-top: 50px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.infos-item {
+    display: flex;
+    flex-direction: row;
+}
+
+.infos-item p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+    margin-left: 50px;
+}
+
+.infos-item strong {
+    width: 100px;
+    font-weight: bold;
+    color: #333;
+}

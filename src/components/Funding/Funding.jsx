@@ -1,13 +1,67 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Funding.css";
+import { Cookies } from "react-cookie";
+import $ from "jquery";
+import { useNavigate } from "react-router-dom";
 
-const Funding = () => {
+const Funding = (props) => {
+    const cookies = new Cookies();
+    const navigate = useNavigate();
     const [pledged, setPledged] = useState(100000);
     const [goal, setGoal] = useState(300000);
     const [backers, setBackers] = useState(250);
     const [daysLeft, setDaysLeft] = useState(36);
+    const [isSaved, setIsSaved] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(cookies.get("loggedIn"));
 
     const progress = (pledged / goal) * 100;
+
+    useEffect(() => {
+        if (!loggedIn) return;
+        $.ajax({
+            url: "http://localhost:8000/checkSave.php",
+            type: "POST",
+            data: {
+                projectId: props.id,
+                username: cookies.get("username"),
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.status) {
+                    setIsSaved(true);
+                } else {
+                    setIsSaved(false);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    }, [props]);
+
+    const setSavedProject = () => {
+        if (!loggedIn) navigate("/login");
+        $.ajax({
+            url: "http://localhost:8000/save.php",
+            type: "POST",
+            data: {
+                projectId: props.id,
+                username: cookies.get("username"),
+                willBeSaved: !isSaved,
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.status) {
+                    setIsSaved(!isSaved);
+                } else {
+                    console.log(data.message);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    };
 
     return (
         <div className="progress-container">
@@ -28,7 +82,10 @@ const Funding = () => {
             <div className="buttons">
                 <button className="back-button">Back this project</button>
                 <button className="share-button">Share</button>
-                <button className="remind-button">
+                <button
+                    className={`remind-button ${isSaved ? "saved" : ""}`}
+                    onClick={setSavedProject}
+                >
                     <i className="fa fa-bookmark"></i> {}
                     Remind me
                 </button>
