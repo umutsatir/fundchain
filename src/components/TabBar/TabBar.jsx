@@ -12,7 +12,7 @@ function TabBar() {
 
     return (
         <div className="tab-bar">
-            <div className="line top-line" /> {/* Üst çizgi */}
+            <div className="tabbar-line top-line" /> {/* Üst çizgi */}
             <div className="tabs">
                 <div
                     className={`tab ${
@@ -42,7 +42,7 @@ function TabBar() {
                     }}
                 ></div>
             </div>
-            <div className="line bottom-line" /> {/* Alt çizgi */}
+            <div className="tabbar-line bottom-line" /> {/* Alt çizgi */}
         </div>
     );
 }
