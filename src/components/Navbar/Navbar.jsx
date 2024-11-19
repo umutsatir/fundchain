@@ -132,6 +132,9 @@ function Navbar({ onLogout }) {
                         </div>
                     </div>
                     <div className="navbarButtons">
+                        <Link className="startProjectButton" onClick={onLogout}>
+                            Logout
+                        </Link>
                         <Link to="/create" className="startProjectButton">
                             Start a Project
                         </Link>
