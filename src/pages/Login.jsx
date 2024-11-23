@@ -38,7 +38,7 @@ function Login({ onLogin }) {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.status) {
-                    onLogin(data.token);
+                    onLogin(data.token, data.username);
                     navigate("/");
                 } else {
                     setError(data.message);

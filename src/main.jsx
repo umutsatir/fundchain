@@ -39,9 +39,10 @@ const App = () => {
         setLoggedIn(cookies.get("loggedIn") || false);
     }, []);
 
-    const onLogin = (token) => {
+    const onLogin = (token, username) => {
         cookies.set("loggedIn", true);
         cookies.set("token", token);
+        cookies.set("username", username);
         setLoggedIn(true); // Update state on login
     };
 

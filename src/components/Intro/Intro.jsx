@@ -32,7 +32,7 @@ const Intro = ({ project }) => {
                         Your browser does not support the video tag.
                     </video>
                 </div>
-                <Funding />
+                <Funding id={project.id} />
             </div>
 
             <div className="info-container">
