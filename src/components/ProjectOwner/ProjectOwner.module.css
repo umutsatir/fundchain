@@ -1,4 +1,4 @@
-.profile-card {
+.profileCard {
     width: 400px;
     padding: 20px;
     padding-bottom: 40px;
@@ -10,7 +10,7 @@
     color: #333;
 }
 
-.profile-frame {
+.profileFrame {
     padding: 50px 0;
     background-color: transparent;
     border: 1px solid #e0e0e0;
@@ -25,7 +25,7 @@
     top: 30px;
 }
 
-.profile-image img {
+.profileImage img {
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -33,20 +33,20 @@
     z-index: 1;
 }
 
-.profile-info {
+.profileInfo {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.profile-info h2 {
+.profileInfo h2 {
     font-size: 20px;
     color: #333;
     margin: 20px 0 0 0;
 }
 
-.profile-info p {
+.profileInfo p {
     font-size: 14px;
     color: #666;
     margin: 5px 0;
@@ -57,7 +57,7 @@
     align-items: center;
 }
 
-.rating-value {
+.ratingValue {
     margin-left: 6px;
     font-size: 14px;
     color: #666;
@@ -87,18 +87,18 @@
     overflow: hidden;
 }
 
-.profile-description p {
+.profileDescription p {
     font-size: 14px;
     color: #666;
     margin: 15px 0 0 0;
 }
 
-.see-more {
+.seeMore {
     color: var(--primary-color);
     cursor: pointer;
     font-weight: bold;
 }
 
-.see-more:hover {
+.seeMore:hover {
     color: var(--primary-color-hover);
 }

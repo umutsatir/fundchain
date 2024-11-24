@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-import "./Navbar.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Cookies } from "react-cookie";
+import styles from "./Navbar.module.css"; // Importing CSS Module
 
-function Navbar({ onLogout }) {
+function Navbar({ onLogout, loggedIn }) {
     const [searchText, setSearchText] = useState("");
     const [isHamburger, setIsHamburger] = useState(window.innerWidth <= 1200);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(loggedIn);
 
     function getCookie(name) {
         const cookies = new Cookies();
@@ -31,6 +30,18 @@ function Navbar({ onLogout }) {
         };
     }, []);
 
+    useEffect(() => {
+        setIsLoggedIn(loggedIn);
+    }, [loggedIn]);
+
+    const handleStartProject = () => {
+        if (isLoggedIn == true) {
+            window.location.href = "/create";
+        } else {
+            window.location.href = "/login";
+        }
+    };
+
     const deleteClick = () => {
         setSearchText("");
     };
@@ -49,56 +60,62 @@ function Navbar({ onLogout }) {
 
     return (
         <div>
-            <nav className="navbar">
-                <Link to="/" className="fundchainText">
+            <nav className={styles.navbar}>
+                <Link to="/" className={styles.fundchainText}>
                     Fundchain
                 </Link>
                 {!isHamburger && (
                     <>
-                        <div className="searchContainer">
+                        <div className={styles.searchContainer}>
                             <input
-                                className="searchInput"
+                                className={styles.searchInput}
                                 type="text"
                                 placeholder="Search..."
                                 value={searchText}
                                 onChange={(e) => setSearchText(e.target.value)}
                                 onKeyDown={handleKeyDown}
                             />
-                            <div className="deleteIcon">
-                                <a onClick={deleteClick} className="xmark">
+                            <div className={styles.deleteIcon}>
+                                <a
+                                    onClick={deleteClick}
+                                    className={styles.xmark}
+                                >
                                     <i className="fa-solid fa-xmark"></i>
                                 </a>
                             </div>
                         </div>
-                        <div className="navbarButtons">
-                            {getCookie("loggedIn") == true ? (
+                        <div className={styles.navbarButtons}>
+                            {isLoggedIn == true ? (
                                 <>
                                     <Link
-                                        className="startProjectButton"
+                                        className={styles.startProjectButton}
                                         onClick={onLogout}
                                     >
                                         Logout
                                     </Link>
                                     <Link
-                                        to="/create"
-                                        className="startProjectButton"
+                                        className={styles.startProjectButton}
+                                        onClick={handleStartProject}
                                     >
                                         Start a Project
                                     </Link>
                                     <Link
                                         to="/profile"
-                                        className="profileImage"
+                                        className={styles.profileImage}
                                     />
                                 </>
                             ) : (
                                 <>
                                     <Link
-                                        to="/create"
-                                        className="startProjectButton"
+                                        className={styles.startProjectButton}
+                                        onClick={handleStartProject}
                                     >
                                         Start a Project
                                     </Link>
-                                    <Link to="/login" className="loginButton">
+                                    <Link
+                                        to="/login"
+                                        className={styles.loginButton}
+                                    >
                                         Login
                                     </Link>
                                 </>
@@ -107,7 +124,7 @@ function Navbar({ onLogout }) {
                     </>
                 )}
                 {isHamburger && (
-                    <div className="hamburger">
+                    <div className={styles.hamburger}>
                         <a onClick={handleMenuClick}>
                             <i className="fa fa-bars"></i>
                         </a>
@@ -115,33 +132,42 @@ function Navbar({ onLogout }) {
                 )}
             </nav>
             {isMenuOpen && (
-                <div className="menu">
-                    <div className="searchContainer">
+                <div className={styles.menu}>
+                    <div className={styles.searchContainer}>
                         <input
-                            className="searchInput"
+                            className={styles.searchInput}
                             type="text"
                             placeholder="Search..."
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
                             onKeyDown={handleKeyDown}
                         />
-                        <div className="deleteIcon">
-                            <a onClick={deleteClick} className="xmark">
+                        <div className={styles.deleteIcon}>
+                            <a onClick={deleteClick} className={styles.xmark}>
                                 <i className="fa-solid fa-xmark"></i>
                             </a>
                         </div>
                     </div>
-                    <div className="navbarButtons">
-                        <Link className="startProjectButton" onClick={onLogout}>
+                    <div className={styles.navbarButtons}>
+                        <Link
+                            className={styles.startProjectButton}
+                            onClick={onLogout}
+                        >
                             Logout
                         </Link>
-                        <Link to="/create" className="startProjectButton">
+                        <Link
+                            to="/create"
+                            className={styles.startProjectButton}
+                        >
                             Start a Project
                         </Link>
                         {getCookie("loggedIn") == true ? (
-                            <Link to="/profile" className="profileImage" />
+                            <Link
+                                to="/profile"
+                                className={styles.profileImage}
+                            />
                         ) : (
-                            <Link to="/login" className="loginButton">
+                            <Link to="/login" className={styles.loginButton}>
                                 Login
                             </Link>
                         )}

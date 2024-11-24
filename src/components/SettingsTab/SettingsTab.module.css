@@ -1,14 +1,14 @@
 :root {
-    --input-padding: 8px;
-    --input-font-size: 14px;
-    --input-border: 1px solid #ccc;
-    --button-width: 20%;
-    --button-padding: 10px 20px;
-    --button-font-size: 16px;
-    --button-border-radius: 4px;
+    --inputPadding: 8px;
+    --inputFontSize: 14px;
+    --inputBorder: 1px solid #ccc;
+    --buttonWidth: 20%;
+    --buttonPadding: 10px 20px;
+    --buttonFontSize: 16px;
+    --buttonBorderRadius: 4px;
 }
 
-.settings-container {
+.settingsContainer {
     width: 90%;
     padding: 20px;
     padding-bottom: 40px;
@@ -22,7 +22,8 @@
 
 .tabs {
     display: flex;
-    gap: 20px;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 .tabs button {
@@ -57,6 +58,15 @@
     transition: transform 0.3s ease-in-out;
 }
 
+.tabs button.activeTab::after {
+    transform: scaleX(1);
+    color: var(--primary-color);
+}
+
+.tabs button.activeTab {
+    color: var(--primary-color);
+}
+
 .tabs button::after {
     content: "";
     position: absolute;
@@ -73,7 +83,7 @@
     transform: scaleX(1);
 }
 
-.settings-container > .content {
+.settingsContainer > .content {
     margin-top: -5px;
     padding: 20px;
     min-height: 200px;
@@ -83,8 +93,8 @@
     position: relative;
 }
 
-.settings-container > .content::before,
-.settings-container > .content::after {
+.settingsContainer > .content::before,
+.settingsContainer > .content::after {
     content: "";
     position: absolute;
     left: 0;
@@ -93,47 +103,47 @@
     background-color: #ccc;
 }
 
-.settings-container > .content::before {
+.settingsContainer > .content::before {
     top: 0;
 }
 
-.settings-container > .content::after {
+.settingsContainer > .content::after {
     bottom: 0;
 }
 
-.settings-container > .content form div {
+.settingsContainer > .content form div {
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
 }
 
-.settings-container > .content form div h3 {
+.settingsContainer > .content form div h3 {
     font-size: 16px;
     margin-bottom: 10px;
     margin-top: 10px;
 }
 
-.account-tab form div input {
+.accountTab form div input {
     padding: 8px 8px;
     font-size: 14px;
     width: 40%;
     border: 1px solid #ccc;
 }
 
-.edit-profile-tab form div input,
-.timezone-box {
+.editProfileTab form div input,
+.timezoneBox {
     padding: 8px 8px;
     font-size: 14px;
     width: 100%;
     border: 1px solid #ccc;
 }
 
-.settings-container > .content form label {
+.settingsContainer > .content form label {
     margin-top: 2px;
     font-size: 14px;
 }
 
-.account-tab .change-password-button {
+.accountTab .changePasswordButton {
     width: 20%;
     padding: 10px 20px;
     background-color: white;
@@ -145,13 +155,13 @@
     transition: all 0.3s ease-in-out;
 }
 
-.change-password-button:hover,
-.change-password-button.hover-active {
-    background-color: var(--primary-color-hover);
+.changePasswordButton:hover,
+.changePasswordButton.hoverActive {
+    background-color: var(--primary-color);
     color: white;
 }
 
-.save-changes-container {
+.saveChangesContainer {
     display: flex;
     justify-content: flex-start;
     align-items: left;
@@ -159,8 +169,8 @@
     width: 100%;
 }
 
-.save-button,
-.wallet-button {
+.saveButton,
+.walletButton {
     width: 20%;
     margin-top: 10px;
     padding: 10px 20px;
@@ -173,23 +183,23 @@
     transition: all 0.3s ease-in-out;
 }
 
-.edit-profile-tab .save-button {
+.editProfileTab .saveButton {
     width: 50%;
 }
 
-.save-button:hover,
-.wallet-button:hover {
+.saveButton:hover,
+.walletButton:hover {
     background-color: var(--primary-color-hover);
 }
 
-.edit-profile-tab form {
+.editProfileTab form {
     display: grid;
     grid-template-columns: 40% 50%;
     column-gap: 10%;
     align-items: start;
 }
 
-.biography-box {
+.biographyBox {
     grid-column: 2;
     height: 250px;
     width: 100%;
@@ -204,24 +214,24 @@
         gap: 10px;
     }
 
-    .save-button,
-    .wallet-button {
+    .saveButton,
+    .walletButton {
         width: 100%;
     }
 
-    .account-tab .change-password-button {
+    .accountTab .changePasswordButton {
         width: 100%;
     }
 
-    .account-tab form div input {
+    .accountTab form div input {
         width: 100%;
     }
 
-    .edit-profile-tab .save-button {
+    .editProfileTab .saveButton {
         width: 100%;
     }
 
-    .edit-profile-tab > form {
+    .editProfileTab > form {
         grid-template-columns: 100%;
     }
 }

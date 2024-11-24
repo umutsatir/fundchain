@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../styles/Login.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useNavigate, Link } from "react-router-dom";
 import { Cookies } from "react-cookie";
 import $ from "jquery";
+import styles from "../styles/Login.module.css"; // Import CSS module
 
 function Login({ onLogin }) {
     const [isConfirmed, setIsConfirmed] = useState(false);
@@ -63,8 +62,8 @@ function Login({ onLogin }) {
     };
 
     return (
-        <div className="login-container">
-            <h1 className="login-title">Log in</h1>
+        <div className={styles.loginContainer}>
+            <h1 className={styles.loginTitle}>Log in</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     type="email"
@@ -78,34 +77,34 @@ function Login({ onLogin }) {
                     required
                     onChange={handlePassword}
                 />
-                <Link to="#" className="forgot-password">
+                <Link to="#" className={styles.forgotPassword}>
                     Forgot your password?
                 </Link>
-                <button type="submit" className="login-button">
+                <button type="submit" className={styles.loginButton}>
                     Log in
                 </button>
             </form>
             {/* Remember me section */}
-            <div className="remember-me">
+            <div className={styles.rememberMe}>
                 <button
                     type="button"
-                    className={`remember-button ${
-                        isConfirmed ? "confirmed" : ""
+                    className={`${styles.rememberButton} ${
+                        isConfirmed ? styles.confirmed : ""
                     }`}
                     onClick={handleButtonClick}
                 >
                     {isConfirmed && <i className="fas fa-check"></i>}
                 </button>
-                <span className="remember-text">Remember me</span>
+                <span className={styles.rememberText}>Remember me</span>
             </div>
-            <div className="divider"></div>
-            <div className="redirecting-signup">
-                <span className="signup-text">New to Fundchain?</span>
-                <Link to="/signup" className="signup-link">
+            <div className={styles.divider}></div>
+            <div className={styles.redirectingSignup}>
+                <span className={styles.signupText}>New to Fundchain?</span>
+                <Link to="/signup" className={styles.signupLink}>
                     Sign up
                 </Link>
             </div>
-            {error && <p className="error-message">{error}</p>}
+            {error && <p className={styles.errorMessage}>{error}</p>}
         </div>
     );
 }

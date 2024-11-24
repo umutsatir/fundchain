@@ -6,7 +6,7 @@ import Campaign from "../components/Campaign/Campaign";
 import ProjectOwner from "../components/ProjectOwner/ProjectOwner";
 import TabBar from "../components/TabBar/TabBar";
 import RecommendedProjects from "../components/RecommendedProjects/RecommendedProjects";
-import "../styles/Project.css";
+import styles from "../styles/Project.module.css";
 
 function Project() {
     const { id } = useParams();
@@ -38,14 +38,14 @@ function Project() {
 
     return (
         <div>
-            <div className="main">
+            <div className={styles.main}>
                 <Intro project={project} />
                 <TabBar />
-                <div className="bottom">
-                    <div className="campaign">
+                <div className={styles.bottom}>
+                    <div className={styles.campaign}>
                         <Campaign />
                     </div>
-                    <div className="projectOwner">
+                    <div className={styles.projectOwner}>
                         <ProjectOwner userId={project.userId} />
                     </div>
                 </div>

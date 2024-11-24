@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Cards from "../components/Cards/Cards";
 import $ from "jquery";
-import "../styles/Home.css";
+import styles from "../styles/Home.module.css";
 
 function Search() {
     const [projects, setProjects] = useState([]);
@@ -42,7 +42,7 @@ function Search() {
     return (
         <>
             {projects.length > 0 ? (
-                <div className="projects">
+                <div className={styles.projects}>
                     <h2>Projects found:</h2>
                     {projects.map((project) => (
                         <Cards
@@ -59,7 +59,7 @@ function Search() {
                     ))}
                 </div>
             ) : (
-                <div className="projects">
+                <div className={styles.projects}>
                     <h2>No projects found</h2>
                 </div>
             )}
