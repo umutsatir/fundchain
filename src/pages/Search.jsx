@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import Cards from "../components/Cards/Cards";
 import $ from "jquery";
 import styles from "../styles/Home.module.css";
+import Loading from "../components/Loading/Loading";
 
 function Search() {
     const [projects, setProjects] = useState([]);
     const [savedProjects, setSavedProjects] = useState({}); // Track saved status
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -13,6 +15,7 @@ function Search() {
         if (searchText) {
             getResults(searchText);
         }
+        setIsLoading(false);
     }, []);
 
     const handleSaveToggle = (projectId) => {
@@ -41,7 +44,9 @@ function Search() {
 
     return (
         <>
-            {projects.length > 0 ? (
+            {isLoading ? (
+                <Loading />
+            ) : projects.length > 0 ? (
                 <div className={styles.projects}>
                     <h2>Projects found:</h2>
                     {projects.map((project) => (
