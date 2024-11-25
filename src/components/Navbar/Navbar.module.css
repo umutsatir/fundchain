@@ -82,6 +82,7 @@
     background-color: #ffffff;
     border: 2px solid var(--primary-color);
     transition: all 0.3s ease;
+    font-size: 16px;
 }
 
 .startProjectButton:hover {

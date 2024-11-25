@@ -94,64 +94,68 @@ function Navbar({ onLogout, loggedIn }) {
                         <div className={styles.navbarButtons}>
                             {isLoggedIn ? (
                                 <>
-                                    <Link
+                                    <button
                                         className={styles.startProjectButton}
                                         onClick={onLogout}
                                     >
                                         Logout
-                                    </Link>
-                                    <Link
+                                    </button>
+                                    <button
                                         className={styles.startProjectButton}
                                         onClick={handleStartProject}
                                     >
                                         Start a Project
-                                    </Link>
+                                    </button>
                                     <div
                                         className={styles.profileImage}
                                         onClick={handleProfileClick}
                                     />
                                     {isProfileMenuOpen && (
-                                        <div className={styles.dropdownCard}>
-                                            <ul>
-                                                <li
-                                                    onClick={() =>
-                                                        handleNavigate(
-                                                            "/profile"
-                                                        )
-                                                    }
-                                                >
-                                                    Profile Page
-                                                </li>
-                                                <li
-                                                    onClick={() =>
-                                                        handleNavigate(
-                                                            "/settings"
-                                                        )
-                                                    }
-                                                >
-                                                    Settings
-                                                </li>
-                                                <li
-                                                    onClick={() =>
-                                                        handleNavigate(
-                                                            "/saved-projects"
-                                                        )
-                                                    }
-                                                >
-                                                    Saved Projects
-                                                </li>
-                                            </ul>
-                                        </div>
+                                        <>
+                                            <div
+                                                className={styles.dropdownCard}
+                                            >
+                                                <ul>
+                                                    <li
+                                                        onClick={() =>
+                                                            handleNavigate(
+                                                                "/profile"
+                                                            )
+                                                        }
+                                                    >
+                                                        Profile Page
+                                                    </li>
+                                                    <li
+                                                        onClick={() =>
+                                                            handleNavigate(
+                                                                "/settings"
+                                                            )
+                                                        }
+                                                    >
+                                                        Settings
+                                                    </li>
+                                                    <li
+                                                        onClick={() =>
+                                                            handleNavigate(
+                                                                "/saved-projects"
+                                                            )
+                                                        }
+                                                    >
+                                                        Saved Projects
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </>
                                     )}
                                 </>
                             ) : (
                                 <>
-                                    <Link
+                                    <button
                                         className={styles.startProjectButton}
                                         onClick={handleStartProject}
                                     >
                                         Start a Project
-                                    </Link>
+                                    </button>
                                     <Link
                                         to="/login"
                                         className={styles.loginButton}
@@ -172,56 +176,60 @@ function Navbar({ onLogout, loggedIn }) {
                         {isProfileMenuOpen && (
                             <div className={styles.dropdownCard}>
                                 {isLoggedIn ? (
-                                    <ul>
-                                        <li
-                                            onClick={() =>
-                                                handleNavigate("/profile")
-                                            }
-                                        >
-                                            Profile Page
-                                        </li>
-                                        <li
-                                            onClick={() =>
-                                                handleNavigate("/settings")
-                                            }
-                                        >
-                                            Settings
-                                        </li>
-                                        <li
-                                            onClick={() =>
-                                                handleNavigate(
-                                                    "/saved-projects"
-                                                )
-                                            }
-                                        >
-                                            Saved Projects
-                                        </li>
-                                        <li
-                                            onClick={() =>
-                                                handleNavigate("/create")
-                                            }
-                                        >
-                                            Create a Project
-                                        </li>
-                                        <li
-                                            onClick={() => {
-                                                onLogout();
-                                                setIsProfileMenuOpen(false);
-                                            }}
-                                        >
-                                            Logout
-                                        </li>
-                                    </ul>
+                                    <>
+                                        <ul>
+                                            <li
+                                                onClick={() =>
+                                                    handleNavigate("/profile")
+                                                }
+                                            >
+                                                Profile Page
+                                            </li>
+                                            <li
+                                                onClick={() =>
+                                                    handleNavigate("/settings")
+                                                }
+                                            >
+                                                Settings
+                                            </li>
+                                            <li
+                                                onClick={() =>
+                                                    handleNavigate(
+                                                        "/saved-projects"
+                                                    )
+                                                }
+                                            >
+                                                Saved Projects
+                                            </li>
+                                            <li
+                                                onClick={() =>
+                                                    handleNavigate("/create")
+                                                }
+                                            >
+                                                Create a Project
+                                            </li>
+                                            <li
+                                                onClick={() => {
+                                                    onLogout();
+                                                    setIsProfileMenuOpen(false);
+                                                }}
+                                            >
+                                                Logout
+                                            </li>
+                                        </ul>
+                                    </>
                                 ) : (
-                                    <ul>
-                                        <li
-                                            onClick={() =>
-                                                handleNavigate("/login")
-                                            }
-                                        >
-                                            Login
-                                        </li>
-                                    </ul>
+                                    <>
+                                        <ul>
+                                            <li
+                                                onClick={() =>
+                                                    handleNavigate("/login")
+                                                }
+                                            >
+                                                Login
+                                            </li>
+                                        </ul>
+                                    </>
                                 )}
                             </div>
                         )}
