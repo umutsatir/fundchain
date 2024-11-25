@@ -3,6 +3,7 @@ import styles from "../styles/Profile.module.css"; // Import the CSS module
 
 function Profile() {
     const user = {
+        username: "umutstr",
         name: "Umut",
         surname: "Satır",
         biography: "Let people know more about you.",
@@ -33,11 +34,38 @@ function Profile() {
             </div>
             <div className={styles.infosContainer}>
                 <div className={styles.infosItem}>
-                    <strong>Location</strong> <p>{user.location}</p>
+                    <p className={styles.infoHeader}>
+                        <strong>Username</strong>
+                    </p>
+                    <p className={styles.infoDesc}>{user.username}</p>
                 </div>
                 <div className={styles.line}></div>
                 <div className={styles.infosItem}>
-                    <strong>Biography</strong> <p>{user.biography}</p>
+                    <p className={styles.infoHeader}>
+                        <strong>Location</strong>
+                    </p>
+                    <p className={styles.infoDesc}>{user.location}</p>
+                </div>
+                <div className={styles.line}></div>
+                <div className={styles.infosItem}>
+                    <p className={styles.infoHeader}>
+                        <strong>Biography</strong>
+                    </p>
+                    <p className={styles.infoDesc}>{user.biography}</p>
+                </div>
+                <div className={styles.line}></div>
+                <div className={styles.infosItem}>
+                    <p className={styles.infoHeader}>
+                        <strong>Created Projects</strong>
+                    </p>
+                    <p className={styles.infoDesc}>{user.biography}</p>
+                </div>
+                <div className={styles.line}></div>
+                <div className={styles.infosItem}>
+                    <p className={styles.infoHeader}>
+                        <strong>Funded Projects</strong>
+                    </p>
+                    <p className={styles.infoDesc}>{user.biography}</p>
                 </div>
             </div>
         </div>

@@ -46,7 +46,7 @@
 }
 
 .infosContainer {
-    max-width: 600px;
+    max-width: 800px;
     text-align: left;
     margin: 0 auto;
     margin-top: 50px;
@@ -62,7 +62,7 @@
     flex-direction: row;
 }
 
-.infosItem p {
+.infoDesc {
     font-size: 16px;
     color: #666;
     line-height: 1.5;
@@ -73,4 +73,34 @@
     width: 100px;
     font-weight: bold;
     color: #333;
+}
+
+.infoHeader {
+    min-width: 160px;
+    text-align: end;
+}
+
+@media screen and (max-width: 768px) {
+    .infosContainer {
+        padding: 0 20px;
+        width: calc(100% - 60px);
+    }
+}
+
+@media screen and (max-width: 552px) {
+    .infosContainer {
+        width: calc(100% - 40px);
+    }
+
+    .infosItem {
+        flex-direction: column;
+    }
+
+    .infoHeader {
+        text-align: start;
+    }
+
+    .infoDesc {
+        margin-left: 0;
+    }
 }
