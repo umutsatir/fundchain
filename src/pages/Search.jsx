@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Cards from "../components/Cards/Cards";
 import $ from "jquery";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Search.module.css";
 import Loading from "../components/Loading/Loading";
 
 function Search() {
@@ -49,19 +49,21 @@ function Search() {
             ) : projects.length > 0 ? (
                 <div className={styles.projects}>
                     <h2>Projects found:</h2>
-                    {projects.map((project) => (
-                        <Cards
-                            id={project.id}
-                            img={project.img}
-                            subimg={project.subimg}
-                            title={project.title}
-                            owner={project.owner}
-                            deadline={project.deadline}
-                            key={project.id}
-                            onSaveToggle={handleSaveToggle}
-                            isSaved={savedProjects[project.id] || false}
-                        />
-                    ))}
+                    <div className={styles.cards}>
+                        {projects.map((project) => (
+                            <Cards
+                                id={project.id}
+                                img={project.img}
+                                subimg={project.subimg}
+                                title={project.title}
+                                owner={project.owner}
+                                deadline={project.deadline}
+                                key={project.id}
+                                onSaveToggle={handleSaveToggle}
+                                isSaved={savedProjects[project.id] || false}
+                            />
+                        ))}
+                    </div>
                 </div>
             ) : (
                 <div className={styles.projects}>
