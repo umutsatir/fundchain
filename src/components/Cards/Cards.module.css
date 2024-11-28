@@ -1,9 +1,9 @@
-.card-container {
-    display: flex;
-    flex-wrap: wrap; /* Kartlar çok büyükse alt satıra geçmelerini sağlar */
-    justify-content: space-between; /* Kartlar arasında ve kenarlarda eşit boşluk */
-    /* align-items: flex-start; */
+/* Cards.module.css */
 
+.cardContainer {
+    display: flex;
+    flex-wrap: wrap; /* Ensures cards wrap to the next line if too large */
+    justify-content: space-between; /* Even spacing between cards and edges */
     margin-left: 100px;
     margin-right: 100px;
 }
@@ -15,12 +15,8 @@
     display: inline-block;
     overflow: hidden;
     transition: all 0.3s ease;
-
     position: relative;
-
     width: 350px;
-
-    margin: 30px;
     padding: 5px;
 }
 
@@ -28,7 +24,7 @@
     background-color: rgba(137, 43, 226, 0.15);
 }
 
-.card-image {
+.cardImage {
     width: 95%;
     max-height: 200px;
     border-radius: 20px;
@@ -37,14 +33,14 @@
     margin: 5px;
 }
 
-.card-header {
+.cardHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 5px;
 }
 
-.card-properties {
+.cardProperties {
     display: flex;
     flex-direction: column;
     gap: 3px;
@@ -52,7 +48,7 @@
     margin-left: 2px;
 }
 
-.card-subimage {
+.cardSubimage {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -60,40 +56,41 @@
     margin-top: -20px;
 }
 
-.card-title {
+.cardTitle {
     text-align: left;
     margin-top: 4px;
     margin-bottom: -8px;
     font-size: 1.9em;
     font-family: monospace;
+    cursor: pointer;
 }
 
-.card-owner {
+.cardOwner {
     text-align: left;
     margin-top: 1px;
     margin-left: 2px;
     font-family: Arial, Helvetica, sans-serif;
-    font-weight: 00;
+    font-weight: 400;
     font-size: 0.85em;
 }
 
-.card-deadline {
+.cardDeadline {
     font-size: 1em;
     font-family: inherit;
     font-weight: 500;
     margin-top: -16px;
 }
 
-.card-deadline .fa-clock {
+.cardDeadline i {
     color: blueviolet;
     margin-right: 5px;
 }
 
-.card-deadline .fa-clock:hover {
+.cardDeadline i:hover {
     color: #000000;
 }
 
-.card-saved-button {
+.cardSavedButton {
     border: none;
     background: none;
     color: rgba(129, 56, 197, 0.195);
@@ -105,19 +102,19 @@
     padding: 10px;
 }
 
-.card-saved-button.saved {
+.cardSavedButton.saved {
     color: blueviolet;
 }
 
-.card-saved-button:hover {
+.cardSavedButton:hover {
     color: #000000;
 }
 
-.card-saved-button .fa-bookmark {
+.cardSavedButton i {
     font-size: 1.4rem;
 }
 
-.card-text {
+.cardText {
     text-align: left;
     margin-left: 70px;
     margin-right: 30px;

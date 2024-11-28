@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import Cards from "../components/Cards/Cards";
 import $ from "jquery";
-import "../styles/Home.css";
+import styles from "../styles/Search.module.css";
+import Loading from "../components/Loading/Loading";
 
 function Search() {
     const [projects, setProjects] = useState([]);
     const [savedProjects, setSavedProjects] = useState({}); // Track saved status
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -13,6 +15,7 @@ function Search() {
         if (searchText) {
             getResults(searchText);
         }
+        setIsLoading(false);
     }, []);
 
     const handleSaveToggle = (projectId) => {
@@ -41,25 +44,29 @@ function Search() {
 
     return (
         <>
-            {projects.length > 0 ? (
-                <div className="projects">
+            {isLoading ? (
+                <Loading />
+            ) : projects.length > 0 ? (
+                <div className={styles.projects}>
                     <h2>Projects found:</h2>
-                    {projects.map((project) => (
-                        <Cards
-                            id={project.id}
-                            img={project.img}
-                            subimg={project.subimg}
-                            title={project.title}
-                            owner={project.owner}
-                            deadline={project.deadline}
-                            key={project.id}
-                            onSaveToggle={handleSaveToggle}
-                            isSaved={savedProjects[project.id] || false}
-                        />
-                    ))}
+                    <div className={styles.cards}>
+                        {projects.map((project) => (
+                            <Cards
+                                id={project.id}
+                                img={project.img}
+                                subimg={project.subimg}
+                                title={project.title}
+                                owner={project.owner}
+                                deadline={project.deadline}
+                                key={project.id}
+                                onSaveToggle={handleSaveToggle}
+                                isSaved={savedProjects[project.id] || false}
+                            />
+                        ))}
+                    </div>
                 </div>
             ) : (
-                <div className="projects">
+                <div className={styles.projects}>
                     <h2>No projects found</h2>
                 </div>
             )}

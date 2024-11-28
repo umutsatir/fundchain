@@ -1,6 +1,6 @@
 // Campaign.jsx
 import React, { useState } from "react";
-import "./Campaign.css";
+import styles from "./Campaign.module.css";
 
 function Campaign() {
     const [activeTab, setActiveTab] = useState("");
@@ -49,28 +49,32 @@ function Campaign() {
     };
 
     return (
-        <div className="campaign-bar">
-            <div className="campaign-tabs">
+        <div className={styles.campaignBar}>
+            <div className={styles.campaignTabs}>
                 {tabContent.map((tab, index) => (
                     <div
                         key={index}
-                        className={`campaign-tab ${
-                            activeTab === tab.title ? "active" : ""
+                        className={`${styles.campaignTab} ${
+                            activeTab === tab.title ? styles.active : ""
                         }`}
                         onClick={() => handleTabClick(tab.title)}
                     >
                         {tab.title}
                         {activeTab === tab.title && (
-                            <div className="top-indicator"></div>
+                            <div className={styles.topIndicator}></div>
                         )}
                     </div>
                 ))}
             </div>
 
-            <div className="description-container">
+            <div className={styles.descriptionContainer}>
                 <h2>Story</h2>
                 {tabContent.map((tab, index) => (
-                    <div key={index} id={tab.title} className="content-section">
+                    <div
+                        key={index}
+                        id={tab.title}
+                        className={styles.contentSection}
+                    >
                         <h3>{tab.title}</h3>
                         <p>{tab.content}</p>
                     </div>

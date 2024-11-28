@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./ProjectOwner.css";
+import styles from "./ProjectOwner.module.css"; // import the module CSS
 import $ from "jquery";
 
 const ProjectOwner = ({ userId }) => {
@@ -24,45 +24,41 @@ const ProjectOwner = ({ userId }) => {
     }, [userId]);
 
     return (
-        <div className="profile-card">
-            <div className="profile-frame">
-                <div className="profile-image">
+        <div className={styles.profileCard}>
+            <div className={styles.profileFrame}>
+                <div className={styles.profileImage}>
                     <img src={user.profilePic} alt="Profile" />
                 </div>
-                <div className="profile-info">
+                <div className={styles.profileInfo}>
                     <h2>{user.username}</h2>
-                    <div className="rating">
+                    <div className={styles.rating}>
                         {Array.from({ length: 5 }, (_, index) => {
-                            const isFullStar =
-                                index + 1 <= Math.floor(rating /* rating */);
-                            const isHalfStar =
-                                !isFullStar && index < rating; /* rating */
+                            const isFullStar = index + 1 <= Math.floor(rating);
+                            const isHalfStar = !isFullStar && index < rating;
 
                             return (
                                 <span
                                     key={index}
-                                    className={`star ${
+                                    className={`${styles.star} ${
                                         isFullStar
-                                            ? "full"
+                                            ? styles.full
                                             : isHalfStar
-                                            ? "half"
-                                            : "empty"
+                                            ? styles.half
+                                            : styles.empty
                                     }`}
                                 >
                                     ★
                                 </span>
                             );
                         })}
-                        <span className="rating-value">
-                            ({rating /* rating */})
-                        </span>
+                        <span className={styles.ratingValue}>({rating})</span>
                     </div>
                     <p>
                         {user.projectCount} created | {user.backedCount} backed
                     </p>
                 </div>
             </div>
-            <div className="profile-description">
+            <div className={styles.profileDescription}>
                 <p>{user.description}</p>
             </div>
         </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./Funding.css";
+import styles from "./Funding.module.css";
 import { Cookies } from "react-cookie";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
@@ -64,14 +64,14 @@ const Funding = (props) => {
     };
 
     return (
-        <div className="progress-container">
-            <div className="progress-background">
+        <div className={styles.progressContainer}>
+            <div className={styles.progressBackground}>
                 <div
-                    className="progress-bar"
+                    className={styles.progressBar}
                     style={{ width: `${progress}%` }}
                 ></div>
             </div>
-            <div className="progress-info">
+            <div className={styles.progressInfo}>
                 <h1>{pledged.toLocaleString()}$</h1>
                 <p>pledged of {goal.toLocaleString()}$ goal</p>
                 <h1>{backers}</h1>
@@ -79,15 +79,16 @@ const Funding = (props) => {
                 <h1>{daysLeft}</h1>
                 <p>days to go</p>
             </div>
-            <div className="buttons">
-                <button className="back-button">Back this project</button>
-                <button className="share-button">Share</button>
+            <div className={styles.buttons}>
+                <button className={styles.backButton}>Back this project</button>
+                <button className={styles.shareButton}>Share</button>
                 <button
-                    className={`remind-button ${isSaved ? "saved" : ""}`}
+                    className={`${styles.remindButton} ${
+                        isSaved ? styles.saved : ""
+                    }`}
                     onClick={setSavedProject}
                 >
-                    <i className="fa fa-bookmark"></i> {}
-                    Remind me
+                    <i className="fa fa-bookmark"></i> Remind me
                 </button>
             </div>
         </div>

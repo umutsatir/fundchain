@@ -1,4 +1,6 @@
-.footer_container {
+/* Footer.module.css */
+
+.footerContainer {
     display: flex;
     padding: 30px;
     justify-content: space-between;
@@ -11,15 +13,15 @@
     margin-bottom: 100px;
 }
 
-.footer-block {
+.footerBlock {
     flex: 1;
 }
 
-.footer-block h4 {
+.footerBlock h4 {
     margin-bottom: 20px;
 }
 
-.footer-block a {
+.footerBlock a {
     display: block;
     color: black;
     text-decoration: none;
@@ -27,14 +29,14 @@
     margin-bottom: 5px;
 }
 
-.social-icons {
+.socialIcons {
     display: flex;
     justify-content: flex-start;
     font-size: 25px;
     margin-top: 20px;
 }
 
-.social-icons a {
+.socialIcons a {
     margin-right: 10px;
     color: black;
 }
@@ -47,20 +49,20 @@
 }
 
 @media (max-width: 576px) {
-    .footer_container {
+    .footerContainer {
         flex-direction: column;
         padding: 50px;
     }
 
-    .footer-block {
+    .footerBlock {
         flex: 1;
     }
 
-    .footer-block h4 {
+    .footerBlock h4 {
         margin-bottom: 20px;
     }
 
-    .footer-block a {
+    .footerBlock a {
         display: block;
         color: black;
         text-decoration: none;
@@ -68,14 +70,14 @@
         margin-bottom: 5px;
     }
 
-    .social-icons {
+    .socialIcons {
         display: flex;
         justify-content: flex-start;
         font-size: 25px;
         margin-top: 20px;
     }
 
-    .social-icons a {
+    .socialIcons a {
         margin-right: 10px;
         color: black;
     }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import "./Cards.css";
+import styles from "./Cards.module.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import $ from "jquery";
 import { Cookies } from "react-cookie";
@@ -73,27 +73,32 @@ function Cards(props) {
     };
 
     return (
-        <div className="card">
-            <img className="card-image" src={props.img} alt="Photo" />
-            <div className="card-header">
+        <div className={styles.card}>
+            <img className={styles.cardImage} src={props.img} alt="Photo" />
+            <div className={styles.cardHeader}>
                 <img
-                    className="card-subimage"
+                    className={styles.cardSubimage}
                     src={props.subimg}
                     alt="SubPhoto"
                 />
-                <div className="card-properties">
-                    <h2 className="card-title" onClick={(e) => handlePage(e)}>
+                <div className={styles.cardProperties}>
+                    <h2
+                        className={styles.cardTitle}
+                        onClick={(e) => handlePage(e)}
+                    >
                         {props.title}
                     </h2>
-                    <p className="card-owner">{props.owner}</p>
-                    <p className="card-deadline">
+                    <p className={styles.cardOwner}>{props.owner}</p>
+                    <p className={styles.cardDeadline}>
                         <i className="fa fa-clock"></i> {/* time symbol */}
                         {props.deadline} days left
                     </p>
                 </div>
                 {/* save button */}
                 <button
-                    className={`card-saved-button ${isSaved ? "saved" : ""}`}
+                    className={`${styles.cardSavedButton} ${
+                        isSaved ? styles.saved : ""
+                    }`}
                     onClick={handleSaveClick}
                 >
                     <i className="fa fa-bookmark"></i>{" "}

@@ -1,5 +1,5 @@
-import "./Stats.css";
 import React, { useEffect, useState } from "react";
+import styles from "./Stats.module.css"; // Import the CSS Module
 import $ from "jquery";
 
 function Stats() {
@@ -20,16 +20,16 @@ function Stats() {
     }, []);
 
     return (
-        <div className="stats">
-            <div className="stat">
+        <div className={styles.stats}>
+            <div className={styles.stat}>
                 <h1>{stats["fundedProjects"]}</h1>
                 <p>projects funded</p>
             </div>
-            <div className="stat">
+            <div className={styles.stat}>
                 <h1>{stats["users"]}</h1>
                 <p>users</p>
             </div>
-            <div className="stat">
+            <div className={styles.stat}>
                 <h1>{stats["stillFunding"]}</h1>
                 <p>projects still funding</p>
             </div>
