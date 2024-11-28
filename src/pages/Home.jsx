@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Cards from "../components/Cards/Cards";
 import Stats from "../components/Stats/Stats";
 import Loading from "../components/Loading/Loading";
+import styles from "../styles/Home.module.css"; // Import the CSS module
 
 function Home() {
     const [projects, setProjects] = useState({ popular: [], trending: [] });
@@ -52,20 +53,20 @@ function Home() {
     }
 
     return (
-        <div className="body">
-            <div className="stats-wrapper">
-                <div className="title">
+        <div className={styles.body}>
+            <div className={styles.statsWrapper}>
+                <div className={styles.title}>
                     <h1>Fundchain</h1>
                     <h2>World's first Blockchain based funding platform</h2>
                 </div>
-                <Stats className="stats" />
+                <Stats className={styles.stats} />
             </div>
             <div className="main">
-                <div className="projects">
-                    <div className="name">
+                <div className={styles.projects}>
+                    <div className={styles.name}>
                         <h3>Popular Projects</h3>
                     </div>
-                    <div className="cards">
+                    <div className={styles.cards}>
                         {projects.popular.map((project) => (
                             <Cards
                                 key={project.id}
@@ -81,11 +82,11 @@ function Home() {
                         ))}
                     </div>
                 </div>
-                <div className="projects">
-                    <div className="name">
+                <div className={styles.projects}>
+                    <div className={styles.name}>
                         <h3>Trending Projects</h3>
                     </div>
-                    <div className="cards">
+                    <div className={styles.cards}>
                         {projects.trending.map((project) => (
                             <Cards
                                 key={project.id}

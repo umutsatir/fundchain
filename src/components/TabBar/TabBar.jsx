@@ -1,7 +1,5 @@
-// TabBar.jsx
-
 import React, { useState } from "react";
-import "./TabBar.css";
+import styles from "./TabBar.module.css"; // Import the CSS Module
 
 function TabBar() {
     const [activeTab, setActiveTab] = useState("Campaign");
@@ -11,20 +9,21 @@ function TabBar() {
     };
 
     return (
-        <div className="tab-bar">
-            <div className="tabbar-line top-line" /> {/* Üst çizgi */}
-            <div className="tabs">
+        <div className={styles.tabBar}>
+            <div className={`${styles.tabBarLine} ${styles.topLine}`} />{" "}
+            {/* Top line */}
+            <div className={styles.tabs}>
                 <div
-                    className={`tab ${
-                        activeTab === "Campaign" ? "active" : ""
+                    className={`${styles.tab} ${
+                        activeTab === "Campaign" ? styles.tabActive : ""
                     }`}
                     onClick={() => handleTabClick("Campaign")}
                 >
                     Campaign
                 </div>
                 <div
-                    className={`tab ${
-                        activeTab === "Comments" ? "active" : ""
+                    className={`${styles.tab} ${
+                        activeTab === "Comments" ? styles.tabActive : ""
                     }`}
                     onClick={() => handleTabClick("Comments")}
                 >
@@ -32,7 +31,7 @@ function TabBar() {
                 </div>
 
                 <div
-                    className="indicator"
+                    className={styles.indicator}
                     style={{
                         left:
                             activeTab === "Campaign"
@@ -42,7 +41,8 @@ function TabBar() {
                     }}
                 ></div>
             </div>
-            <div className="tabbar-line bottom-line" /> {/* Alt çizgi */}
+            <div className={`${styles.tabBarLine} ${styles.bottomLine}`} />{" "}
+            {/* Bottom line */}
         </div>
     );
 }

@@ -1,0 +1,21 @@
+.projects {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 4rem;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .projects {
+        padding: 2rem 1rem;
+    }
+
+    .cards {
+        flex-direction: column;
+    }
+}

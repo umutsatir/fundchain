@@ -1,13 +1,13 @@
 import Cards from "../Cards/Cards";
-import "./RecommendedProjects.css";
+import styles from "./RecommendedProjects.module.css"; // Import the module CSS
 
 function RecommendedProjects({ userId }) {
     return (
-        <div className="projects">
-            <div className="name">
+        <div className={styles.projects}>
+            <div className={styles.name}>
                 <h3>Recommended Projects</h3>
             </div>
-            <div className="cards">
+            <div className={styles.cards}>
                 <Cards
                     id={3}
                     img="https://via.placeholder.com/150"

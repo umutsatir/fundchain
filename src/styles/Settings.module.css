@@ -1,4 +1,4 @@
-.body .settings-wrapper {
+.body .settingsWrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -8,18 +8,18 @@
     margin-bottom: 20px;
 }
 
-.settings-title {
+.settingsTitle {
     text-align: left;
     width: 85%;
     margin-left: 5%;
 }
 
 @media (max-width: 768px) {
-    .settings-title {
+    .settingsTitle {
         font-size: 1.5em;
     }
 
-    .settings-wrapper {
+    .settingsWrapper {
         margin-top: 10px;
         margin-bottom: 10px;
         flex-direction: column;

@@ -1,7 +1,7 @@
-.progress-container {
+.progressContainer {
     display: flex;
     flex-direction: column;
-    width: 350px;
+    width: 400px;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
@@ -11,38 +11,38 @@
     text-align: center;
 }
 
-.progress-background {
+.progressBackground {
     width: 100%;
     height: 5px;
-    background-color: #e0e0e0; /* Açık renkli arka plan */
+    background-color: #e0e0e0;
     border-radius: 2.5px;
     overflow: hidden;
     margin-bottom: 20px;
 }
 
-.progress-bar {
+.progressBar {
     height: 5px;
     background-color: var(--primary-color);
     border-radius: 2.5px;
 }
 
-.progress-info {
+.progressInfo {
     text-align: left;
 }
 
-.progress-info h1 {
+.progressInfo h1 {
     font-size: 24px;
     color: var(--primary-color);
     margin: 0;
 }
 
-.progress-info p {
+.progressInfo p {
     margin: 5px 0;
     font-size: 14px;
     color: #666;
 }
 
-.back-button {
+.backButton {
     width: 100%;
     padding: 10px;
     color: white;
@@ -54,8 +54,8 @@
     margin-top: 15px;
 }
 
-.share-button,
-.remind-button {
+.shareButton,
+.remindButton {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -76,33 +76,33 @@
     margin-top: auto;
 }
 
-.share-button:hover,
-.remind-button:hover {
+.shareButton:hover,
+.remindButton:hover {
     background-color: var(--primary-color);
     color: white;
 }
 
-.share-button:active,
-.remind-button:active {
+.shareButton:active,
+.remindButton:active {
     background-color: var(--primary-color-hover);
 }
 
-.back-button:hover {
+.backButton:hover {
     background-color: var(--primary-color-hover);
     color: white;
 }
 
-.back-button:active {
+.backButton:active {
     background-color: var(--primary-color-click);
 }
 
 @media screen and (max-width: 992px) {
-    .progress-container {
+    .progressContainer {
         width: 100%;
         align-items: center;
     }
 
-    .progress-info {
+    .progressInfo {
         text-align: center;
     }
 
@@ -110,6 +110,12 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 50%;
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .buttons {
+        width: 100%;
     }
 }
