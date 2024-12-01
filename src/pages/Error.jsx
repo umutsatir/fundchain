@@ -5,15 +5,15 @@ function Error() {
 
     return (
             <div className={styles.errorContainer}>
-                <h1 className={errorMessage}>ERROR</h1>
-                <h1 className={error404}>404</h1>
-                <h1 className={errorMessage}>Page Not Found</h1>
-                <p className={errorSubMessage}>Sorry, the page you were looking for does not exist.</p>
+                <h1 className={styles.errorMessage}>ERROR</h1>
+                <h1 className={styles.error404}>404</h1>
+                <h1 className={styles.errorMessage}>Page Not Found</h1>
+                <p className={styles.errorSubMessage}>Sorry, the page you were looking for does not exist.</p>
 
-                <div className={redirectingSignup}>
-                    <span className={signupText}>New to Fundchain?</span>
-                    <Link to="/signup" className={SignupLink}>
-                        Sign up
+                <div className={styles.redirectingLoginPage}>
+                    <span className={styles.redirectingText}>Have an account?</span>
+                    <Link to="/login" className={styles.loginPageLink}>
+                        Log in
                     </Link>
                 </div>
             </div>

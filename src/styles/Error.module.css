@@ -39,3 +39,21 @@
     height: 250px;
     margin-left: 20px;
 }
+
+.redirectingLoginPage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 85%;
+    font-size: 1.1em;
+    font-family: sans-serif;
+}
+
+.redirectingSignup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 85%;
+    font-size: 1.1em;
+    font-family: sans-serif;
+}
