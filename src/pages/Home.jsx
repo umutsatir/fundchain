@@ -3,6 +3,7 @@ import Cards from "../components/Cards/Cards";
 import Stats from "../components/Stats/Stats";
 import Loading from "../components/Loading/Loading";
 import styles from "../styles/Home.module.css"; // Import the CSS module
+import Collaborators from "../components/Collaborators/Collaborators";
 import Category from "../components/Category/Category";
 
 function Home() {
@@ -63,6 +64,7 @@ function Home() {
                 <Stats className={styles.stats} />
             </div>
 
+            <Collaborators />
             <Category />
 
             <div className="main">

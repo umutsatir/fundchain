@@ -36,13 +36,14 @@ function Category() {
             <div className={styles.categoryKnowledge}>
                 <h1 className={styles.categoryTitle}>Project Category</h1>
                 <p className={styles.categoryText}>
-                    Select categories and subcategories for your new project.
+                    Choose a primary category and subcategory to help backers find your project.
                 </p>
                 <p className={styles.categoryText}>
-                    These will help backers find your project, and you can change them later if you need to.
+                    Your second subcategory will help us provide more relevant guidance for your project.
+                    It won't display on your project page or affect how it appears in search results.
                 </p>
                 <p className={styles.categoryText}>
-                    These will help us provide more relevant guidance for your project.
+                    You can change these anytime before and during your campaign.
                 </p>
             </div>
 

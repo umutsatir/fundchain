@@ -1,19 +1,21 @@
-import React from "react";
 import styles from "../styles/Error.module.css"; // Import the CSS Module
+import { useNavigate, Link } from "react-router-dom";
 
 function Error() {
 
     return (
             <div className={styles.errorContainer}>
-                <h1 className={styles.errorMessage}>ERROR</h1>
-                <h1 className={styles.error404}>404</h1>
-                <h1 className={styles.errorMessage}>Page Not Found</h1>
-                <p className={styles.errorSubMessage}>Sorry, the page you were looking for does not exist.</p>
-
-                <div className={styles.redirectingLoginPage}>
-                    <span className={styles.redirectingText}>Have an account?</span>
-                    <Link to="/login" className={styles.loginPageLink}>
-                        Log in
+                <div className={styles.messageContainer}>
+                    <h1 className={styles.error404}>404</h1>
+                    <h1 className={styles.errorMessage}>We couldn't find this page.</h1>
+                </div>
+                
+                <div className={styles.divider}></div>
+                <p className={styles.errorSubMessage}>Maybe, it's out there, somewhere...</p>
+                <div className={styles.errorRedirecting}>
+                    <span className={styles.redirectingText}>You can always find insightful projects on our </span>
+                    <Link to="/" className={styles.redirectingLink}>
+                        homepage.
                     </Link>
                 </div>
             </div>
