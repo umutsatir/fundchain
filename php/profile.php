@@ -3,6 +3,7 @@
 	header("Access-Control-Allow-Methods: POST, OPTIONS");
 	require_once '../vendor/autoload.php';
 	include './pdo.php';
+	$pdo = (new PDOClass())->connect();
 	use Firebase\JWT\JWT;
 
 	$gump = new GUMP();
@@ -38,7 +39,7 @@
 
 	}
 	else{
-		echo json_encode(['status' => false, 'message' => "'User with id:$u_id not Found!"]);
+		echo json_encode(['status' => false, 'message' => "'User with id:$u_name not Found!"]);
 	}
 
 
