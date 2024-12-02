@@ -4,10 +4,14 @@
     include './pdo.php';
     try {
         $pdo = (new PDOClass())->connect();
-        $userId = $_GET['userId'];
+        $username = $_POST['username'];
+
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $stmt = $pdo->prepare("SELECT * FROM projects WHERE userId = :userId");
-        $stmt->execute(['userId' => $userId]);
+        $stmt->execute(['userId' => $user['userId']]);
         $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if (empty($projects)) {

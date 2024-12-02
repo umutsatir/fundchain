@@ -7,26 +7,26 @@
 
 	$gump = new GUMP();
 	$_POST = $gump->sanitize($_POST);
+	$pdo = (new PDOClass())->connect();
 
-	$u_id = $_POST['user_id'];//GET USER ID OF CURRENTLY LOGGED IN
+	$username = $_POST['username'];
 
-	$stmt= $pdo->prepare("SELECT * FROM users WHERE userId = :userid");
-	$stmt->execute(params:['userid'=>$u_id]);
-	$userDB = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	$stmt= $pdo->prepare("SELECT * FROM users WHERE username = :username");
+	$stmt->execute(params:['username'=>$username]);
+	$userDB = $stmt->fetch(PDO::FETCH_ASSOC);
 
 	if ($userDB) {
 		$dict = array(
-		'status'=>true,
-		'message'=>"User with id: $u_id found!",
+		'username_php'=>$userDB['username'],
 		'name_php'=>$userDB['name'], 
 		'surname_php'=>$userDB['surname'], 
+		'location_php'=>$userDB['location'],
 		'biography_php'=>$userDB['description'],
 		'profileImage_php'=> $userDB['profilePic'],
-		'coverImage_php'=>$userDB[''],//add coverImg field on users table
-		
+		'coverImage_php'=>$userDB['coverImg'],
+		'totalFund_php'=>$userDB['totalFund'],
 		);
-		$datastring = json_encode($dict);
-		echo $datastring;
+		echo json_encode(['status' => true, 'message' => 'User Found!', 'data' => $dict]);
 		/*
 		SQL QUERY TO ADD coverImg field to users table:
 
