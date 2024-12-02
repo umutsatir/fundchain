@@ -1,43 +1,129 @@
 import React from "react";
-import "../styles/Profile.css";
+import { useState, useEffect } from "react";
+import styles from "../styles/Profile.module.css"; // Import the CSS module
+import { Cookies } from "react-cookie";
+import $ from "jquery";
+import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading/Loading";
 
 function Profile() {
-    const user = {
-        name: "Umut",
-        surname: "Satır",
-        biography: "Let people know more about you.",
-        location: "Şehir, Ülke",
-        profileImage: "https://via.placeholder.com/150",
-        coverImage: "https://via.placeholder.com/1200x400",
+    const [user, setUser] = useState([]);
+    const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const cookies = new Cookies();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        $.ajax({
+            url: "http://localhost:8000/profile.php",
+            type: "POST",
+            data: {
+                username: cookies.get("username"),
+            },
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result.status) {
+                    setUser(result.data);
+                } else {
+                    console.log(result.message);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+                navigate("/error");
+            },
+        });
+
+        $.ajax({
+            url: "http://localhost:8000/usersProjects.php",
+            type: "POST",
+            data: {
+                username: cookies.get("username"),
+            },
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result.status) {
+                    setProjects(result.data);
+                } else {
+                    console.log(result.message);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+                navigate("/error");
+            },
+        });
+
+        setLoading(false);
+    }, []);
+
+    const handleProjectClick = (id) => {
+        navigate("/project/" + id);
     };
 
-    return (
-        <div className="Pprofile-wrapper">
-            <div className="Pprofile-container">
+    return loading ? (
+        <Loading />
+    ) : (
+        <div className={styles.profileWrapper}>
+            <div className={styles.profileContainer}>
                 <div
-                    className="Pprofile-cover"
-                    style={{ backgroundImage: `url(${user.coverImage})` }}
+                    className={styles.profileCover}
+                    style={{ backgroundImage: `url(${user.coverImage_php})` }}
                 >
-                    <div className="Pprofile-image">
+                    <div className={styles.profileImage}>
                         <img
                             src={user.profileImage}
-                            alt={`${user.name} ${user.surname}`}
+                            alt={`${user.name_php} ${user.surname_php}`}
                         />
                     </div>
                 </div>
-                <div className="Pprofile-name">
+                <div className={styles.profileName}>
                     <h2>
-                        {user.name} {user.surname}
+                        {user.name_php} {user.surname_php}
                     </h2>
                 </div>
             </div>
-            <div className="infos-container">
-                <div className="infos-item">
-                    <strong>Location</strong> <p>{user.location}</p>
+            <div className={styles.infosContainer}>
+                <div className={styles.infosItem}>
+                    <p className={styles.infoHeader}>
+                        <strong>Username</strong>
+                    </p>
+                    <p className={styles.infoDesc}>{user.username_php}</p>
                 </div>
-                <div className="line"></div>
-                <div className="infos-item">
-                    <strong>Biography</strong> <p>{user.biography}</p>
+                <div className={styles.line}></div>
+                <div className={styles.infosItem}>
+                    <p className={styles.infoHeader}>
+                        <strong>Location</strong>
+                    </p>
+                    <p className={styles.infoDesc}>{user.location_php}</p>
+                </div>
+                <div className={styles.line}></div>
+                <div className={styles.infosItem}>
+                    <p className={styles.infoHeader}>
+                        <strong>Biography</strong>
+                    </p>
+                    <p className={styles.infoDesc}>{user.biography_php}</p>
+                </div>
+                <div className={styles.line}></div>
+                <div className={styles.infosItem}>
+                    <p className={styles.infoHeader}>
+                        <strong>Created Projects</strong>
+                    </p>
+                    <p className={styles.infoDesc}>{}</p>
+                    {projects.map((project) => {
+                        return (
+                            <a onClick={handleProjectClick(project.id)}>
+                                {project.title}
+                            </a>
+                        );
+                    })}
+                </div>
+                <div className={styles.line}></div>
+                <div className={styles.infosItem}>
+                    <p className={styles.infoHeader}>
+                        <strong>Funded Project Count</strong>
+                    </p>
+                    <p className={styles.infoDesc}>{user.totalFund_php}</p>
                 </div>
             </div>
         </div>

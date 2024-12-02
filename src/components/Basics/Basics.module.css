@@ -1,0 +1,190 @@
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.formWrapper {
+  display: flex;
+  gap: 20px;
+}
+
+.description {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.form {
+  flex: 2;
+  margin-top: 20px;
+}
+
+.formGroup, 
+.categorySection {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.categoryWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.categoryGroup {
+  flex: 1 1 calc(50% - 20px);
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.button {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 10px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.calendarButton {
+  background-color: var(--primary-color);
+  color: #fff;
+  font-size: 18px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  margin-top: 25px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover, .calendarButton:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.formGroup + .formGroup, 
+.categorySection + .formGroup {
+  margin-top: 20px;
+}
+
+.section {
+  margin: 30px 0;
+  padding: 20px 0;
+  border-top: 1px solid #ddd;
+}
+
+.imageUpload, .uploadWrapper {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.dateWrapper {
+  display: flex; 
+  align-items: center;
+  gap: 10px;
+}
+
+.dateInputGroup {
+  flex: 1;
+}
+
+.dateInputGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.durationWrapper {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.durationWrapper label {
+  font-weight: normal;
+}
+
+.fixedDuration,
+.specificDate {
+  margin-top: 10px;
+}
+
+.fixedDuration input,
+.specificDate input {
+  width: 100%;
+}
+
+.specificDate {
+  margin-top: 10px;
+}
+
+.dateWrapper {
+  position: relative;
+}
+
+.datePickerWrapper {
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  width: max-content;
+  z-index: 1000;
+}
+
+.previewImage {
+  max-width: 100%;
+  max-height: 480px;
+  object-fit: contain;
+  margin-top: 10px;
+}
+
+.previewVideo {
+  max-width: 100%;
+  max-height: 480px;
+  object-fit: contain;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .formWrapper {
+    flex-direction: column;
+  }
+
+  .categoryGroup {
+    flex: 1 1 100%;
+  }
+}

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import "../styles/Signup.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
+import styles from "../styles/Signup.module.css"; // Import CSS Module
 import { useNavigate, Link } from "react-router-dom";
 import $ from "jquery";
 
 function Signup() {
-    const [isConfirmedFirst, setIsConfirmedFirst] = useState(false); //State to handling the confirmed situation.
+    const [isConfirmedFirst, setIsConfirmedFirst] = useState(false);
     const [isConfirmedSecond, setIsConfirmedSecond] = useState(false);
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -56,17 +55,16 @@ function Signup() {
     };
 
     return (
-        <div className="Signup-container">
-            {/* redirecting to login page */}
-            <div className="redirecting-loginPage">
-                <span className="redirecting-text">Have an account?</span>
-                <Link to="/login" className="loginPage-link">
+        <div className={styles.signupContainer}>
+            <div className={styles.redirectingLoginPage}>
+                <span className={styles.redirectingText}>Have an account?</span>
+                <Link to="/login" className={styles.loginPageLink}>
                     Log in
                 </Link>
             </div>
-            <div className="divider"></div>
+            <div className={styles.divider}></div>
 
-            <h1 className="Signup-title">Sign up</h1>
+            <h1 className={styles.signupTitle}>Sign up</h1>
             <form onSubmit={handleCreateAccount}>
                 <input
                     type="text"
@@ -87,37 +85,36 @@ function Signup() {
                     onChange={handlePassword}
                 />
 
-                <div className="Signup-condition">
+                <div className={styles.signupCondition}>
                     <button
-                        className={`condition-button ${
-                            isConfirmedFirst ? "confirmed" : ""
+                        className={`${styles.conditionButton} ${
+                            isConfirmedFirst ? styles.confirmed : ""
                         }`}
                         onClick={handleButtonClickFirst}
                     >
-                        {isConfirmedFirst && <i className="fas fa-check"></i>}{" "}
+                        {isConfirmedFirst && <i className="fas fa-check"></i>}
                     </button>
-                    <span className="condition-text">
+                    <span className={styles.conditionText}>
                         Send me a weekly mix of handpicked projects, plus
                         occasional Fundchain news
                     </span>
                 </div>
 
-                <div className="Signup-condition">
+                <div className={styles.signupCondition}>
                     <button
-                        className={`condition-button ${
-                            isConfirmedSecond ? "confirmed" : ""
+                        className={`${styles.conditionButton} ${
+                            isConfirmedSecond ? styles.confirmed : ""
                         }`}
                         onClick={handleButtonClickSecond}
                     >
-                        {isConfirmedSecond && <i className="fas fa-check"></i>}{" "}
-                        {/* check sign*/}
+                        {isConfirmedSecond && <i className="fas fa-check"></i>}
                     </button>
-                    <span className="condition-text">
+                    <span className={styles.conditionText}>
                         Contact me about participating in Fundchain research
                     </span>
                 </div>
 
-                <button className="Signup-button">Create account</button>
+                <button className={styles.signupButton}>Create account</button>
             </form>
         </div>
     );

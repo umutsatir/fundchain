@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import styles from "./Navbar.module.css"; // Importing CSS Module
 
-import "./Navbar.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import { Cookies } from "react-cookie";
-
-function Navbar({ onLogout }) {
+function Navbar({ onLogout, loggedIn }) {
     const [searchText, setSearchText] = useState("");
     const [isHamburger, setIsHamburger] = useState(window.innerWidth <= 1200);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(loggedIn);
+    const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+    const navigate = useNavigate();
 
-    function getCookie(name) {
-        const cookies = new Cookies();
-        return cookies.get(name);
-    }
-
+    // Handle window resize for hamburger menu
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth <= 1200) {
                 setIsHamburger(true);
             } else {
                 setIsHamburger(false);
-                setIsMenuOpen(false);
+                setIsProfileMenuOpen(false);
             }
         };
         window.addEventListener("resize", handleResize);
@@ -31,120 +26,216 @@ function Navbar({ onLogout }) {
         };
     }, []);
 
+    // Sync state with the loggedIn prop
+    useEffect(() => {
+        setIsLoggedIn(loggedIn);
+    }, [loggedIn]);
+
+    const handleStartProject = () => {
+        if (isLoggedIn) {
+            navigate("/create");
+        } else {
+            navigate("/login");
+        }
+    };
+
+    const handleProfileClick = () => {
+        setIsProfileMenuOpen(!isProfileMenuOpen);
+    };
+
+    const handleNavigate = (path) => {
+        navigate(path);
+        setIsProfileMenuOpen(false);
+    };
+
     const deleteClick = () => {
         setSearchText("");
     };
 
     const handleMenuClick = () => {
-        setIsMenuOpen(!isMenuOpen);
+        setIsProfileMenuOpen(!isProfileMenuOpen);
     };
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
             event.preventDefault();
-            if (searchText.trim() === "") return;
-            window.location.href = "/search?q=" + searchText;
+            if (searchText.trim() !== "") {
+                navigate(`/search?q=${searchText}`);
+            }
         }
     };
 
     return (
         <div>
-            <nav className="navbar">
-                <Link to="/" className="fundchainText">
+            <nav className={styles.navbar}>
+                <Link to="/" className={styles.fundchainText}>
                     Fundchain
                 </Link>
-                {!isHamburger && (
+                {!isHamburger ? (
                     <>
-                        <div className="searchContainer">
+                        <div className={styles.searchContainer}>
                             <input
-                                className="searchInput"
+                                className={styles.searchInput}
                                 type="text"
                                 placeholder="Search..."
                                 value={searchText}
                                 onChange={(e) => setSearchText(e.target.value)}
                                 onKeyDown={handleKeyDown}
                             />
-                            <div className="deleteIcon">
-                                <a onClick={deleteClick} className="xmark">
+                            <div className={styles.deleteIcon}>
+                                <a
+                                    onClick={deleteClick}
+                                    className={styles.xmark}
+                                >
                                     <i className="fa-solid fa-xmark"></i>
                                 </a>
                             </div>
                         </div>
-                        <div className="navbarButtons">
-                            {getCookie("loggedIn") == true ? (
+                        <div className={styles.navbarButtons}>
+                            {isLoggedIn ? (
                                 <>
-                                    <Link
-                                        className="startProjectButton"
+                                    <button
+                                        className={styles.startProjectButton}
                                         onClick={onLogout}
                                     >
                                         Logout
-                                    </Link>
-                                    <Link
-                                        to="/create"
-                                        className="startProjectButton"
+                                    </button>
+                                    <button
+                                        className={styles.startProjectButton}
+                                        onClick={handleStartProject}
                                     >
                                         Start a Project
-                                    </Link>
-                                    <Link
-                                        to="/profile"
-                                        className="profileImage"
+                                    </button>
+                                    <div
+                                        className={styles.profileImage}
+                                        onClick={handleProfileClick}
                                     />
+                                    {isProfileMenuOpen && (
+                                        <>
+                                            <div
+                                                className={styles.dropdownCard}
+                                            >
+                                                <ul>
+                                                    <li
+                                                        onClick={() =>
+                                                            handleNavigate(
+                                                                "/profile"
+                                                            )
+                                                        }
+                                                    >
+                                                        Profile Page
+                                                    </li>
+                                                    <li
+                                                        onClick={() =>
+                                                            handleNavigate(
+                                                                "/settings"
+                                                            )
+                                                        }
+                                                    >
+                                                        Settings
+                                                    </li>
+                                                    <li
+                                                        onClick={() =>
+                                                            handleNavigate(
+                                                                "/saved-projects"
+                                                            )
+                                                        }
+                                                    >
+                                                        Saved Projects
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </>
+                                    )}
                                 </>
                             ) : (
                                 <>
-                                    <Link
-                                        to="/create"
-                                        className="startProjectButton"
+                                    <button
+                                        className={styles.startProjectButton}
+                                        onClick={handleStartProject}
                                     >
                                         Start a Project
-                                    </Link>
-                                    <Link to="/login" className="loginButton">
+                                    </button>
+                                    <Link
+                                        to="/login"
+                                        className={styles.loginButton}
+                                    >
                                         Login
                                     </Link>
                                 </>
                             )}
                         </div>
                     </>
-                )}
-                {isHamburger && (
-                    <div className="hamburger">
-                        <a onClick={handleMenuClick}>
-                            <i className="fa fa-bars"></i>
-                        </a>
-                    </div>
-                )}
-            </nav>
-            {isMenuOpen && (
-                <div className="menu">
-                    <div className="searchContainer">
-                        <input
-                            className="searchInput"
-                            type="text"
-                            placeholder="Search..."
-                            value={searchText}
-                            onChange={(e) => setSearchText(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                        />
-                        <div className="deleteIcon">
-                            <a onClick={deleteClick} className="xmark">
-                                <i className="fa-solid fa-xmark"></i>
+                ) : (
+                    <>
+                        <div className={styles.hamburger}>
+                            <a onClick={handleMenuClick}>
+                                <i className="fa fa-bars"></i>
                             </a>
                         </div>
-                    </div>
-                    <div className="navbarButtons">
-                        <Link to="/create" className="startProjectButton">
-                            Start a Project
-                        </Link>
-                        {getCookie("loggedIn") == true ? (
-                            <Link to="/profile" className="profileImage" />
-                        ) : (
-                            <Link to="/login" className="loginButton">
-                                Login
-                            </Link>
+                        {isProfileMenuOpen && (
+                            <div className={styles.dropdownCard}>
+                                {isLoggedIn ? (
+                                    <>
+                                        <ul>
+                                            <li
+                                                onClick={() =>
+                                                    handleNavigate("/profile")
+                                                }
+                                            >
+                                                Profile Page
+                                            </li>
+                                            <li
+                                                onClick={() =>
+                                                    handleNavigate("/settings")
+                                                }
+                                            >
+                                                Settings
+                                            </li>
+                                            <li
+                                                onClick={() =>
+                                                    handleNavigate(
+                                                        "/saved-projects"
+                                                    )
+                                                }
+                                            >
+                                                Saved Projects
+                                            </li>
+                                            <li
+                                                onClick={() =>
+                                                    handleNavigate("/create")
+                                                }
+                                            >
+                                                Create a Project
+                                            </li>
+                                            <li
+                                                onClick={() => {
+                                                    onLogout();
+                                                    setIsProfileMenuOpen(false);
+                                                }}
+                                            >
+                                                Logout
+                                            </li>
+                                        </ul>
+                                    </>
+                                ) : (
+                                    <>
+                                        <ul>
+                                            <li
+                                                onClick={() =>
+                                                    handleNavigate("/login")
+                                                }
+                                            >
+                                                Login
+                                            </li>
+                                        </ul>
+                                    </>
+                                )}
+                            </div>
                         )}
-                    </div>
-                </div>
-            )}
+                    </>
+                )}
+            </nav>
         </div>
     );
 }

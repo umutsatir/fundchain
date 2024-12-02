@@ -1,10 +1,10 @@
 import React from "react";
-import "./Intro.css";
+import styles from "./Intro.module.css"; // CSS Modules import
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Funding from "../Funding/Funding";
 
 const Intro = ({ project }) => {
-    function getDeadline(dbDate) {
+    const getDeadline = (dbDate) => {
         const currentDate = new Date(); // Current date
         const targetDate = new Date(dbDate); // Date from the database
 
@@ -14,20 +14,22 @@ const Intro = ({ project }) => {
         // Convert milliseconds to days
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
-        return diffInDays;
-    }
+        return diffInDays > 0
+            ? `${diffInDays} day(s) remaining`
+            : `${Math.abs(diffInDays)} day(s) ago`;
+    };
 
     return (
-        <div className="intro">
-            <div className="title">
+        <div className={styles.intro}>
+            <div className={styles.title}>
                 <h1>{project.title}</h1>
                 <p>{project.description}</p>
             </div>
 
-            <div className="video-funding-container">
+            <div className={styles.videoFundingContainer}>
                 {/* Video section */}
-                <div className="video">
-                    <video controls className="project-video">
+                <div className={styles.video}>
+                    <video controls className={styles.projectVideo}>
                         <source src="path_to_your_video.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
@@ -35,20 +37,16 @@ const Intro = ({ project }) => {
                 <Funding id={project.id} />
             </div>
 
-            <div className="info-container">
-                <div className="info-item">
+            <div className={styles.infoContainer}>
+                <div className={styles.infoItem}>
                     <i className="fas fa-clock"></i>
-                    <span>
-                        Created {getDeadline(project.launchDate)} day(s) ago
-                    </span>
+                    <span>{getDeadline(project.launchDate)}</span>
                 </div>
-                <div className="divider"></div> {/* Dikey çizgi */}
-                <div className="info-item">
+                <div className={styles.infoItem}>
                     <i className="fas fa-user"></i>
                     <span>{project.category}</span>
                 </div>
-                <div className="divider"></div> {/* Dikey çizgi */}
-                <div className="info-item">
+                <div className={styles.infoItem}>
                     <i className="fas fa-map-marker-alt"></i>
                     <span>{project.location}</span>
                 </div>

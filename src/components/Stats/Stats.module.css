@@ -40,3 +40,13 @@
         padding: 30px 50px;
     }
 }
+
+@media (max-width: 576px) {
+    .stats {
+        flex-direction: column;
+    }
+
+    .stat {
+        padding: 30px 20px;
+    }
+}
