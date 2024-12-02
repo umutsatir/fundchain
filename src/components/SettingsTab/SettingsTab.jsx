@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import styles from "./SettingsTab.module.css";
+import $ from "jquery";
+import { useNavigate } from "react-router-dom";
 
 const SettingsTab = () => {
     const [activeTab, setActiveTab] = useState("account");
     const [activePasswordChange, setActivePasswordChange] = useState(false);
+    const navigate = useNavigate();
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -13,6 +16,35 @@ const SettingsTab = () => {
     const handlePasswordChange = () => {
         setActivePasswordChange(!activePasswordChange);
     };
+
+    function handleEditProfileSubmit(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        $.ajax({
+            url: "http://localhost:8000/editProfile.php",
+            type: "POST",
+            data: { data: JSON.stringify(data) },
+            success: function (result) {
+                console.log(result);
+                result = JSON.parse(result);
+                if (result.status) {
+                    // todo send popup message to user
+                    console.log("Profile updated");
+                } else {
+                    console.log(result.message);
+                }
+            },
+            error: function (error) {
+                console.log("error: ", error);
+                navigate("/error");
+            },
+        });
+    }
 
     return (
         <div className={styles.settingsContainer}>
@@ -73,7 +105,9 @@ const SettingsTab = () => {
                         activePasswordChange={activePasswordChange}
                     />
                 )}
-                {activeTab === "editProfile" && <EditProfile />}
+                {activeTab === "editProfile" && (
+                    <EditProfile handleSubmit={handleEditProfileSubmit} />
+                )}
                 {activeTab === "notifications" && <Notifications />}
                 {activeTab === "paymentMethods" && <PaymentMethods />}
                 {activeTab === "shippingAddress" && <ShippingAddress />}
@@ -127,25 +161,33 @@ const Account = ({ handlePasswordChange, activePasswordChange }) => (
     </div>
 );
 
-const EditProfile = () => (
+const EditProfile = ({ handleSubmit }) => (
     <div className={styles.editProfileTab}>
-        <form>
+        <form onSubmit={handleSubmit}>
             <div>
                 <div>
                     <h3>Name</h3>
-                    <input className={styles.nameBox} type="text" />
+                    <input className={styles.nameBox} name="name" type="text" />
                 </div>
                 <div>
                     <h3>Avatar</h3>
-                    <input className={styles.avatarBox} type="file" />
+                    <input
+                        className={styles.avatarBox}
+                        name="avatar"
+                        type="file"
+                    />
                 </div>
                 <div>
                     <h3>Location</h3>
-                    <input className={styles.locationBox} type="text" />
+                    <input
+                        className={styles.locationBox}
+                        name="location"
+                        type="text"
+                    />
                 </div>
                 <div>
                     <h3>Time Zone</h3>
-                    <select className={styles.timezoneBox}>
+                    <select className={styles.timezoneBox} name="timezone">
                         <option value="gmt">GMT</option>
                         <option value="gmt1">GMT+1</option>
                         <option value="gmt2">GMT+2</option>
@@ -158,7 +200,7 @@ const EditProfile = () => (
 
             <div>
                 <h3>Biography</h3>
-                <textarea className={styles.biographyBox} />
+                <textarea className={styles.biographyBox} name="biography" />
             </div>
         </form>
     </div>
