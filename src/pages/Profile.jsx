@@ -2,7 +2,6 @@ import React from "react";
 import "../styles/Profile.css";
 
 function Profile() {
-    
     const user = {
         name: "Umut",
         surname: "Satır",
