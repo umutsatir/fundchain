@@ -65,11 +65,14 @@ const App = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/project/:id" element={<Project />} />
                     <Route path="/search" element={<Search />} />
+
+                    {/* ROUTE DÜZELT */}
                     <Route path="/error" element={<Error />} />
+                    <Route path="/create" element={<Create />} />
                     {loggedIn ? (
                         <>
                             <Route path="/profile" element={<Profile />} />
-                            <Route path="/create" element={<Create />} />
+                            {/* <Route path="/create" element={<Create />} /> */}
                             <Route path="/settings" element={<Settings />} />
                         </>
                     ) : (
