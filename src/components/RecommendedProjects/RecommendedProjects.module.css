@@ -16,3 +16,9 @@
     gap: 20px;
     flex-wrap: wrap;
 }
+
+@media screen and (max-width: 576px) {
+    .projects {
+        padding: 2rem;
+    }
+}
