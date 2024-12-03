@@ -4,17 +4,31 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 require_once '../vendor/autoload.php';
 include './pdo.php';
 $pdo = (new PDOClass())->connect();
-use Firebase\JWT\JWT;
 
 $gump = new GUMP();
 $_POST = $gump->sanitize($_POST);
 
 ////////////////////REAL//////////////////////
-$u_id = $_POST['user_id'];//GET USER ID OF CURRENTLY LOGGED IN
-$u_psswrd_old = $_POST['oldPassword'];
-$u_psswrd_new = $_POST['newPassword'];
-//$hashed_password_old = password_hash($u_psswrd_old, PASSWORD_DEFAULT);//UNUSED
-$hashed_password_new = password_hash($u_psswrd_new, PASSWORD_DEFAULT);
+$username = $_POST['username'];
+$stmt= $pdo->prepare("SELECT * FROM users WHERE username = :username");
+$stmt->execute(params:['username'=>$username]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$u_id = $user['userId'];
+
+$data = json_decode($_POST['data'], true);
+$u_psswrd_old = $data['oldPassword'];
+$u_psswrd_new = $data['newPassword'];
+$u_psswrd_new2 = $data['confirmNewPassword'];
+$email = $data['email'];
+
+if ($u_psswrd_new != $u_psswrd_new2){
+	echo json_encode(['status' => false, 'message' => "New passwords do not match!"]);
+	return;
+}
+if ($email != $user['email']){
+	echo json_encode(['status' => false, 'message' => "Email does not match!"]);
+	return;
+}
 ////////////////////REAL//////////////////////
 
 ////////////////// TEST //////////////////////
@@ -36,8 +50,8 @@ if($userDB){
 
 	if (password_verify($u_psswrd_old, $userDB['password'])){
 		$stmt= $pdo->prepare("UPDATE users SET password = :newPassword WHERE userId= :id");
+		$hashed_password_new = password_hash($u_psswrd_new, PASSWORD_DEFAULT);
 		$stmt->execute(params:['newPassword'=>$hashed_password_new, 'id'=>$u_id]);
-
 		echo json_encode(['status' => True, 'message' => "User with id:$u_id succesfully changed the password!"]);
 	}
 	else{

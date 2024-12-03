@@ -8,6 +8,7 @@
     height: 200px;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     position: relative;
 }
 
@@ -102,12 +103,20 @@
 }
 
 @media screen and (max-width: 576px) {
+    .profileWrapper {
+        height: 160vh;
+    }
+
     .infosContainer {
         width: calc(100% - 40px);
     }
 
     .infosItem {
         flex-direction: column;
+    }
+
+    .infosItem a {
+        margin-left: 0;
     }
 
     .infoHeader {
