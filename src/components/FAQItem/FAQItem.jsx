@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./FAQItem.css";
+import styles from "./FAQItem.module.css";
 
 const FAQItem = () => {
   const [questionText, setQuestionText] = useState("");
@@ -14,7 +14,7 @@ const FAQItem = () => {
   };
 
   return (
-    <div className="faq-container">
+    <div className={styles["faq-container"]}>
       <h5>Question</h5>
       <input
       type="text"
@@ -28,7 +28,7 @@ const FAQItem = () => {
         onChange={handleAnswerChange}
       />
 
-      <button className="delete-button">Delete</button>
+      <button className={styles["delete-button"]}>Delete</button>
     </div>
   );
 };

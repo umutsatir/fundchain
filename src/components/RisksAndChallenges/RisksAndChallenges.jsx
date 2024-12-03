@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "./RisksAndChallenges.css";
+import styles from "./RisksAndChallenges.module.css";
 
 const RisksAndChallenges = () => {
-  const defaultText = "Please add your text here..."; 
+  const defaultText = "Please add your text here...";
 
   const [riskText, setRiskText] = useState(defaultText);
 
@@ -18,27 +18,29 @@ const RisksAndChallenges = () => {
 
   const handleBlur = () => {
     if (riskText === "") {
-      setRiskText(defaultText); 
+      setRiskText(defaultText);
     }
   };
 
   return (
-    <div className="risk-challenge">
-      <div className="risk-title">
-        <h1>Risks and challenges</h1>
-        <p>
-          Be honest about the potential risks and challenges of this project and
-          how you plan to overcome them to complete it.
-        </p>
-      </div>
+    <div className={styles["risk-challenge-container"]}>
+      <div className={styles["risk-challenge-wrapper"]}>
+        <div className={styles["risk-title"]}>
+          <h2>Risks and Challenges</h2>
+          <p>
+            Be honest about the potential risks and challenges of this project
+            and how you plan to overcome them to complete it.
+          </p>
+        </div>
 
-      <div className="risk-content">
-        <textarea
-          value={riskText} 
-          onChange={handleTextChange} 
-          onFocus={handleFocus}
-          onBlur={handleBlur} 
-        />
+        <div className={styles["risk-content"]}>
+          <textarea
+            value={riskText}
+            onChange={handleTextChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+          />
+        </div>
       </div>
     </div>
   );

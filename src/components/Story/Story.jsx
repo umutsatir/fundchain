@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import "./Story.css";
+import React from "react";
+import styles from "./Story.module.css";
+import StoryItem from "../StoryItem/StoryItem"; 
 
-function Story() {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-
+const Story = () => {
   return (
-    <div className="story-component">
-      <h5>Title</h5>
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <h5>Body</h5>
-      <textarea
-        value={body}
-        onChange={(e) => setBody(e.target.value)}
-      />
+    <div className={styles["story-container"]}>
+      <div className={styles["story-wrapper"]}>
+        <div className={styles["story-title"]}>
+          <h2>Project Story</h2>
+          <p>Describe what you're raising funds to do, why you care about it, how you plan to make it happen, and who you are.</p>
+        </div>
+
+        <div className={styles["story-content"]}>
+        <div className={styles["story-item"]}>
+          <StoryItem/>
+        </div>
+        /* button */
+        </div>
+      </div>
     </div>
   );
-}
+};
 
 export default Story;

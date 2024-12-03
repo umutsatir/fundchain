@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import "./Plan.css";
+import styles from "./PlanItem.module.css";
 
 const Plan = () => {
+  // Milestone'ları state olarak saklayalım
   const [milestones, setMilestones] = useState([
     { id: 1, name: "Idea", completed: false },
     { id: 2, name: "Proof of Concept", completed: false },
@@ -27,10 +28,10 @@ const Plan = () => {
   };
 
   return (
-    <div className="plan-container">
-      <div className="milestones">
+    <div className={styles["plan-container"]}>
+      <div className={styles["milestones"]}>
         {milestones.map((milestone) => (
-          <div key={milestone.id} className="milestone">
+          <div key={milestone.id} className={styles["milestone"]}>
             <input type="checkbox"checked={milestone.completed} onChange={() => handleCheckboxChange(milestone.id)}
             />
             {milestone.name}
@@ -38,7 +39,7 @@ const Plan = () => {
         ))}
       </div>
 
-      <div className="description-block">
+      <div className={styles["description-block"]}>
         <textarea
           value={description}
           onChange={handleDescriptionChange}

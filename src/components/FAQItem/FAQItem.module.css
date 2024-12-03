@@ -14,10 +14,10 @@
 
 .faq-container h5 {
 width:100%;
-  text-align: left;
+  text-align: left; 
 }
 
- input {
+.faq-container input {
   width: 100%;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -25,7 +25,7 @@ width:100%;
   margin-bottom: 10px;
 }
 
- textarea {
+.faq-container textarea {
   border: 1px solid #ddd;
   border-radius: 5px;
   min-height: 100px;
@@ -39,7 +39,7 @@ width:100%;
   border: none;
   border-radius: 5px;
   transition: background-color 0.3s ease;
-  margin-left: auto;
+  margin-left: auto; 
 }
 
 .delete-button:hover {

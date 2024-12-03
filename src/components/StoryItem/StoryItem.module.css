@@ -16,20 +16,21 @@
     padding:20px;
   }
   
-input {
+.story-component input {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
   }
   
-textarea {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    min-height: 100px;
-    padding: 0; /* tasmayi engellemek icin */
-    margin: 0; /* tasmayi engellemek icin */
-    padding:10px; /* cursor icin */
-    resize: none;
+  .story-component textarea {
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  min-height: 100px;
+  padding: 0; /* tasmayi engellemek icin */
+  margin: 0; /* tasmayi engellemek icin */
+  padding:10px; /* cursor icin */
+  resize: none;
   }
   
