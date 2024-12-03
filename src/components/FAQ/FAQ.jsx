@@ -10,7 +10,6 @@ const FAQ = () => {
           <h2>Frequently Asked Questions</h2>
           <p>Post answers to frequently asked questions</p>
         </div>
-
         <div className={styles["faq-content"]}>
           <FAQItem />
         </div>
