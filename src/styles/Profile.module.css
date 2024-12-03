@@ -1,5 +1,6 @@
 .profileWrapper {
     font-family: Arial, sans-serif;
+    height: 120vh;
 }
 
 .profileCover {
@@ -60,6 +61,19 @@
 .infosItem {
     display: flex;
     flex-direction: row;
+}
+
+.infosItem a {
+    text-decoration: none;
+    color: #333;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left: 3rem;
+}
+
+.infosItem a:hover {
+    color: #007bff;
+    cursor: pointer;
 }
 
 .infoDesc {

@@ -55,7 +55,7 @@ function Profile() {
         });
 
         setLoading(false);
-    }, []);
+    }, [loading]);
 
     const handleProjectClick = (id) => {
         navigate("/project/" + id);
@@ -109,10 +109,9 @@ function Profile() {
                     <p className={styles.infoHeader}>
                         <strong>Created Projects</strong>
                     </p>
-                    <p className={styles.infoDesc}>{}</p>
                     {projects.map((project) => {
                         return (
-                            <a onClick={handleProjectClick(project.id)}>
+                            <a onClick={() => handleProjectClick(project.id)}>
                                 {project.title}
                             </a>
                         );
