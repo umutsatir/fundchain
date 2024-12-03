@@ -1,43 +1,16 @@
 // Campaign.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Campaign.module.css";
 
-function Campaign() {
+function Campaign({ story: initialStory }) {
+    const [story, setStory] = useState(initialStory || []);
     const [activeTab, setActiveTab] = useState("");
 
-    // Başlık ve içerik verileri
-    const tabContent = [
-        {
-            title: "Introduction",
-            content:
-                "This is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.",
-        },
-        {
-            title: "Additional Topic",
-            content:
-                "This is the description content for the Additional Topic tab. Here you can discuss more details.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.",
-        },
-        {
-            title: "Additional Topic2",
-            content:
-                "This is the description content for the Additional Topic tab. Here you can discuss more details.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.",
-        },
-        {
-            title: "Additional Topic3",
-            content:
-                "This is the description content for the Additional Topic tab. Here you can discuss more details.",
-        },
-        {
-            title: "Additional Topic4",
-            content:
-                "This is the description content for the Additional Topic tab. Here you can discuss more details.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.",
-        },
-        {
-            title: "Additional Topic5",
-            content:
-                "This is the description content for the Additional Topic tab. Here you can discuss more details.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.his is the description content for the Introduction tab. It provides an overview of the campaign.",
-        },
-    ];
+    useEffect(() => {
+        if (initialStory) {
+            setStory(initialStory);
+        }
+    }, [initialStory]);
 
     // Scroll fonksiyonu
     const handleTabClick = (tab) => {
@@ -51,16 +24,16 @@ function Campaign() {
     return (
         <div className={styles.campaignBar}>
             <div className={styles.campaignTabs}>
-                {tabContent.map((tab, index) => (
+                {story.map((tab, index) => (
                     <div
                         key={index}
                         className={`${styles.campaignTab} ${
-                            activeTab === tab.title ? styles.active : ""
+                            activeTab === tab.heading ? styles.active : ""
                         }`}
-                        onClick={() => handleTabClick(tab.title)}
+                        onClick={() => handleTabClick(tab.heading)}
                     >
-                        {tab.title}
-                        {activeTab === tab.title && (
+                        {tab.heading}
+                        {activeTab === tab.heading && (
                             <div className={styles.topIndicator}></div>
                         )}
                     </div>
@@ -69,14 +42,16 @@ function Campaign() {
 
             <div className={styles.descriptionContainer}>
                 <h2>Story</h2>
-                {tabContent.map((tab, index) => (
+                {story.map((tab, index) => (
                     <div
                         key={index}
-                        id={tab.title}
+                        id={tab.heading}
                         className={styles.contentSection}
                     >
-                        <h3>{tab.title}</h3>
-                        <p>{tab.content}</p>
+                        <h3>{tab.heading}</h3>
+                        {tab.paragraphs.map((paragraph, index) => (
+                            <p key={index}>{paragraph}</p>
+                        ))}
                     </div>
                 ))}
             </div>
