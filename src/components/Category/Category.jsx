@@ -42,9 +42,6 @@ function Category() {
                     Your second subcategory will help us provide more relevant guidance for your project.
                     It won't display on your project page or affect how it appears in search results.
                 </p>
-                <p className={styles.categoryText}>
-                    You can change these anytime before and during your campaign.
-                </p>
             </div>
 
             <div className={styles.categorySelection}>
@@ -75,7 +72,6 @@ function Category() {
                         ))}
                     </select>
                 </div>
-
 
                 <div className={styles.categoryFormGroup}>
                     <label for="Category">Category</label><br />
