@@ -68,3 +68,81 @@
     background-color: rgba(0, 0, 0, 0.208);
     margin: 10px;
 }
+
+@media screen and (max-width: 992px) {
+    .messageContainer {
+        width: 750px;
+    }
+
+    .error404 {
+        margin: 20px 0;
+        font-size: 8.3em;
+    }
+
+    .errorMessage {
+        margin: 30px;
+        font-size: 3.6em;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .messageContainer {
+        width: 530px;
+    }
+
+    .error404 {
+        margin: 10px 0;
+        font-size: 6.5em;
+    }
+
+    .errorMessage {
+        margin: 15px;
+        margin-top: 20px;
+        font-size: 2.8em;
+    }
+
+    .errorSubMessage {
+        font-size: 1em;
+        margin-bottom: 4px;
+    }
+
+    .errorRedirecting {
+        font-size: 1em;
+    }
+
+    .errorContainer .divider {
+        margin: 7px;
+    }
+}
+
+
+@media screen and (max-width: 576px) {
+    .messageContainer {
+        width: 340px;
+    }
+
+    .error404 {
+        margin: 5px 0;
+        font-size: 4.5em;
+    }
+
+    .errorMessage {
+        margin: 5px;
+        margin-left: 10px;
+        margin-top: 15px;
+        font-size: 1.7em;
+    }
+
+    .errorSubMessage {
+        font-size: 0.7em;
+        margin-bottom: 1px;
+    }
+
+    .errorRedirecting {
+        font-size: 0.7em;
+    }
+
+    .errorContainer .divider {
+        margin: 1px;
+    }
+}
