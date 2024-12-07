@@ -1,0 +1,47 @@
+
+.plan-container {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius:5px;
+    padding:20px;
+    flex-direction: column; 
+    align-items: flex-start; 
+  }
+  
+  .milestones {
+    display: flex; 
+    width: 100%;
+    margin-top: 20x;
+    margin-bottom: 20px;
+    justify-content: space-between; 
+  }
+  
+  .milestone {
+    display: flex;
+    align-items: center;
+  }
+  
+  .milestone input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: #64558F; 
+  }
+
+  .description-block {
+    display: flex;
+    width: 100%;
+  }
+  
+  .description-block textarea {
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100px;
+    display: flex;
+    width: 100%;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: none;
+  }
+  
