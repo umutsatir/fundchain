@@ -55,7 +55,7 @@ const App = () => {
 
     // Check if the current path is for login or signup
     const isAuthPage =
-        location.pathname === "/login" || location.pathname === "/signup";
+        location.pathname === "/login" || location.pathname === "/signup" || location.pathname === "/error";
 
     return (
         <div>
