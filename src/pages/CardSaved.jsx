@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "../styles/Search.module.css";
 import { Cookies } from "react-cookie";
 import Loading from "../components/Loading/Loading";
-import Cards from "../components/Cards/Cards";,
+import Cards from "../components/Cards/Cards";
 import $ from "jquery";
 
 function CardSaved() {
@@ -22,6 +22,14 @@ function CardSaved() {
             setProjects(projects.filter((project) => project.id != projectId));
         }
     };
+
+    function getDeadline(dbDate) {
+        const currentDate = new Date();
+        const targetDate = new Date(dbDate);
+        const diffInMs = targetDate - currentDate;
+        const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+        return diffInDays;
+    }
 
     useEffect( () => {
         $.ajax({
@@ -59,7 +67,7 @@ function CardSaved() {
                                 subimg={project.subimg}
                                 title={project.title}
                                 owner={project.owner}
-                                deadline={project.deadline}
+                                deadline={getDeadline(project.deadline)}
                                 key={project.id}
                                 onSaveToggle={handleSaveToggle}
                                 isSaved={savedProjects[project.id] || false}
