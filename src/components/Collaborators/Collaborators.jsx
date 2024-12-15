@@ -117,7 +117,6 @@ function Category() {
 
     return(
         <div className={styles.collaboratorContainer}>
-
             <div className={styles.collaboratorKnowledge}>
                 <h1 className={styles.collaboratorTitle}>Collaborators (optional)</h1>
                 <p className={styles.collaboratorText}>

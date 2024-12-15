@@ -7,6 +7,9 @@
     justify-content: left;
     align-items: flex-start;
 
+    margin: 40px 0;
+    margin-left: -20px;
+
     width: 100vw;
 }
 
@@ -27,7 +30,7 @@
     font-size: 1.4em;
     font-family: inherit;
 
-    margin-bottom: 0;
+    margin-bottom: 16px;
 }
 
 .collaboratorKnowledge .collaboratorText {
@@ -58,8 +61,8 @@
 }
 
 .collaboratorButton {
-    border: 1px solid blueviolet;
-    background-color: blueviolet;
+    border: 1px solid var(--primary-color);
+    background-color: var(--primary-color);
 
     border-radius: 5px;
 
@@ -72,6 +75,7 @@
 }
 
 .collaboratorButton:hover {
+    background-color: var(--primary-color-hover);
     cursor: pointer;
 }
 
@@ -123,7 +127,7 @@
 }
 
 .popupContent input {
-    border: 1px solid rgba(137, 43, 226, 0.648);
+    border: 1px solid var(--primary-color);
     border-radius: 5px;
     font-size: 1em;
     font-family: inherit;
@@ -154,16 +158,16 @@
 }
 
 .popupActions button:hover {
-    opacity: 0.8;
+    background-color: var(--primary-color-hover);
 }
 
 .popupActions .popupAddButton {
     color: white;
-    background-color: blueviolet;
+    background-color: var(--primary-color);
 }
 
 .popupActions .popupCancelButton {
-    border: 1px solid rgba(137, 43, 226, 0.497);
+    border: 1px solid var(--primary-color);
     color: black;
     background-color: white;
 }
@@ -206,7 +210,7 @@
 }
 
 .permissionButton.confirmed {
-    background-color: blueviolet;
+    background-color: var(--primary-color-hover);
     color: white;
 }
 
@@ -254,7 +258,7 @@
 }
 
 .collaboratorTitleSection .editButton {
-    border: 1px solid rgba(137, 43, 226, 0.483);
+    border: 1px solid var(--primary-color);
     border-radius: 5px;
     background-color: white;
     color: blueviolet;

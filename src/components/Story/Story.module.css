@@ -1,10 +1,7 @@
 .story-container {
-    max-width: 800px;
-    margin: 20px auto;
+    margin: 40px auto;
     background: #fff;
-    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
   .story-wrapper {
@@ -20,7 +17,7 @@
   }
   
   .story-title h2 {
-margin-bottom:10px;
+  margin-bottom:10px;
 }
 
   .story-content {

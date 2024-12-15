@@ -1,13 +1,11 @@
 import React from 'react';
 import styles from '../styles/Create.module.css';
-import Basics from '../components/Basics/basics';
-import FundingGoal from '../components/FundingGoal/FundingGoal';
+import CreateTab from '../components/CreateTab/CreateTab';
 
 const Create = () => {
     return (
-        <div>
-            <FundingGoal category={"art"}/>
-            <Basics />
+        <div className={styles.tabContainer}>
+            <CreateTab />
         </div>
     );
 };
