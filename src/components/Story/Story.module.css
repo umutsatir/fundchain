@@ -2,31 +2,31 @@
     margin: 40px auto;
     background: #fff;
     border-radius: 10px;
-  }
-  
-  .story-wrapper {
+}
+
+.story-wrapper {
     display: flex;
     gap: 20px;
     margin-bottom: 10px;
-  }
-  
-  .story-title {
-    flex:1;
-    margin-right: 20px;
-    text-align: left;
-  }
-  
-  .story-title h2 {
-  margin-bottom:10px;
 }
 
-  .story-content {
-    flex:2;
+.story-title {
+    flex: 1;
+    margin-right: 20px;
+    text-align: left;
+}
+
+.story-title h2 {
+    margin-bottom: 10px;
+}
+
+.story-content {
+    flex: 2;
     margin-top: 20px;
-    padding:20px;
-  }
-  
-  /*
+    padding: 20px;
+}
+
+/*
   .add-button {
     background-color: #5e3c8f;
     align-items: center;
@@ -40,3 +40,13 @@
     background-color: #5e3c8f;
   }
   */
+
+@media screen and (max-width: 768px) {
+    .story-wrapper {
+        flex-direction: column;
+    }
+
+    .story-content {
+        padding: 5px;
+    }
+}

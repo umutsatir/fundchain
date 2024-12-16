@@ -114,16 +114,6 @@
     position: relative;
 }
 
-.container > .content::before,
-.container > .content::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background-color: #ccc;
-}
-
 .container > .content::before {
     top: 0;
 }
@@ -132,12 +122,19 @@
     bottom: 0;
 }
 
-
 @media (max-width: 768px) {
     .tabs {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         gap: 10px;
+    }
+
+    .tabGroup {
+        flex-direction: column;
+    }
+
+    .tabs button {
+        padding: 5px 10px;
     }
 
     .saveButton,

@@ -4,23 +4,17 @@
     display: flex;
     flex-direction: row;
 
-    justify-content: left;
+    justify-content: space-between;
     align-items: flex-start;
 
     margin: 40px 0;
-    margin-left: -20px;
-
-    width: 100vw;
 }
 
 .collaboratorKnowledge {
-    width: 260px;
-    height: auto;
-
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: flex-start;
+    max-width: 450px;
 
     margin: 20px;
     margin-top: 0;
@@ -38,10 +32,9 @@
     font-family: sans-serif;
 }
 
-
 .collaboratorDisplay {
     border: none;
-    background-color:  white;
+    background-color: white;
     border-radius: 10px;
 
     display: flex;
@@ -67,18 +60,16 @@
     border-radius: 5px;
 
     color: white;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 1em;
 
     width: 200px;
-    height: 60px;
+    height: 50px;
 }
 
 .collaboratorButton:hover {
     background-color: var(--primary-color-hover);
     cursor: pointer;
 }
-
 
 .popup {
     position: fixed;
@@ -105,7 +96,7 @@
     border-radius: 10px;
     padding: 20px;
 
-    width: 650px;
+    width: 50%;
 
     box-shadow: 0 8px 8px rgba(0, 0, 0, 0.533);
 }
@@ -132,10 +123,16 @@
     font-size: 1em;
     font-family: inherit;
 
-    width: 600px;
-    height: 60px;
+    width: 100%;
+    height: 50px;
     padding: 5px 10px;
-    margin-top: 15px;
+}
+
+.popupContent form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .popupActions {
@@ -172,8 +169,12 @@
     background-color: white;
 }
 
+.popupCancelButton:hover {
+    color: white;
+}
+
 .popupContent .divider {
-    width: 600px;
+    width: 100%;
     height: 1px;
     background-color: rgba(0, 0, 0, 0.208);
     margin-top: 25px;
@@ -190,7 +191,6 @@
 .popupKnowledge {
     font-size: 1em;
     font-family: inherit;
-    
 }
 
 .permissions {
@@ -219,12 +219,11 @@
     font-size: 1.2em;
 }
 
-
 .collaboratorPeopleContainer {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start ;
+    align-items: flex-start;
 
     width: 100%;
 }
@@ -272,4 +271,18 @@
 .collaboratorPermissions {
     font-size: 1.1em;
     font-family: inherit;
+}
+
+@media screen and (max-width: 768px) {
+    .collaboratorContainer {
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        width: 100%;
+    }
+
+    .collaboratorDisplay {
+        width: 300px;
+        width: 100%;
+    }
 }

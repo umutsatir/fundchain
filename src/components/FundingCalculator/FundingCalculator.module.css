@@ -40,25 +40,26 @@
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 5px;
-  }
+}
 
-  .currencyInput {
+.currencyInput {
     width: 70%;
     padding: 8px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
+}
 
-  .currencySelector {
+.currencySelector {
     width: 25%;
     padding: 8px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
+}
 
-.feesContainer, .taxRateContainer {
+.feesContainer,
+.taxRateContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -66,41 +67,46 @@
 }
 
 .feeTitle {
-  flex: 1;
+    flex: 1;
 }
 
 .feeAmount {
-  flex: 2;
-  text-align: right;
+    flex: 2;
+    text-align: right;
 }
 
 .button {
-  width: 100%;
-  background-color: var(--primary-color);
-  color: #fff;
-  padding: 10px;
-  font-size: 18px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    width: 100%;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .button:not(:disabled):hover {
-  background-color: var(--primary-color-hover);
+    background-color: var(--primary-color-hover);
 }
 
 .button:disabled {
-  background-color: #ccc;
-  color: #666;
-  cursor: not-allowed;
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
 }
 
 .taxRateInput {
-  width: 100%;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
+@media screen and (max-width: 768px) {
+    .modalContent {
+        width: 90%;
+    }
+}
