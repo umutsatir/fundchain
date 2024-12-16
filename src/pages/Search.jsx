@@ -25,6 +25,14 @@ function Search() {
         }));
     };
 
+    function getDeadline(dbDate) {
+        const currentDate = new Date();
+        const targetDate = new Date(dbDate);
+        const diffInMs = targetDate - currentDate;
+        const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+        return diffInDays;
+    }
+
     function getResults(searchText) {
         $.ajax({
             url: "http://localhost:8000/search.php",
@@ -57,7 +65,7 @@ function Search() {
                                 subimg={project.subimg}
                                 title={project.title}
                                 owner={project.owner}
-                                deadline={project.deadline}
+                                deadline={getDeadline(project.deadline)}
                                 key={project.id}
                                 onSaveToggle={handleSaveToggle}
                                 isSaved={savedProjects[project.id] || false}
