@@ -28,7 +28,7 @@ const CustomDatePicker = ({ selected, onChange, buttonRef, open }) => {
         style={{
           position: 'absolute',
           top: buttonPosition.top + 'px',
-          left: buttonPosition.left + 'px',
+          left: buttonPosition.left - 220 + 'px',
           zIndex: 1000,
         }}
       >

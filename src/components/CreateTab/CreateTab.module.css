@@ -1,0 +1,163 @@
+:root {
+    --inputPadding: 8px;
+    --inputFontSize: 14px;
+    --inputBorder: 1px solid #ccc;
+    --buttonWidth: 20%;
+    --buttonPadding: 10px 20px;
+    --buttonFontSize: 16px;
+    --buttonBorderRadius: 4px;
+}
+
+.container {
+    width: 80%;
+    padding: 20px;
+    padding-bottom: 40px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    text-align: left;
+    color: #333;
+}
+
+.tabs {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.tabGroup {
+    display: flex;
+    gap: 15px;
+}
+
+.tabs button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease-in-out;
+}
+
+.tabs .saveButton {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: var(--buttonPadding);
+    border: none;
+    border-radius: var(--buttonBorderRadius);
+    font-size: var(--buttonFontSize);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tabs .saveButton:hover {
+    background-color: darken(var(--primary-color), 10%);
+}
+
+.tabs button:hover {
+    color: var(--primary-color);
+}
+
+.tabs button.active {
+    color: var(--primary-color);
+}
+
+.tabs button.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    width: 100%;
+    transform: scaleX(1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.tabs button.activeTab::after {
+    transform: scaleX(1);
+    color: var(--primary-color);
+}
+
+.tabs button.activeTab {
+    color: var(--primary-color);
+}
+
+.tabs button::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+.tabs button:hover::after {
+    transform: scaleX(1);
+}
+
+.container > .content {
+    margin-top: -5px;
+    padding: 20px;
+    min-height: 200px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.container > .content::before,
+.container > .content::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.container > .content::before {
+    top: 0;
+}
+
+.container > .content::after {
+    bottom: 0;
+}
+
+
+@media (max-width: 768px) {
+    .tabs {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .saveButton,
+    .walletButton {
+        width: 100%;
+    }
+
+    .accountTab .changePasswordButton {
+        width: 100%;
+    }
+
+    .accountTab form div input {
+        width: 100%;
+    }
+
+    .editProfileTab .saveButton {
+        width: 100%;
+    }
+
+    .editProfileTab > form {
+        grid-template-columns: 100%;
+    }
+}

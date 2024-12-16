@@ -33,7 +33,6 @@ const SettingsTab = () => {
                 console.log(result);
                 result = JSON.parse(result);
                 if (result.status) {
-                    // todo send popup message to user
                     console.log("Profile updated");
                 } else {
                     console.log(result.message);

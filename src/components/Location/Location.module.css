@@ -1,0 +1,17 @@
+.input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.section {
+    margin: 30px 0;
+    padding: 20px 0;
+    border-top: 1px solid #ddd;
+}
+
+.section h2 {
+    margin-bottom: 10px;
+}
