@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WagmiProvider } from "wagmi";
+import { useDisconnect, WagmiProvider } from "wagmi";
 import { config } from "./config";
 import { lightTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
@@ -33,6 +33,7 @@ const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const cookies = new Cookies();
     const location = useLocation();
+    const { disconnect } = useDisconnect();
 
     // Check cookie on initial load
     useEffect(() => {
@@ -50,6 +51,7 @@ const App = () => {
         cookies.remove("loggedIn");
         cookies.remove("token");
         setLoggedIn(false); // Update state on logout
+        disconnect(); // Disconnect from the blockchain
     };
 
     // Check if the current path is for login or signup

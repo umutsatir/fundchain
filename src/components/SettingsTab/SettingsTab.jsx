@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import styles from "./SettingsTab.module.css";
 import $, { isEmptyObject } from "jquery";
 import { useNavigate } from "react-router-dom";
@@ -123,14 +122,6 @@ const SettingsTab = () => {
                 </button>
                 <button
                     className={`${
-                        activeTab === "paymentMethods" ? styles.activeTab : ""
-                    }`}
-                    onClick={() => handleTabClick("paymentMethods")}
-                >
-                    Wallet Connection
-                </button>
-                <button
-                    className={`${
                         activeTab === "following" ? styles.activeTab : ""
                     }`}
                     onClick={() => handleTabClick("following")}
@@ -150,7 +141,6 @@ const SettingsTab = () => {
                     <EditProfile handleSubmit={handleEditProfileSubmit} />
                 )}
                 {activeTab === "notifications" && <Notifications />}
-                {activeTab === "paymentMethods" && <PaymentMethods />}
                 {activeTab === "shippingAddress" && <ShippingAddress />}
                 {activeTab === "following" && <Following />}
             </div>
@@ -263,11 +253,6 @@ const EditProfile = ({ handleSubmit }) => (
     </div>
 );
 
-const PaymentMethods = () => (
-    <div className={styles.paymentTab}>
-        <ConnectButton />
-    </div>
-);
 const Following = () => <div>Following Settings</div>;
 
 export default SettingsTab;

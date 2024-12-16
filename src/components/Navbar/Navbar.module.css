@@ -72,7 +72,7 @@
     padding: 10px 20px;
     flex: 0 0 auto;
     cursor: pointer;
-    border-radius: 40px;
+    border-radius: 8px;
     outline: none;
     text-decoration: none;
 }
@@ -130,6 +130,9 @@
 }
 
 .hamburger {
+    display: flex;
+    align-items: center;
+    gap: 20px;
     padding: 20px;
 }
 
@@ -174,7 +177,7 @@
 /* Dropdown Card */
 .dropdownCard {
     position: absolute;
-    top: 72px;
+    top: 70px;
     right: 5px;
     margin-top: 10px;
     background-color: white;
@@ -221,6 +224,6 @@
     }
 
     .dropdownCard {
-        top: 79px;
+        top: 90px;
     }
 }
