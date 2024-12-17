@@ -35,6 +35,7 @@ function Login({ onLogin }) {
                 isRemembered: isConfirmed,
             },
             success: function (data) {
+                console.log(data);
                 data = JSON.parse(data);
                 if (data.status) {
                     onLogin(data.token, data.username);
