@@ -3,21 +3,36 @@ import styles from "./Funding.module.css";
 import { Cookies } from "react-cookie";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
+import { useReadContract, useAccount, useWriteContract } from "wagmi";
+import { abi } from "../../../contracts/abi/abi";
+import { parseEther } from "viem";
 
 const Funding = (props) => {
     const cookies = new Cookies();
     const navigate = useNavigate();
-    const [pledged, setPledged] = useState(100000);
-    const [goal, setGoal] = useState(300000);
-    const [backers, setBackers] = useState(250);
-    const [daysLeft, setDaysLeft] = useState(36);
     const [isSaved, setIsSaved] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(cookies.get("loggedIn"));
+    const [progress, setProgress] = useState(0);
+    const pledged = readFromContract("getTotalBalance");
+    const goal = readFromContract("getFundedAmount");
+    const backers = readFromContract("getBackers");
+    const daysLeft = readFromContract("getDeadline");
+    const { isConnected } = useAccount();
+    const { writeContract } = useWriteContract();
 
-    const progress = (pledged / goal) * 100;
+    function readFromContract(functionName) {
+        useReadContract({
+            abi,
+            address: props.contractAddress,
+            functionName: functionName,
+        });
+    }
 
     useEffect(() => {
-        if (!loggedIn) return;
+        setProgress((pledged / goal) * 100);
+    }, [pledged, goal]);
+
+    useEffect(() => {
+        if (!cookies.get("loggedIn")) return;
         $.ajax({
             url: "http://localhost:8000/checkSave.php",
             type: "POST",
@@ -40,7 +55,7 @@ const Funding = (props) => {
     }, [props]);
 
     const setSavedProject = () => {
-        if (!loggedIn) navigate("/login");
+        if (!cookies.get("loggedIn")) navigate("/login");
         $.ajax({
             url: "http://localhost:8000/save.php",
             type: "POST",
@@ -63,6 +78,24 @@ const Funding = (props) => {
         });
     };
 
+    function handleBackProjectButton() {
+        if (!isConnected)
+            console.log("Please connect your wallet"); // todo add popup message
+        else {
+            // todo add menu for typing the amount
+            fundProject(1);
+        }
+    }
+
+    function fundProject(value) {
+        writeContract({
+            abi,
+            address: props.contractAddress,
+            functionName: "fundProject",
+            value: parseEther(value),
+        });
+    }
+
     return (
         <div className={styles.progressContainer}>
             <div className={styles.progressBackground}>
@@ -72,15 +105,20 @@ const Funding = (props) => {
                 ></div>
             </div>
             <div className={styles.progressInfo}>
-                <h1>{pledged.toLocaleString()}$</h1>
-                <p>pledged of {goal.toLocaleString()}$ goal</p>
+                <h1>{pledged}$</h1>
+                <p>pledged of {goal}$ goal</p>
                 <h1>{backers}</h1>
                 <p>backers</p>
                 <h1>{daysLeft}</h1>
                 <p>days to go</p>
             </div>
             <div className={styles.buttons}>
-                <button className={styles.backButton}>Back this project</button>
+                <button
+                    className={styles.backButton}
+                    onClick={handleBackProjectButton}
+                >
+                    Back this project
+                </button>
                 <button className={styles.shareButton}>Share</button>
                 <button
                     className={`${styles.remindButton} ${
