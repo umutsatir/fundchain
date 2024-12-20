@@ -23,9 +23,9 @@ const formatNumber = (number) => {
     }).format(number);
 };
 
-function FundingGoal({ category }) {
-    const [amount, setAmount] = useState('');
-    const [currency, setCurrency] = useState('USD');
+function FundingGoal({ category, updateFunding, formData }) {
+    const [amount, setAmount] = useState(formData.amount || '');
+    const [currency, setCurrency] = useState(formData.currency || 'USD');
     const [warning, setWarning] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
 
@@ -33,18 +33,27 @@ function FundingGoal({ category }) {
     const convertedAmount = parseFloat(amount) / (exchangeRates[currency] || 1) || 0;
 
     useEffect(() => {
+        // Update funding whenever amount or currency changes
+        updateFunding("currency", currency);
+        updateFunding("amount", amount);    
+
+        // Check if the entered amount exceeds the maximum allowed amount
         if (convertedAmount > maxAmount) {
             setWarning(true);
         } else {
             setWarning(false);
         }
-    }, [amount, maxAmount]);
+    }, [amount, currency, convertedAmount, maxAmount, updateFunding]);
 
     const handleAmountChange = (e) => {
         const value = e.target.value;
         if (/^\d*\.?\d*$/.test(value)) { 
             setAmount(value);
         }
+    };
+
+    const handleCurrencyChange = (e) => {
+        setCurrency(e.target.value);
     };
 
     const handleSelect = (goal, currencyIn) => {
@@ -74,7 +83,7 @@ function FundingGoal({ category }) {
                         />
                         <select
                             value={currency}
-                            onChange={(e) => setCurrency(e.target.value)}
+                            onChange={handleCurrencyChange}
                             className={styles.currencySelector}
                         >
                             <option value="USD">$ USD</option>

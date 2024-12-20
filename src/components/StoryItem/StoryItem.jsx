@@ -1,25 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./StoryItem.module.css";
 
-function Story() {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+const StoryItem = ({ id, title, content, updateStoryItem, removeStoryItem }) => {
+  const handleTitleChange = (e) => {
+    updateStoryItem(id, { title: e.target.value });
+  };
+
+  const handleContentChange = (e) => {
+    updateStoryItem(id, { content: e.target.value });
+  };
 
   return (
-    <div className={styles["story-component"]}>
-      <h5>Title</h5>
+    <div className={styles.storyComponent}>
       <input
         type="text"
+        placeholder="Title"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={handleTitleChange}
       />
-      <h5>Body</h5>
       <textarea
-        value={body}
-        onChange={(e) => setBody(e.target.value)}
+        placeholder="Content"
+        value={content}
+        onChange={handleContentChange}
       />
+      <button
+        onClick={() => removeStoryItem(id)}
+        className={styles.removeButton}
+      >
+        Remove
+      </button>
     </div>
   );
-}
+};
 
-export default Story;
+export default StoryItem;

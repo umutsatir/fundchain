@@ -1,17 +1,19 @@
 import React, {useState} from 'react';
 import styles from './Image.module.css';
 
-function Image() {
-    const [images, setImages] = useState([]);
+function Image({updateBasics, formData}) {
+    const [images, setImages] = useState(formData.image || []);
 
     const handleImageUpload = (e) => {
         const files = Array.from(e.target.files);
         if (files.length + images.length > 4) {
-            alert('You can upload up to 4 photos.');
+            alert("You can upload up to 4 photos.");
             return;
         }
         const newImages = files.map((file) => URL.createObjectURL(file));
-        setImages((prevImages) => [...prevImages, ...newImages]);
+        const updatedImages = [...images, ...newImages];
+        setImages(updatedImages);
+        updateBasics("image", updatedImages);
     };
 
     return (
