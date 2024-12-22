@@ -19,13 +19,6 @@
     flex-shrink: 1;
 }
 
-.TabBar,
-.Intro,
-.RecommendedProjects {
-    width: 100%;
-    box-sizing: border-box;
-}
-
 @media screen and (max-width: 1200px) {
     .bottom {
         flex-direction: column;

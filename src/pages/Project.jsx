@@ -7,10 +7,13 @@ import ProjectOwner from "../components/ProjectOwner/ProjectOwner";
 import TabBar from "../components/TabBar/TabBar";
 import RecommendedProjects from "../components/RecommendedProjects/RecommendedProjects";
 import styles from "../styles/Project.module.css";
+import Loading from "../components/Loading/Loading";
 
 function Project() {
     const { id } = useParams();
     const [project, setProject] = useState({});
+    const [story, setStory] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -34,16 +37,37 @@ function Project() {
                 navigate("/error");
             },
         });
+
+        $.ajax({
+            url: "http://localhost:8000/story.php",
+            type: "GET",
+            data: {
+                projectId: id,
+            },
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result.status) setStory(result.data);
+                else console.log(result.message);
+            },
+            error: function (error) {
+                console.log(error);
+                navigate("/error");
+            },
+        });
+
+        setIsLoading(false);
     }, []);
 
-    return (
+    return isLoading ? (
+        <Loading />
+    ) : (
         <div>
             <div className={styles.main}>
                 <Intro project={project} />
                 <TabBar />
                 <div className={styles.bottom}>
                     <div className={styles.campaign}>
-                        <Campaign />
+                        <Campaign story={story} />
                     </div>
                     <div className={styles.projectOwner}>
                         <ProjectOwner userId={project.userId} />

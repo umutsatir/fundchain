@@ -1,41 +1,33 @@
-.categoryContainer {
+.formWrapper {
     display: flex;
     gap: 20px;
+
+    margin: 30px 0;
     padding: 20px 0;
+    border-top: 1px solid #ddd;
 }
 
-.categoryKnowledge {
+.description {
     flex: 1;
     padding-right: 20px;
 }
 
-.categoryKnowledge .categoryTitle {
-    font-size: 1.5em;
-    font-family: inherit;
-
-    margin: 20px;
+.description h2 {
     margin-bottom: 10px;
-    margin-left: 0;
 }
 
-.categoryKnowledge .categoryText {
-    font-size: 0.9em;
-    font-family: sans-serif;
-    margin-left: 0;
-}
-
-.categorySelection {
+.form {
     flex: 2;
     margin-top: 20px;
 }
 
-.categoryFormGroup {
+.formGroup {
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid #ddd;
 }
 
-.categoryFormControl {
+.input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -43,18 +35,12 @@
     font-size: 16px;
 }
 
-.categoryFormGroup label {
-    font-size: 16px;
-
-    margin-bottom: -10px;
-}
-
 @media screen and (max-width: 768px) {
-    .categoryContainer {
+    .formWrapper {
         flex-direction: column;
     }
 
-    .categoryKnowledge {
+    .description {
         padding-right: 0;
     }
 }

@@ -21,11 +21,12 @@ import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WagmiProvider } from "wagmi";
+import { useDisconnect, WagmiProvider } from "wagmi";
 import { config } from "./config";
 import { lightTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { sepolia } from "wagmi/chains";
+import CardSaved from "./pages/CardSaved";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const cookies = new Cookies();
     const location = useLocation();
+    const { disconnect } = useDisconnect();
 
     // Check cookie on initial load
     useEffect(() => {
@@ -50,11 +52,12 @@ const App = () => {
         cookies.remove("loggedIn");
         cookies.remove("token");
         setLoggedIn(false); // Update state on logout
+        disconnect(); // Disconnect from the blockchain
     };
 
     // Check if the current path is for login or signup
     const isAuthPage =
-        location.pathname === "/login" || location.pathname === "/signup";
+        location.pathname === "/login" || location.pathname === "/signup" || location.pathname === "/error";
 
     return (
         <div>
@@ -65,15 +68,13 @@ const App = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/project/:id" element={<Project />} />
                     <Route path="/search" element={<Search />} />
-
-                    {/* ROUTE DÜZELT */}
                     <Route path="/error" element={<Error />} />
-                    <Route path="/create" element={<Create />} />
                     {loggedIn ? (
                         <>
                             <Route path="/profile" element={<Profile />} />
-                            {/* <Route path="/create" element={<Create />} /> */}
+                            <Route path="/create" element={<Create />} />
                             <Route path="/settings" element={<Settings />} />
+                            <Route path="/saved-projects" element={<CardSaved />} />
                         </>
                     ) : (
                         <>

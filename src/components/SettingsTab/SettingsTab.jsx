@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import styles from "./SettingsTab.module.css";
-import $ from "jquery";
+import $, { isEmptyObject } from "jquery";
 import { useNavigate } from "react-router-dom";
+import { Cookies } from "react-cookie";
 
 const SettingsTab = () => {
     const [activeTab, setActiveTab] = useState("account");
     const [activePasswordChange, setActivePasswordChange] = useState(false);
     const navigate = useNavigate();
+    const cookies = new Cookies();
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -19,6 +20,15 @@ const SettingsTab = () => {
 
     function handleEditProfileSubmit(e) {
         e.preventDefault();
+        if (
+            e.target.avatar.files.length === 0 &&
+            isEmptyObject(e.target.biography.value) &&
+            isEmptyObject(e.target.location.value) &&
+            isEmptyObject(e.target.name.value) &&
+            isEmptyObject(e.target.surname.value)
+        )
+            return;
+
         const formData = new FormData(e.target);
         const data = {};
         formData.forEach((value, key) => {
@@ -28,13 +38,58 @@ const SettingsTab = () => {
         $.ajax({
             url: "http://localhost:8000/editProfile.php",
             type: "POST",
-            data: { data: JSON.stringify(data) },
+            data: {
+                data: JSON.stringify(data),
+                username: cookies.get("username"),
+            },
+            success: function (result) {
+                console.log(result);
+                result = JSON.parse(result);
+                if (result.status) {
+                    console.log("Profile updated");
+                } else {
+                    console.log(result.message);
+                }
+            },
+            error: function (error) {
+                console.log("error: ", error);
+                navigate("/error");
+            },
+        });
+    }
+
+    function handleChangePassword(e) {
+        e.preventDefault();
+        if (activePasswordChange) {
+            if (
+                isEmptyObject(e.target.newPassword.value) &&
+                isEmptyObject(e.target.confirmNewPassword.value) &&
+                isEmptyObject(e.target.oldPassword.value) &&
+                isEmptyObject(e.target.email.value)
+            )
+                return;
+        } else {
+            return;
+        }
+        const formData = new FormData(e.target);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        $.ajax({
+            url: "http://localhost:8000/changePw.php",
+            type: "POST",
+            data: {
+                data: JSON.stringify(data),
+                username: cookies.get("username"),
+            },
             success: function (result) {
                 console.log(result);
                 result = JSON.parse(result);
                 if (result.status) {
                     // todo send popup message to user
-                    console.log("Profile updated");
+                    console.log("Password updated");
                 } else {
                     console.log(result.message);
                 }
@@ -67,30 +122,6 @@ const SettingsTab = () => {
                 </button>
                 <button
                     className={`${
-                        activeTab === "notifications" ? styles.activeTab : ""
-                    }`}
-                    onClick={() => handleTabClick("notifications")}
-                >
-                    Notifications
-                </button>
-                <button
-                    className={`${
-                        activeTab === "paymentMethods" ? styles.activeTab : ""
-                    }`}
-                    onClick={() => handleTabClick("paymentMethods")}
-                >
-                    Wallet Connection
-                </button>
-                <button
-                    className={`${
-                        activeTab === "shippingAddress" ? styles.activeTab : ""
-                    }`}
-                    onClick={() => handleTabClick("shippingAddress")}
-                >
-                    Shipping Address
-                </button>
-                <button
-                    className={`${
                         activeTab === "following" ? styles.activeTab : ""
                     }`}
                     onClick={() => handleTabClick("following")}
@@ -103,13 +134,13 @@ const SettingsTab = () => {
                     <Account
                         handlePasswordChange={handlePasswordChange}
                         activePasswordChange={activePasswordChange}
+                        handleSubmit={handleChangePassword}
                     />
                 )}
                 {activeTab === "editProfile" && (
                     <EditProfile handleSubmit={handleEditProfileSubmit} />
                 )}
                 {activeTab === "notifications" && <Notifications />}
-                {activeTab === "paymentMethods" && <PaymentMethods />}
                 {activeTab === "shippingAddress" && <ShippingAddress />}
                 {activeTab === "following" && <Following />}
             </div>
@@ -117,12 +148,16 @@ const SettingsTab = () => {
     );
 };
 
-const Account = ({ handlePasswordChange, activePasswordChange }) => (
+const Account = ({
+    handlePasswordChange,
+    activePasswordChange,
+    handleSubmit,
+}) => (
     <div className={styles.accountTab}>
-        <form>
+        <form onSubmit={handleSubmit}>
             <div>
                 <h3>Email</h3>
-                <input className={styles.emailBox} type="text" />
+                <input className={styles.emailBox} type="email" name="email" />
             </div>
             <div>
                 <h3>Password</h3>
@@ -140,19 +175,31 @@ const Account = ({ handlePasswordChange, activePasswordChange }) => (
                 <div className={styles.passwordChangeFields}>
                     <div>
                         <h3>New Password</h3>
-                        <input className={styles.passwordBox} type="password" />
+                        <input
+                            className={styles.passwordBox}
+                            type="password"
+                            name="newPassword"
+                        />
                         <label>Minimum 6 characters!</label>
                     </div>
                     <div>
                         <h3>Confirm New Password</h3>
-                        <input className={styles.passwordBox} type="password" />
+                        <input
+                            className={styles.passwordBox}
+                            type="password"
+                            name="confirmNewPassword"
+                        />
                         <label>Enter same password</label>
                     </div>
                 </div>
             )}
             <div className={styles.saveChangesContainer}>
                 <h3>Current Password</h3>
-                <input className={styles.passwordBox} type="password" />
+                <input
+                    className={styles.passwordBox}
+                    type="password"
+                    name="oldPassword"
+                />
                 <button className={styles.saveButton} type="submit">
                     Save Changes
                 </button>
@@ -170,6 +217,14 @@ const EditProfile = ({ handleSubmit }) => (
                     <input className={styles.nameBox} name="name" type="text" />
                 </div>
                 <div>
+                    <h3>Surname</h3>
+                    <input
+                        className={styles.nameBox}
+                        name="surname"
+                        type="text"
+                    />
+                </div>
+                <div>
                     <h3>Avatar</h3>
                     <input
                         className={styles.avatarBox}
@@ -185,14 +240,6 @@ const EditProfile = ({ handleSubmit }) => (
                         type="text"
                     />
                 </div>
-                <div>
-                    <h3>Time Zone</h3>
-                    <select className={styles.timezoneBox} name="timezone">
-                        <option value="gmt">GMT</option>
-                        <option value="gmt1">GMT+1</option>
-                        <option value="gmt2">GMT+2</option>
-                    </select>
-                </div>
                 <button className={styles.saveButton} type="submit">
                     Save Changes
                 </button>
@@ -206,13 +253,6 @@ const EditProfile = ({ handleSubmit }) => (
     </div>
 );
 
-const Notifications = () => <div>Notification Settings</div>;
-const PaymentMethods = () => (
-    <div className={styles.paymentTab}>
-        <ConnectButton />
-    </div>
-);
-const ShippingAddress = () => <div>Shipping Address</div>;
 const Following = () => <div>Following Settings</div>;
 
 export default SettingsTab;

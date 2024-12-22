@@ -1,28 +1,26 @@
 import { useEffect, useState } from "react";
+import styles from "../styles/Search.module.css";
+import { Cookies } from "react-cookie";
+import Loading from "../components/Loading/Loading";
 import Cards from "../components/Cards/Cards";
 import $ from "jquery";
-import styles from "../styles/Search.module.css";
-import Loading from "../components/Loading/Loading";
 
-function Search() {
+function CardSaved() {
+    const cookies = new Cookies();
     const [projects, setProjects] = useState([]);
-    const [savedProjects, setSavedProjects] = useState({}); // Track saved status
+    const [savedProjects, setSavedProjects] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchText = urlParams.get("q");
-        if (searchText) {
-            getResults(searchText);
-        }
-        setIsLoading(false);
-    }, []);
 
     const handleSaveToggle = (projectId) => {
         setSavedProjects((prevSavedProjects) => ({
             ...prevSavedProjects,
             [projectId]: !prevSavedProjects[projectId],
         }));
+
+        if (!savedProjects[projectId]) {
+            setProjects(projects.filter((project) => project.id != projectId));
+        }
     };
 
     function getDeadline(dbDate) {
@@ -33,22 +31,26 @@ function Search() {
         return diffInDays;
     }
 
-    function getResults(searchText) {
+    useEffect( () => {
         $.ajax({
-            url: "http://localhost:8000/search.php",
-            type: "GET",
+            url: "http://localhost:8000/savedProjects.php",
+            type: "POST",
             data: {
-                search: searchText,
+                username: cookies.get("username")
             },
-            success: function (data) {
-                setProjects(JSON.parse(data));
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result.status) setProjects(result.data);
+                else console.log(result.message, result.error);
             },
             error: function (error) {
                 console.log(error);
-                setProjects([]);
+                navigate("/error");
             },
         });
-    }
+
+        setIsLoading(false);
+    }, []);
 
     return (
         <>
@@ -82,4 +84,4 @@ function Search() {
     );
 }
 
-export default Search;
+export default CardSaved;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css"; // Importing CSS Module
 
@@ -32,6 +33,7 @@ function Navbar({ onLogout, loggedIn }) {
     }, [loggedIn]);
 
     const handleStartProject = () => {
+        setIsProfileMenuOpen(false);
         if (isLoggedIn) {
             navigate("/create");
         } else {
@@ -94,18 +96,7 @@ function Navbar({ onLogout, loggedIn }) {
                         <div className={styles.navbarButtons}>
                             {isLoggedIn ? (
                                 <>
-                                    <button
-                                        className={styles.startProjectButton}
-                                        onClick={onLogout}
-                                    >
-                                        Logout
-                                    </button>
-                                    <button
-                                        className={styles.startProjectButton}
-                                        onClick={handleStartProject}
-                                    >
-                                        Start a Project
-                                    </button>
+                                    <ConnectButton chainStatus={"none"} />
                                     <div
                                         className={styles.profileImage}
                                         onClick={handleProfileClick}
@@ -116,6 +107,13 @@ function Navbar({ onLogout, loggedIn }) {
                                                 className={styles.dropdownCard}
                                             >
                                                 <ul>
+                                                    <li
+                                                        onClick={() =>
+                                                            handleStartProject()
+                                                        }
+                                                    >
+                                                        Create a Project
+                                                    </li>
                                                     <li
                                                         onClick={() =>
                                                             handleNavigate(
@@ -143,6 +141,13 @@ function Navbar({ onLogout, loggedIn }) {
                                                     >
                                                         Saved Projects
                                                     </li>
+                                                    <li
+                                                        onClick={() =>
+                                                            onLogout()
+                                                        }
+                                                    >
+                                                        Logout
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </>
@@ -169,6 +174,10 @@ function Navbar({ onLogout, loggedIn }) {
                 ) : (
                     <>
                         <div className={styles.hamburger}>
+                            <ConnectButton
+                                accountStatus={"avatar"}
+                                chainStatus={"none"}
+                            />
                             <a onClick={handleMenuClick}>
                                 <i className="fa fa-bars"></i>
                             </a>

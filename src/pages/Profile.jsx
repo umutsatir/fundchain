@@ -72,7 +72,7 @@ function Profile() {
                 >
                     <div className={styles.profileImage}>
                         <img
-                            src={user.profileImage}
+                            src={user.profileImage_php}
                             alt={`${user.name_php} ${user.surname_php}`}
                         />
                     </div>

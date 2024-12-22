@@ -4,18 +4,23 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 require_once '../vendor/autoload.php';
 include './pdo.php';
 $pdo = (new PDOClass())->connect();
-use Firebase\JWT\JWT;
 
 $gump = new GUMP();
 $_POST = $gump->sanitize($_POST);
 
 ///////////REAL/////////////////////
-$u_id = $_POST['UserId'];//GET USER ID OF CURRENTLY LOGGED IN
-$name_input = $_POST['name'];
-$surname_input = $_POST['surname'];
-$profilePic_input = $_POST['profilePic'];
-$location_input = $_POST['location'];
-$biography_input = $_POST['biography'];
+$username = $_POST['username'];
+$data = json_decode($_POST['data'], true);
+$name_input = $data['name'];
+$surname_input = $data['surname'];
+$profilePic_input = $data['avatar'];
+$location_input = $data['location'];
+$biography_input = $data['biography'];
+
+$stmt= $pdo->prepare("SELECT * FROM users WHERE username = :username");
+$stmt->execute(params:['username'=>$username]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$u_id = $user['userId'];
 ///////////REAL/////////////////////
 
 ///////////TEST/////////////////////
@@ -48,8 +53,6 @@ if ($old_data){
 	$stmt->execute(params:['setName'=>$nameToChange,'setSurname'=>$surnameToChange,'setProfilePic'=>$profilePicToChange,'setLocation'=>$locationToChange,'setDescription'=>$biographyToChange, 'id' =>$u_id]);
 
 	echo json_encode(['status' => true, 'message' => "Made changes on user:$u_id"]);
-
-	
 }
 else{
 	echo json_encode(['status' => false, 'message' => "User with id:$u_id not Found!"]);

@@ -1,92 +1,104 @@
 .container {
-  max-width: 800px;
-  margin: 20px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    background: #fff;
+    padding-top: 20px;
+    border-radius: 10px;
 }
 
 .description {
-  flex: 1;
-  padding-right: 20px;
+    flex: 1;
+    padding-right: 20px;
+}
+
+.description h2 {
+    margin-bottom: 10px;
 }
 
 .form {
-  flex: 2;
-  margin-top: 20px;
+    flex: 2;
+    margin-top: 20px;
 }
 
 .formWrapper {
-  display: flex;
-  gap: 20px;
+    display: flex;
+    gap: 20px;
 }
 
 .formGroup,
 .categorySection {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
 }
 
 .input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
 .currencyInputContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .currencyInput {
-  width: 70%;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+    width: 70%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .currencySelector {
-  width: 25%;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+    width: 25%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .currencySelector option {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 .currencySelector i {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 
 .currencyInput.invalidInput {
-  border-color: red;
-  background-color: #f8d7da;
+    border-color: red;
+    background-color: #f8d7da;
 }
 
 .warning {
-  color: red;
-  margin-top: 10px;
+    color: red;
+    margin-top: 10px;
 }
 
 .underlineText {
-  text-decoration: underline;
-  color: var(--primary-color);
-  cursor: pointer;
+    text-decoration: underline;
+    color: var(--primary-color);
+    cursor: pointer;
 }
 
 .underlineText:hover {
-  color: var(--primary-color-hover);
+    color: var(--primary-color-hover);
+}
+
+@media screen and (max-width: 768px) {
+    .formWrapper {
+        flex-direction: column;
+    }
+
+    .description {
+        padding-right: 0;
+    }
 }
