@@ -4,6 +4,8 @@ pragma solidity ^0.8.19;
 contract Project {
     address owner;
     mapping(address => uint) fundedAmount;
+    mapping (address => bool) donators;
+    uint donatorCount = 0;
     uint goal;
     uint totalBalance = 0;
     uint deadline;
@@ -11,6 +13,7 @@ contract Project {
     uint startingTime;
     address fundchainAccount;
 
+    event AmountDonated(address indexed _fundingAccount, uint amount);
     event AmountRaised(address indexed _fundingAccount, uint indexed amount);
     event FundWithdrawn(address indexed _fundingAccount, uint amount);
     event DonationWithdrawn(address indexed _fundingAccount, uint amount);
@@ -40,6 +43,14 @@ contract Project {
         return fundedAmount[msg.sender];
     }
 
+    function getDonatorCount() public view returns (uint) {
+        return donatorCount;
+    }
+
+    function isDonator(address _address) public view returns (bool) {
+        return donators[_address];
+    }
+
     function getFee() public view returns (uint) {
         return feePercentage;
     }
@@ -64,8 +75,15 @@ contract Project {
         require(block.timestamp < deadline, "Deadline has passed");
         require(msg.sender != owner, "Cannot fund your own project");
         require(msg.value > 0, "You must fund your donation");
+
+        if (!donators[msg.sender]) {
+            donators[msg.sender] = true; // Mark as a donator
+            donatorCount++; // Increment unique donator count
+        }
+
         fundedAmount[msg.sender] += msg.value;
         totalBalance += msg.value;
+        emit AmountDonated(msg.sender, msg.value);
     }
 
     function withdraw() public onlyOwner {
@@ -89,5 +107,7 @@ contract Project {
         require(success, "Transfer failed");
         emit DonationWithdrawn(msg.sender, fundedAmount[msg.sender]);
         fundedAmount[msg.sender] = 0;
+        donators[msg.sender] = false;
+        donatorCount--;
     }
 }
