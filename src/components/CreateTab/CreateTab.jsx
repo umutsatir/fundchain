@@ -48,6 +48,15 @@ const CreateTab = () => {
         setActiveTab(tab);
     };
 
+
+    const [message, setMessage] = useState('');
+    const [type, setType] = useState('');
+    
+    const handleNotification = (msg, type) => {
+        setMessage(msg);
+        setType(type);
+    };
+
     const handleSave = async () => {
         try {
             const errors = [];
@@ -69,15 +78,16 @@ const CreateTab = () => {
             //     errors.push("At least one collaborator is required.");
             // }
 
-            if (errors.length > 0) {
-                alert(`Please fill in the following fields:\n\n${errors.join("\n")}`);
-                return;
-            }
+            // if (errors.length > 0) {
+            //     alert(`Please fill in the following fields:\n\n${errors.join("\n")}`);
+            //     return;
+            // }
+            
     
-            const formattedData = JSON.stringify(formData, null, 2);
-            const newWindow = window.open("", "_blank");
-            newWindow.document.write(`<pre>${formattedData}</pre>`);
-            newWindow.document.title = "Saved Data";
+            // const formattedData = JSON.stringify(formData, null, 2);
+            // const newWindow = window.open("", "_blank");
+            // newWindow.document.write(`<pre>${formattedData}</pre>`);
+            // newWindow.document.title = "Saved Data";
     
             // BACKEND API CALL
             // const response = await fetch("https://api.example.com/projects", {
