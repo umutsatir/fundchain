@@ -15,7 +15,7 @@ const Story = ({ updateStory, formData }) => {
     const newStoryItem = {
       id: storyItems.length,
       title: "",
-      content: "",
+      paragraphs: [""],
     };
 
     setStoryItems((prevItems) => {
@@ -66,7 +66,7 @@ const Story = ({ updateStory, formData }) => {
               <StoryItem
                 id={item.id}
                 title={item.title}
-                content={item.content}
+                paragraphs={item.paragraphs}
                 updateStoryItem={updateStoryItem}
                 removeStoryItem={removeStoryItem}
               />
