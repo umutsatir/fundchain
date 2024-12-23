@@ -14,6 +14,8 @@ function Project() {
     const { id } = useParams();
     const [project, setProject] = useState({});
     const [story, setStory] = useState([]);
+    const [comments, setComments] = useState([]);
+    const [activeTab, setActiveTab] = useState("Campaign");
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
@@ -56,6 +58,23 @@ function Project() {
             },
         });
 
+        $.ajax({
+            url: "http://localhost:8000/viewComments.php",
+            type: "POST",
+            data: {
+                projectId_input: id,
+            },
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result.status) setComments(result.data);
+                else console.log(result.message);
+            },
+            error: function (error) {
+                console.log(error);
+                navigate("/error");
+            },
+        });
+
         setIsLoading(false);
     }, []);
 
@@ -65,10 +84,16 @@ function Project() {
         <div>
             <div className={styles.main}>
                 <Intro project={project} />
-                <TabBar />
+                <TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
                 <div className={styles.bottom}>
                     <div className={styles.campaign}>
-                        <Campaign story={story} />
+                        {activeTab === "Campaign" ? (
+                            <Campaign story={story} />
+                        ) : (
+                            <p>asd</p> // todo add comment components
+                            // comments.map((comment) => {
+                            // })
+                        )}
                     </div>
                     <div className={styles.rightCampaign}>
                         <ProjectOwner userId={project.userId} />
