@@ -157,7 +157,13 @@ function Category() {
                 <div className={styles.popup}>
                     <div className={styles.popupContent}>
                         <h2>New Collaborator</h2>
-                        <form>
+                        <form
+                            onSubmit={
+                                editingCollaborator
+                                    ? handleSaveChanges
+                                    : handleAddCollaborator
+                            }
+                        >
                             <label for="email">Email</label>
                             <input
                                 type="email"
@@ -263,12 +269,8 @@ function Category() {
                                     Cancel
                                 </button>
                                 <button
-                                    onClick={
-                                        editingCollaborator
-                                            ? handleSaveChanges
-                                            : handleAddCollaborator
-                                    }
                                     className={styles.popupAddButton}
+                                    type="submit"
                                 >
                                     {editingCollaborator
                                         ? "Save changes"

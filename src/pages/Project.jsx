@@ -8,6 +8,7 @@ import TabBar from "../components/TabBar/TabBar";
 import RecommendedProjects from "../components/RecommendedProjects/RecommendedProjects";
 import styles from "../styles/Project.module.css";
 import Loading from "../components/Loading/Loading";
+import Report from "../components/Report/Report";
 
 function Project() {
     const { id } = useParams();
@@ -69,8 +70,9 @@ function Project() {
                     <div className={styles.campaign}>
                         <Campaign story={story} />
                     </div>
-                    <div className={styles.projectOwner}>
+                    <div className={styles.rightCampaign}>
                         <ProjectOwner userId={project.userId} />
+                        <Report id={id} />
                     </div>
                 </div>
                 <RecommendedProjects userId={project.userId} />
