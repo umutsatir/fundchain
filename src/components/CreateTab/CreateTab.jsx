@@ -52,15 +52,15 @@ const CreateTab = () => {
         try {
             const errors = [];
     
-            // if (!formData.basics.title) errors.push("Title is required.");
-            // if (!formData.basics.subtitle) errors.push("Subtitle is required.");
-            // if (!formData.basics.location) errors.push("Location is required.");
-            // if (!formData.basics.image) errors.push("Image is required.");
-            // if (!formData.basics.duration.type || !formData.basics.duration.value) {
-            //     errors.push("Duration type and value are required.");
-            // }
-            // if (!formData.funding.amount) errors.push("Funding amount is required.");
-            // if (!formData.story.story) errors.push("Story is required.");
+            if (!formData.basics.title) errors.push("Title is required.");
+            if (!formData.basics.subtitle) errors.push("Subtitle is required.");
+            if (!formData.basics.location) errors.push("Location is required.");
+            if (!formData.basics.image) errors.push("Image is required.");
+            if (!formData.basics.duration.type || !formData.basics.duration.value) {
+                 errors.push("Duration type and value are required.");
+            }
+            if (!formData.funding.amount) errors.push("Funding amount is required.");
+            if (!formData.story.story) errors.push("Story is required.");
     
             // ADDITIONAL VALIDATION
             // if (!formData.basics.video) errors.push("Video is required.");
