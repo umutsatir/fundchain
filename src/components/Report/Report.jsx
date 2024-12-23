@@ -8,7 +8,7 @@ const Report = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (reportReason.trim() === "" && additionalDetails.trim() === "") {
+    if (reportReason.trim() === "") {
       setFeedback("Please provide a reason for the report.");
       return;
     }
@@ -27,7 +27,17 @@ const Report = () => {
       <p className={styles.paragraph}>
         If you think that this project is a scam, you can report it below.
       </p>
-      {feedback && <p className={styles.feedback}>{feedback}</p>}
+      {feedback && (
+        <p
+          className={
+            feedback.includes("success")
+              ? styles.successFeedback
+              : styles.feedback
+          }
+        >
+          {feedback}
+        </p>
+      )}
       <form onSubmit={handleSubmit} className={styles.reportForm}>
         <label className={styles.reportLabel} htmlFor="reportReason">
           Reason

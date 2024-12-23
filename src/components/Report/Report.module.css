@@ -22,7 +22,13 @@
 
 .feedback {
   font-size: 16px; 
-  color: #28a745;
+  color: #dc3545; /* Hata mesajı için kırmızı */
+  margin-bottom: 10px;
+}
+
+.successFeedback {
+  font-size: 16px; 
+  color: #28a745; /* Başarı mesajı için yeşil */
   margin-bottom: 10px;
 }
 
@@ -72,5 +78,5 @@
 }
 
 .reportButton:active {
-  background-color: var(--primary-color-click); 
+  background-color:var(--primary-color-click); 
 }
