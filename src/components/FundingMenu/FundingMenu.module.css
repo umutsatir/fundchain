@@ -1,0 +1,140 @@
+.FundingMenuContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.FundingMenuContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+
+    width: 30%;
+
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.533);
+}
+
+.FundingMenuContent .knowledgeSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    width: 100%;
+}
+
+.FundingMenuContent .knowledgeSection .knowledge {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    width: 70%;
+}
+
+.FundingMenuContent .knowledgeSection .picture {
+    height: 135px;
+    border-radius: 5px;
+
+    margin-right: 10px;
+}
+
+.knowledgeSection .knowledge .projectTitle {
+    font-size: 1.6em;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.knowledgeSection .knowledge .projectDescription {
+    font-size: 1.1em;
+    margin-bottom: 0;
+}
+
+.knowledgeSection .knowledge .projectBackers {
+    background: rgba(137, 43, 226, 0.442);
+    border-radius: 7px;
+    font-size: 1em;
+    padding: 5px;
+
+}
+
+
+.FundingMenuContent .fundingSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
+
+    width: 100%;
+    margin: 0;
+    margin-top: 10px;
+}
+
+
+.FundingMenuContent .fundingSection .label1 {
+    font-size: 0.9em;
+}
+
+.FundingMenuContent .fundingSection .label2 {
+    font-size: 1.6em;
+    margin-right: 5px;
+}
+
+.FundingMenuContent .fundingSection input {
+    border: 1px solid blueviolet;
+    border-radius: 3px;
+
+    height: 40px;
+}
+
+.FundingMenuContent .fundingSection .fundingButton {
+    border: 1px solid white;
+    background-color: blueviolet;
+    color: white;
+    border-radius: 5px;
+
+    font-size: 1em;
+
+    height: 50px;
+    width: 130px;
+
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.FundingMenuContent .cancelButton {
+    border: 1px solid blueviolet;
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+
+    font-size: 1em;
+
+    height: 50px;
+    width: 130px;
+
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
+.FundingMenuContent .fundingSection .cancelButton:hover {
+    cursor: pointer;
+}
+
+.FundingMenuContent .fundingSection .fundingButton:hover {
+    cursor: pointer;
+    background-color: rgba(137, 43, 226, 0.833);
+}
