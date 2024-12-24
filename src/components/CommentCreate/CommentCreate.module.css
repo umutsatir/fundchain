@@ -1,0 +1,56 @@
+.commentCreateContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+.commentText {
+  width: 100%;
+  min-height: 50px;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  resize: none;
+  margin-bottom: 20px;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 16px; 
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.commentText:focus {
+  border-color: var(--primary-color);
+}
+
+.submitButton {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+  align-self: flex-end; 
+}
+
+.submitButton:hover {
+  background-color:var(--primary-color-hover);
+}
+
+.submitButton:active {
+  background-color:var(--primary-color-click);
+}
+
+.successMessage {
+  color: green;
+  font-size: 14px;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 14px;
+}
