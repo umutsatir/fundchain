@@ -13,13 +13,139 @@ import FundingGoal from "../FundingGoal/FundingGoal";
 
 const CreateTab = () => {
     const [activeTab, setActiveTab] = useState("basics");
+    const [formData, setFormData] = useState({
+        basics: {
+            category: {
+                primaryCategory: "",
+                primarySubcategory: "",
+                secondaryCategory: "",
+                secondarySubcategory: "",
+            },
+            title: "",
+            subtitle: "",
+            location: "",
+            image: "",
+            video: "",
+            targetDate: "",
+            duration: {
+                type: "",
+                value: "",
+            },
+        },
+        funding: {
+            currency: "USD",
+            amount: "",
+        },
+        story: {
+            story: "",
+        },
+        collaborators: {
+            collaborators: [],
+        },
+    });
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
 
-    const handleSave = () => {
-        alert("Changes have been saved!");
+
+    const [message, setMessage] = useState('');
+    const [type, setType] = useState('');
+    
+    const handleNotification = (msg, type) => {
+        setMessage(msg);
+        setType(type);
+    };
+
+    const handleSave = async () => {
+        try {
+            const errors = [];
+    
+            if (!formData.basics.title) errors.push("Title is required.");
+            if (!formData.basics.subtitle) errors.push("Subtitle is required.");
+            if (!formData.basics.location) errors.push("Location is required.");
+            if (!formData.basics.image) errors.push("Image is required.");
+            if (!formData.basics.duration.type || !formData.basics.duration.value) {
+                 errors.push("Duration type and value are required.");
+            }
+            if (!formData.funding.amount) errors.push("Funding amount is required.");
+            if (!formData.story.story) errors.push("Story is required.");
+    
+            // ADDITIONAL VALIDATION
+            // if (!formData.basics.video) errors.push("Video is required.");
+            // if (!formData.basics.targetDate) errors.push("Target date is required.");
+            // if (formData.collaborators.collaborators.length === 0) {
+            //     errors.push("At least one collaborator is required.");
+            // }
+
+            // if (errors.length > 0) {
+            //     alert(`Please fill in the following fields:\n\n${errors.join("\n")}`);
+            //     return;
+            // }
+            
+    
+            // const formattedData = JSON.stringify(formData, null, 2);
+            // const newWindow = window.open("", "_blank");
+            // newWindow.document.write(`<pre>${formattedData}</pre>`);
+            // newWindow.document.title = "Saved Data";
+    
+            // BACKEND API CALL
+            // const response = await fetch("https://api.example.com/projects", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //     },
+            //     body: JSON.stringify(formData),
+            // });
+            // if (response.ok) {
+            //     alert("Changes have been saved!");
+            // } else {
+            //     alert("Failed to save changes.");
+            // }
+        } catch (error) {
+            alert("An error occurred: " + error.message);
+        }
+    };
+    
+
+    const updateBasics = (key, value) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            basics: {
+                ...prevState.basics,
+                [key]: value,
+            },
+        }));
+    };
+
+    const updateStory = (key, value) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            story: {
+                ...prevState.story,
+                [key]: value,
+            },
+        }));
+    };
+
+    const updateCollaborators = (key, value) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            collaborators: {
+                ...prevState.collaborators,
+                [key]: value,
+            },
+        }));
+    };
+
+    const updateFunding = (key, value) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            funding: {
+                ...prevState.funding,
+                [key]: value,
+            },
+        }));
     };
 
     return (
@@ -27,33 +153,25 @@ const CreateTab = () => {
             <div className={styles.tabs}>
                 <div className={styles.tabGroup}>
                     <button
-                        className={`${
-                            activeTab === "basics" ? styles.activeTab : ""
-                        }`}
+                        className={`${activeTab === "basics" ? styles.activeTab : ""}`}
                         onClick={() => handleTabClick("basics")}
                     >
                         Basics
                     </button>
                     <button
-                        className={`${
-                            activeTab === "funding" ? styles.activeTab : ""
-                        }`}
+                        className={`${activeTab === "funding" ? styles.activeTab : ""}`}
                         onClick={() => handleTabClick("funding")}
                     >
                         Funding
                     </button>
                     <button
-                        className={`${
-                            activeTab === "story" ? styles.activeTab : ""
-                        }`}
+                        className={`${activeTab === "story" ? styles.activeTab : ""}`}
                         onClick={() => handleTabClick("story")}
                     >
                         Story
                     </button>
                     <button
-                        className={`${
-                            activeTab === "collaborators" ? styles.activeTab : ""
-                        }`}
+                        className={`${activeTab === "collaborators" ? styles.activeTab : ""}`}
                         onClick={() => handleTabClick("collaborators")}
                     >
                         Collaborators
@@ -64,43 +182,42 @@ const CreateTab = () => {
                 </button>
             </div>
             <div className={styles.content}>
-                {activeTab === "basics" && <BasicsTab />}
-                {activeTab === "funding" && <FundingTab />}
-                {activeTab === "story" && <StoryTab />}
-                {activeTab === "collaborators" && <CollaboratorsTab />}
+                {activeTab === "basics" && <BasicsTab updateBasics={updateBasics} formData={formData.basics} />}
+                {activeTab === "funding" && <FundingTab updateFunding={updateFunding} formData={formData.funding} />}
+                {activeTab === "story" && <StoryTab updateStory={updateStory} formData={formData.story} />}
+                {activeTab === "collaborators" && <CollaboratorsTab updateCollaborators={updateCollaborators} formData={formData.collaborators} />}
             </div>
         </div>
     );
 };
 
-
-const BasicsTab = () => (
+const BasicsTab = ({ updateBasics, formData }) => (
     <div>
-        <Category />
-        <Details />
-        <Location />
-        <Image />
-        <Video />
-        <TargetDate />
-        <Duration />
+        <Category updateBasics={updateBasics} formData={formData} />
+        <Details updateBasics={updateBasics} formData={formData} />
+        <Location updateBasics={updateBasics} formData={formData} />
+        <Image updateBasics={updateBasics} formData={formData} />
+        <Video updateBasics={updateBasics} formData={formData} />
+        <TargetDate updateBasics={updateBasics} formData={formData} />
+        <Duration updateBasics={updateBasics} formData={formData} />
     </div>
 );
 
-const StoryTab = () => (
+const FundingTab = ({ updateFunding, formData }) => (
     <div>
-        <Story />
+        <FundingGoal category={"tech"} updateFunding={updateFunding} formData={formData} />
     </div>
 );
 
-const CollaboratorsTab = () => (
+const StoryTab = ({ updateStory, formData }) => (
     <div>
-        <Collaborators/>
+        <Story updateStory={updateStory} formData={formData} />
     </div>
 );
 
-const FundingTab = () => (
+const CollaboratorsTab = ({ updateCollaborators, formData }) => (
     <div>
-        <FundingGoal />
+        <Collaborators updateCollaborators={updateCollaborators} formData={formData} />
     </div>
 );
 
