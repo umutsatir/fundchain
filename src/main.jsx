@@ -27,6 +27,8 @@ import { lightTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { sepolia } from "wagmi/chains";
 import CardSaved from "./pages/CardSaved";
+import EnteringEmail from "./pages/EnteringEmail";
+import ValidationEmail from "./pages/ValidationEmail";
 
 const queryClient = new QueryClient();
 
@@ -57,7 +59,8 @@ const App = () => {
 
     // Check if the current path is for login or signup
     const isAuthPage =
-        location.pathname === "/login" || location.pathname === "/signup" || location.pathname === "/error";
+        location.pathname === "/login" || location.pathname === "/signup" || location.pathname === "/error"
+        || location.pathname === "/enter-email"  || location.pathname === "/validation-email";
 
     return (
         <div>
@@ -83,6 +86,8 @@ const App = () => {
                                 element={<Login onLogin={onLogin} />}
                             />
                             <Route path="/signup" element={<Signup />} />
+                            <Route path="/enter-email" element={<EnteringEmail />} />
+                            <Route path="/validation-email" element={<ValidationEmail />} />
                         </>
                     )}
                     <Route path="*" element={<Error />} />

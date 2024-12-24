@@ -78,7 +78,7 @@ function Login({ onLogin }) {
                     required
                     onChange={handlePassword}
                 />
-                <Link to="#" className={styles.forgotPassword}>
+                <Link to="/enter-email" className={styles.forgotPassword}>
                     Forgot your password?
                 </Link>
                 <button type="submit" className={styles.loginButton}>
