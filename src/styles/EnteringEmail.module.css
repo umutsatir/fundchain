@@ -132,4 +132,8 @@
     .EnteringEmailContainer .title {
         margin-top: 3px;
     }
+
+    .EnteringEmailContainer .upperPart .backButton {
+        margin-right: 50px;
+    }
 }

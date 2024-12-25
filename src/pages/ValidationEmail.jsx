@@ -23,7 +23,7 @@ function ValidationEmail() {
         if (number.length !== 6) {
             setError("Please enter a valid 6-digit number.");
         } else {
-            navigate("/validation-email");
+            navigate("/forgot-password");
         }
     };
 
@@ -40,7 +40,7 @@ function ValidationEmail() {
     };
 
     return (
-        <div className={styles.EnteringEmailContainer}>
+        <div className={styles.ValidationEmailContainer}>
             <div className={styles.upperPart}>
                 <button className={styles.backButton} onClick={handleBack}>
                     &#8592;

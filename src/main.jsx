@@ -29,6 +29,7 @@ import { sepolia } from "wagmi/chains";
 import CardSaved from "./pages/CardSaved";
 import EnteringEmail from "./pages/EnteringEmail";
 import ValidationEmail from "./pages/ValidationEmail";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const queryClient = new QueryClient();
 
@@ -60,7 +61,7 @@ const App = () => {
     // Check if the current path is for login or signup
     const isAuthPage =
         location.pathname === "/login" || location.pathname === "/signup" || location.pathname === "/error"
-        || location.pathname === "/enter-email"  || location.pathname === "/validation-email";
+        || location.pathname === "/enter-email"  || location.pathname === "/validation-email" || location.pathname === "/forgot-password";
 
     return (
         <div>
@@ -88,6 +89,7 @@ const App = () => {
                             <Route path="/signup" element={<Signup />} />
                             <Route path="/enter-email" element={<EnteringEmail />} />
                             <Route path="/validation-email" element={<ValidationEmail />} />
+                            <Route path="/forgot-password" element={<ForgotPassword />} />
                         </>
                     )}
                     <Route path="*" element={<Error />} />

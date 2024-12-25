@@ -1,4 +1,4 @@
-.EnteringEmailContainer {
+.ValidationEmailContainer {
     border: 1px solid rgba(137, 43, 226, 0.132);
     background-color: rgba(112, 77, 145, 0.065);
     border-radius: 5px;
@@ -22,7 +22,7 @@
     font-family: inherit;
 }
 
-.EnteringEmailContainer .upperPart {
+.ValidationEmailContainer .upperPart {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -31,7 +31,7 @@
     margin-top: -20px;
 }
 
-.EnteringEmailContainer .upperPart .backButton {
+.ValidationEmailContainer .upperPart .backButton {
     border: none;
     background: none;
     font-size: 2.3em;
@@ -42,23 +42,23 @@
     margin-right: 100px;
 }
 
-.EnteringEmailContainer .upperPart .backButton:hover {
+.ValidationEmailContainer .upperPart .backButton:hover {
     background-color:  rgba(112, 77, 145, 0.065);
     cursor: pointer;
 }
 
-.EnteringEmailContainer .upperPart .title {
+.ValidationEmailContainer .upperPart .title {
     align-self: flex-start;
     font-size: 1.4em;
     font-weight: 600;
 }
 
-.EnteringEmailContainer .knowledge {
+.ValidationEmailContainer .knowledge {
     font-weight: 400;
     font-size: 1.1em;
 }
 
-.EnteringEmailContainer .timer {
+.ValidationEmailContainer .timer {
     align-self: center;
     
     border: 1px solid  white;
@@ -78,7 +78,7 @@
     margin-bottom: 30px;
 }
 
-.EnteringEmailContainer .timerExpired {
+.ValidationEmailContainer .timerExpired {
     align-self: center;
 
     color: rgb(184, 19, 19);
@@ -89,14 +89,14 @@
     margin-top: 0;
 }
 
-.EnteringEmailContainer form {
+.ValidationEmailContainer form {
     display: flex;
     flex-direction: column; 
     align-items: flex-start; 
     width: 100%; 
 }
 
-.EnteringEmailContainer input {
+.ValidationEmailContainer input {
     display: block;
     border: 1px solid var(--primary-color);
     border-radius: 3px;
@@ -110,7 +110,7 @@
     font-size: 1.2em;
 }
 
-.EnteringEmailContainer input:hover {
+.ValidationEmailContainer input:hover {
     border: 1px solid var(--primary-color);
 }
 
@@ -138,7 +138,7 @@
 }
 
 
-.EnteringEmailContainer .divider {
+.ValidationEmailContainer .divider {
     width: 100%;
     height: 1px;
     background-color: rgba(0, 0, 0, 0.208);
@@ -155,12 +155,22 @@
 }
 
 @media screen and (max-width: 576px) {
-    .EnteringEmailContainer {
+    .ValidationEmailContainer {
         width: 350px;
         padding: 20px;
     }
 
-    .EnteringEmailContainer .title {
+    .ValidationEmailContainer .title {
         margin-top: 3px;
+    }
+
+    .ValidationEmailContainer .upperPart .backButton {
+        margin-right: 50px;
+    }
+
+    .ValidationEmailContainer .timer {
+        height: 100px;
+        width: 100px;
+        font-size: 2.5em;
     }
 }
