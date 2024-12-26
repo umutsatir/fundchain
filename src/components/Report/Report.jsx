@@ -21,6 +21,7 @@ const Report = ({ id }) => {
             success: function (data) {
                 data = JSON.parse(data);
                 if (!data.status) setIsButtonDisabled(false);
+                else console.log(data.message);
             },
             error: function (error) {
                 console.log(error);
@@ -38,9 +39,10 @@ const Report = ({ id }) => {
             url: "http://localhost:8000/createReport.php",
             type: "POST",
             data: {
-                projectId: id,
-                reason: reportReason,
-                details: additionalDetails,
+                projectId_input: id,
+                username_input: cookies.get("username"),
+                reportType_input: reportReason,
+                description_input: additionalDetails,
             },
             success: function (data) {
                 data = JSON.parse(data);
