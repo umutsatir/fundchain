@@ -154,7 +154,7 @@
     cursor: pointer;
 }
 
-.popupActions button:hover {
+.popupAddButton button:hover {
     background-color: var(--primary-color-hover);
 }
 
@@ -165,12 +165,17 @@
 
 .popupActions .popupCancelButton {
     border: 1px solid var(--primary-color);
-    color: black;
+    color: #0a0a0a;
     background-color: white;
 }
 
 .popupCancelButton:hover {
     color: white;
+    background-color: var(--primary-color);
+}
+
+.popupCancelButton:active {
+    background-color: var(--primary-color-click);
 }
 
 .popupContent .divider {
