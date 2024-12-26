@@ -6,6 +6,7 @@ import {
     Routes,
     Route,
     useLocation,
+    Navigate,
 } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -57,7 +58,9 @@ const App = () => {
 
     // Check if the current path is for login or signup
     const isAuthPage =
-        location.pathname === "/login" || location.pathname === "/signup" || location.pathname === "/error";
+        location.pathname === "/login" ||
+        location.pathname === "/signup" ||
+        location.pathname === "/error";
 
     return (
         <div>
@@ -74,7 +77,10 @@ const App = () => {
                             <Route path="/profile" element={<Profile />} />
                             <Route path="/create" element={<Create />} />
                             <Route path="/settings" element={<Settings />} />
-                            <Route path="/saved-projects" element={<CardSaved />} />
+                            <Route
+                                path="/saved-projects"
+                                element={<CardSaved />}
+                            />
                         </>
                     ) : (
                         <>
@@ -85,7 +91,10 @@ const App = () => {
                             <Route path="/signup" element={<Signup />} />
                         </>
                     )}
-                    <Route path="*" element={<Error />} />
+                    <Route
+                        path="*"
+                        element={<Navigate to="/error" replace />}
+                    />
                 </Routes>
             </div>
             {!isAuthPage && <Footer />}
