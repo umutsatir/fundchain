@@ -9,14 +9,10 @@ function Category() {
         title: "",
     });
     const [editingCollaborator, setEditingCollaborator] = useState(null);
-    const [editProject, setEditProject] = useState(false);
-    const [manageCommunity, setManageCommunity] = useState(false);
     const [coordinateFulfillment, setCoordinateFulfillment] = useState(false);
 
     const handleAddCollaborator = () => {
         const permissions = [
-            editProject && "Edit project",
-            manageCommunity && "Manage community",
             coordinateFulfillment && "Coordinate fulfillment",
         ].filter(Boolean); //remove the false
 
@@ -25,8 +21,6 @@ function Category() {
         setCollaborators([...Collaborators, collaboratorWithPermissions]);
         setIsPopupOpen(false);
         setNewCollaborator({ email: "", title: "" });
-        setEditProject(false); //Reset
-        setManageCommunity(false); //Reset
         setCoordinateFulfillment(false); //Reset
     };
 
@@ -38,10 +32,6 @@ function Category() {
             email: collaboratorToEdit.email,
             title: collaboratorToEdit.title,
         });
-        setEditProject(collaboratorToEdit.permissions.includes("Edit project"));
-        setManageCommunity(
-            collaboratorToEdit.permissions.includes("Manage community")
-        );
         setCoordinateFulfillment(
             collaboratorToEdit.permissions.includes("Coordinate fulfillment")
         );
@@ -50,8 +40,6 @@ function Category() {
 
     const handleSaveChanges = () => {
         const updatedPermissions = [
-            editProject && "Edit project",
-            manageCommunity && "Manage community",
             coordinateFulfillment && "Coordinate fulfillment",
         ].filter(Boolean); //remove the false
 
@@ -68,8 +56,6 @@ function Category() {
         setCollaborators(updatedCollaboratorsArray);
         setIsPopupOpen(false);
         setNewCollaborator({ email: "", title: "" });
-        setEditProject(false); //Reset
-        setManageCommunity(false); //Reset
         setCoordinateFulfillment(false); //Reset
         setEditingCollaborator(null); //Reset
     };
@@ -81,12 +67,6 @@ function Category() {
         setCollaborators(updatedCollaboratorsArray); //Set the updated list.
     };
 
-    const handleEditProjectClick = () => {
-        setEditProject(!editProject);
-    };
-    const handleManageCommunityClick = () => {
-        setManageCommunity(!manageCommunity);
-    };
     const handleCoordinateFulfillmentClick = () => {
         setCoordinateFulfillment(!coordinateFulfillment);
     };
@@ -200,46 +180,8 @@ function Category() {
                                 All collaborators will be able to access your
                                 project data. This includes total funding, the
                                 amount pledged and number of backers per reward,
-                                video statistics, and referrals. Specify the
-                                level of access this collaborator should have
-                                below.
+                                video statistics, and referrals.
                             </p>
-
-                            {/* Edit Project section */}
-                            <div className={styles.permissions}>
-                                <button
-                                    type="button"
-                                    className={`${styles.permissionButton} ${
-                                        editProject ? styles.confirmed : ""
-                                    }`}
-                                    onClick={handleEditProjectClick}
-                                >
-                                    {editProject && (
-                                        <i className="fas fa-check"></i>
-                                    )}
-                                </button>
-                                <span className={styles.permissionText}>
-                                    Edit project
-                                </span>
-                            </div>
-
-                            {/* Manage Community section */}
-                            <div className={styles.permissions}>
-                                <button
-                                    type="button"
-                                    className={`${styles.permissionButton} ${
-                                        manageCommunity ? styles.confirmed : ""
-                                    }`}
-                                    onClick={handleManageCommunityClick}
-                                >
-                                    {manageCommunity && (
-                                        <i className="fas fa-check"></i>
-                                    )}
-                                </button>
-                                <span className={styles.permissionText}>
-                                    Manage community
-                                </span>
-                            </div>
 
                             {/* Coordinate fulfillment section */}
                             <div className={styles.permissions}>
