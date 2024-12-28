@@ -1,0 +1,141 @@
+.shareButton {
+    width: 50%;
+    background-color: white;
+    color: var(--primary-color);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.shareButton:hover {
+    background-color: var(--primary-color-hover);
+}
+
+.shareButton:active {
+    background-color: var(--primary-color-click); 
+}
+
+.modalOverlay {
+    position: absolute;
+    top: 50px; 
+    right: 0; /* Sağda hizalama */
+    background-color: white;
+    z-index: 999;
+    padding: 10px;
+    width: 200px; 
+}
+
+.modalContent {
+    max-width: 500px; 
+    width: 90%; 
+    margin: 0 auto; 
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.socialButtons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.socialBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #f1f1f1;
+    color: #333;
+    font-size: 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.socialBtn:hover {
+    background-color: #ddd;
+    transform: scale(1.1);
+}
+
+.socialBtn i {
+    margin: 0;
+}
+
+.socialBtn.facebook {
+    background-color: #3b5998;
+    color: white;
+}
+
+.socialBtn.facebook:hover {
+    background-color: #365e8d;
+}
+
+.socialBtn.twitter {
+    background-color: #1da1f2;
+    color: white;
+}
+
+.socialBtn.twitter:hover {
+    background-color: #1a91d0;
+}
+
+/*LinkedIn 
+.socialBtn.linkedin {
+    background-color: #0077b5;
+    color: white;
+}
+
+.socialBtn.linkedin:hover {
+    background-color: #00669b;
+}
+*/
+
+.socialBtn.whatsapp {
+    background-color: #25d366; 
+    border-radius: 50%; 
+}
+
+.socialBtn.whatsapp i {
+    color: #fff; 
+}
+
+.socialBtn.whatsapp:hover {
+    background-color: #25b764; 
+}
+
+.socialBtn.copyLink {
+    background-color: #888; 
+}
+
+.socialBtn.copyLink i {
+    color: white; 
+}
+
+.socialBtn.copyLink:hover {
+    background-color: #666; 
+}
+
+.copyMessage {
+    position: fixed; 
+    bottom: 35px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    background-color: #28a745; 
+    color: white;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    transition: opacity 0.5s ease;
+    z-index: 1000; 
+}
+
