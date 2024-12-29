@@ -25,7 +25,7 @@ function Project() {
             return;
         }
         $.ajax({
-            url: "http://localhost:8000/project.php",
+            url: "http://localhost:8000/api/project.php",
             type: "GET",
             data: {
                 projectId: id,
@@ -42,7 +42,7 @@ function Project() {
         });
 
         $.ajax({
-            url: "http://localhost:8000/story.php",
+            url: "http://localhost:8000/api/story.php",
             type: "GET",
             data: {
                 projectId: id,
@@ -59,7 +59,7 @@ function Project() {
         });
 
         $.ajax({
-            url: "http://localhost:8000/viewComments.php",
+            url: "http://localhost:8000/api/viewComments.php",
             type: "POST",
             data: {
                 projectId_input: id,

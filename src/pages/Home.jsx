@@ -12,7 +12,9 @@ function Home() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await fetch("http://localhost:8000/home.php");
+                const response = await fetch(
+                    "http://localhost:8000/api/home.php"
+                );
                 const data = await response.json();
                 setProjects(data);
 

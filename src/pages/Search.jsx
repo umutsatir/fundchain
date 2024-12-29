@@ -35,7 +35,7 @@ function Search() {
 
     function getResults(searchText) {
         $.ajax({
-            url: "http://localhost:8000/search.php",
+            url: "http://localhost:8000/api/search.php",
             type: "GET",
             data: {
                 search: searchText,

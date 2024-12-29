@@ -70,7 +70,7 @@ function Login({ onLogin }) {
         if (valid) {
             // Send AJAX request if inputs are valid
             $.ajax({
-                url: "http://localhost:8000/login.php",
+                url: "http://localhost:8000/api/login.php",
                 type: "POST",
                 data: {
                     email: email,

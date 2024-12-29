@@ -7,7 +7,7 @@ function Stats() {
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/stats.php",
+            url: "http://localhost:8000/api/stats.php",
             type: "GET",
             success: function (data) {
                 setStats(JSON.parse(data));

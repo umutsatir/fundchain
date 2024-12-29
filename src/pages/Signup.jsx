@@ -28,18 +28,25 @@ function Signup() {
 
     const handleCreateAccount = (e) => {
         e.preventDefault();
-        
+
         let valid = true;
-        const newErrors = { username: "", email: "", password: "", confirmPassword: "" };
+        const newErrors = {
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+        };
 
         if (!username) {
             newErrors.username = "Username is required.";
             valid = false;
         } else if (username.trim().length < 5 || username.trim().length > 20) {
-            newErrors.username = "Username must be between 5 and 20 characters.";
+            newErrors.username =
+                "Username must be between 5 and 20 characters.";
             valid = false;
         } else if (/[^a-zA-Z0-9]/.test(username)) {
-            newErrors.username = "Username can only contain letters and numbers.";
+            newErrors.username =
+                "Username can only contain letters and numbers.";
             valid = false;
         }
 
@@ -58,15 +65,17 @@ function Signup() {
             newErrors.password = "Password must be at least 8 characters.";
             valid = false;
         } else if (!/[A-Z]/.test(password)) {
-            newErrors.password = "Password must contain at least one uppercase letter.";
+            newErrors.password =
+                "Password must contain at least one uppercase letter.";
             valid = false;
         } else if (!/[a-z]/.test(password)) {
-            newErrors.password = "Password must contain at least one lowercase letter.";
+            newErrors.password =
+                "Password must contain at least one lowercase letter.";
             valid = false;
         } else if (!/[0-9]/.test(password)) {
             newErrors.password = "Password must contain at least one number.";
             valid = false;
-        } 
+        }
         // else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
         //     newErrors.password = "Password must contain at least one special character.";
         //     valid = false;
@@ -82,9 +91,9 @@ function Signup() {
 
         setErrors(newErrors);
 
-        if (valid){
+        if (valid) {
             $.ajax({
-                url: "http://localhost:8000/signup.php",
+                url: "http://localhost:8000/api/signup.php",
                 type: "POST",
                 data: {
                     username: username,
@@ -141,9 +150,11 @@ function Signup() {
                     onChange={handleUsername}
                 />
                 {errors.username && (
-                    <span className={styles.errorMessage}>{errors.username}</span>
+                    <span className={styles.errorMessage}>
+                        {errors.username}
+                    </span>
                 )}
-            
+
                 <input
                     type="email"
                     placeholder="Email"
@@ -153,7 +164,7 @@ function Signup() {
                 {errors.email && (
                     <span className={styles.errorMessage}>{errors.email}</span>
                 )}
-            
+
                 <input
                     type="password"
                     placeholder="Password"
@@ -161,7 +172,9 @@ function Signup() {
                     onChange={handlePassword}
                 />
                 {errors.password && (
-                    <span className={styles.errorMessage}>{errors.password}</span>
+                    <span className={styles.errorMessage}>
+                        {errors.password}
+                    </span>
                 )}
 
                 <input
@@ -171,7 +184,9 @@ function Signup() {
                     onChange={handleConfirmPassword}
                 />
                 {errors.confirmPassword && (
-                    <span className={styles.errorMessage}>{errors.confirmPassword}</span>
+                    <span className={styles.errorMessage}>
+                        {errors.confirmPassword}
+                    </span>
                 )}
 
                 <div className={styles.signupCondition}>

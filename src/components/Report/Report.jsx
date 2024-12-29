@@ -12,7 +12,7 @@ const Report = ({ id }) => {
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/checkReport.php",
+            url: "http://localhost:8000/api/checkReport.php",
             type: "POST",
             data: {
                 projectId_input: id,
@@ -36,7 +36,7 @@ const Report = ({ id }) => {
         if (isButtonDisabled) return;
 
         $.ajax({
-            url: "http://localhost:8000/createReport.php",
+            url: "http://localhost:8000/api/createReport.php",
             type: "POST",
             data: {
                 projectId_input: id,
