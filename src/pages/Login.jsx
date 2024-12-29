@@ -91,7 +91,6 @@ function Login({ onLogin }) {
                 },
             });
         }
-        
     };
 
     const handleButtonClick = () => {

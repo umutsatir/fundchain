@@ -174,10 +174,14 @@ function Navbar({ onLogout, loggedIn }) {
                 ) : (
                     <>
                         <div className={styles.hamburger}>
-                            <ConnectButton
-                                accountStatus={"avatar"}
-                                chainStatus={"none"}
-                            />
+                            {loggedIn ? (
+                                <ConnectButton
+                                    accountStatus={"avatar"}
+                                    chainStatus={"none"}
+                                />
+                            ) : (
+                                <></>
+                            )}
                             <a onClick={handleMenuClick}>
                                 <i className="fa fa-bars"></i>
                             </a>
