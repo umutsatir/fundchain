@@ -1,12 +1,5 @@
 <?php
-header('Access-Control-Allow-Origin: http://localhost:5173');
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-require_once '../vendor/autoload.php';
-include './pdo.php';
-$pdo = (new PDOClass())->connect();
-
-$gump = new GUMP();
-$_POST = $gump->sanitize($_POST);
+Create comment table in database and connect comments into database
 
 ///////////REAL/////////////////////
 $username = $_POST['username'];
