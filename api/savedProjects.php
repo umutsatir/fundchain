@@ -1,6 +1,6 @@
 <?php 
     try {
-        header('Access-Control-Allow-Origin: http://localhost:5173');
+        header('Access-Control-Allow-Origin: *');
         include './pdo.php';
         $pdo = (new PDOClass())->connect();
         $username = $_POST['username'];

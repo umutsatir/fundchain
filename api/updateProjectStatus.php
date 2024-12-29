@@ -1,5 +1,5 @@
 <?php 
-    header('Access-Control-Allow-Origin: http://localhost:5173');
+    header('Access-Control-Allow-Origin: *');
     include './pdo.php';
     try {
         $pdo = (new PDOClass())->connect();
