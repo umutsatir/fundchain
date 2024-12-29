@@ -1,16 +1,16 @@
-import React, {useState, useRef} from 'react';
-import styles from './Duration.module.css';
-import CustomDatePicker from '../CustomDatePicker/CustomDatePicker';
+import React, { useState, useRef } from "react";
+import styles from "./Duration.module.css";
+import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
 
-function Duration() {
-    const [date, setDate] = useState(null);
-    const [day, setDay] = useState('');
-    const [month, setMonth] = useState('');
-    const [year, setYear] = useState('');
+function Duration({ updateBasics, formData }) {
+    const [date, setDate] = useState(formData.duration.type === "specificDate" ? new Date(formData.duration.value) : null);
+    const [day, setDay] = useState(formData.duration.type === "specificDate" ? new Date(formData.duration.value).getDate() : "");
+    const [month, setMonth] = useState(formData.duration.type === "specificDate" ? new Date(formData.duration.value).getMonth() + 1 : "");
+    const [year, setYear] = useState(formData.duration.type === "specificDate" ? new Date(formData.duration.value).getFullYear() : "");
     const [calendarOpen, setCalendarOpen] = useState(false);
     const buttonRef = useRef(null);
-    const [durationOption, setDurationOption] = useState('fixed');
-    const [numDays, setNumDays] = useState('');
+    const [durationOption, setDurationOption] = useState(formData.duration.type || "fixed");
+    const [numDays, setNumDays] = useState(formData.duration.type === "fixed" ? formData.duration.value : "");
 
     const handleDateChange = (selectedDate) => {
         setDate(selectedDate);
@@ -18,6 +18,8 @@ function Duration() {
         setMonth(selectedDate.getMonth() + 1);
         setYear(selectedDate.getFullYear());
         setCalendarOpen(false);
+
+        updateBasics("duration", { type: "specificDate", value: selectedDate.toISOString() });
     };
 
     const handleCalendarToggle = () => {
@@ -25,10 +27,39 @@ function Duration() {
     };
 
     const handleDurationChange = (e) => {
-        setDurationOption(e.target.value);
-        if (e.target.value === 'fixed') {
-            setNumDays('');
+        const value = e.target.value;
+        setDurationOption(value);
+
+        if (value === "fixed") {
+            setNumDays("");
+            updateBasics("duration", { type: "fixed", value: "" });
+        } else if (value === "specificDate") {
+            updateBasics("duration", { type: "specificDate", value: null });
         }
+    };
+
+    const handleInputChange = (field, value) => {
+        let newDay = day;
+        let newMonth = month;
+        let newYear = year;
+
+        if (field === "day") newDay = value;
+        if (field === "month") newMonth = value;
+        if (field === "year") newYear = value;
+
+        if (field === "day") setDay(value);
+        if (field === "month") setMonth(value);
+        if (field === "year") setYear(value);
+
+        if (newDay && newMonth && newYear) {
+            const selectedDate = new Date(newYear, newMonth - 1, newDay);
+            updateBasics("duration", { type: "specificDate", value: selectedDate.toISOString() });
+        }
+    };
+
+    const handleNumDaysChange = (value) => {
+        setNumDays(value);
+        updateBasics("duration", { type: "fixed", value });
     };
 
     return (
@@ -41,7 +72,7 @@ function Duration() {
                         type="radio"
                         name="duration"
                         value="fixed"
-                        checked={durationOption === 'fixed'}
+                        checked={durationOption === "fixed"}
                         onChange={handleDurationChange}
                     />
                     Fixed number of days
@@ -51,14 +82,14 @@ function Duration() {
                         type="radio"
                         name="duration"
                         value="specificDate"
-                        checked={durationOption === 'specificDate'}
+                        checked={durationOption === "specificDate"}
                         onChange={handleDurationChange}
                     />
                     End on a specific date & time
                 </label>
             </div>
 
-            {durationOption === 'fixed' && (
+            {durationOption === "fixed" && (
                 <div className={styles.fixedDuration}>
                     <label htmlFor="numDays">Number of days (up to 60):</label>
                     <input
@@ -67,13 +98,13 @@ function Duration() {
                         min="1"
                         max="60"
                         value={numDays}
-                        onChange={(e) => setNumDays(e.target.value)}
+                        onChange={(e) => handleNumDaysChange(e.target.value)}
                         className={styles.input}
                     />
                 </div>
             )}
 
-            {durationOption === 'specificDate' && (
+            {durationOption === "specificDate" && (
                 <div className={styles.specificDate}>
                     <div className={styles.dateWrapper}>
                         <div className={styles.dateInputGroup}>
@@ -84,7 +115,7 @@ function Duration() {
                                 min="1"
                                 max="31"
                                 value={day}
-                                onChange={(e) => setDay(e.target.value)}
+                                onChange={(e) => handleInputChange("day", e.target.value)}
                                 className={styles.input}
                                 disabled={calendarOpen}
                             />
@@ -97,7 +128,7 @@ function Duration() {
                                 min="1"
                                 max="12"
                                 value={month}
-                                onChange={(e) => setMonth(e.target.value)}
+                                onChange={(e) => handleInputChange("month", e.target.value)}
                                 className={styles.input}
                                 disabled={calendarOpen}
                             />
@@ -109,7 +140,7 @@ function Duration() {
                                 id="year"
                                 min="2024"
                                 value={year}
-                                onChange={(e) => setYear(e.target.value)}
+                                onChange={(e) => handleInputChange("year", e.target.value)}
                                 className={styles.input}
                                 disabled={calendarOpen}
                             />

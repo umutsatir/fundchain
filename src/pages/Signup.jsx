@@ -9,37 +9,101 @@ function Signup() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const navigate = useNavigate();
+
+    const [errors, setErrors] = useState({
+        username: "",
+        email: "",
+        password: "",
+    });
 
     const handleButtonClickFirst = () => {
         setIsConfirmedFirst(!isConfirmedFirst);
     };
+
     const handleButtonClickSecond = () => {
         setIsConfirmedSecond(!isConfirmedSecond);
     };
 
     const handleCreateAccount = (e) => {
         e.preventDefault();
-        $.ajax({
-            url: "http://localhost:8000/signup.php",
-            type: "POST",
-            data: {
-                username: username,
-                email: email,
-                password: password,
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data.status) {
-                    navigate("/login");
-                } else {
-                    console.log(data.message);
-                }
-            },
-            error: function (error) {
-                console.log(error);
-            },
-        });
+        
+        let valid = true;
+        const newErrors = { username: "", email: "", password: "", confirmPassword: "" };
+
+        if (!username) {
+            newErrors.username = "Username is required.";
+            valid = false;
+        } else if (username.trim().length < 5 || username.trim().length > 20) {
+            newErrors.username = "Username must be between 5 and 20 characters.";
+            valid = false;
+        } else if (/[^a-zA-Z0-9]/.test(username)) {
+            newErrors.username = "Username can only contain letters and numbers.";
+            valid = false;
+        }
+
+        if (!email) {
+            newErrors.email = "Email is required.";
+            valid = false;
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            newErrors.email = "Please enter a valid email address.";
+            valid = false;
+        }
+
+        if (!password) {
+            newErrors.password = "Password is required.";
+            valid = false;
+        } else if (password.length < 8) {
+            newErrors.password = "Password must be at least 8 characters.";
+            valid = false;
+        } else if (!/[A-Z]/.test(password)) {
+            newErrors.password = "Password must contain at least one uppercase letter.";
+            valid = false;
+        } else if (!/[a-z]/.test(password)) {
+            newErrors.password = "Password must contain at least one lowercase letter.";
+            valid = false;
+        } else if (!/[0-9]/.test(password)) {
+            newErrors.password = "Password must contain at least one number.";
+            valid = false;
+        } 
+        // else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+        //     newErrors.password = "Password must contain at least one special character.";
+        //     valid = false;
+        // }
+
+        if (!confirmPassword) {
+            newErrors.confirmPassword = "Confirm password is required.";
+            valid = false;
+        } else if (password !== confirmPassword) {
+            newErrors.confirmPassword = "Passwords do not match.";
+            valid = false;
+        }
+
+        setErrors(newErrors);
+
+        if (valid){
+            $.ajax({
+                url: "http://localhost:8000/signup.php",
+                type: "POST",
+                data: {
+                    username: username,
+                    email: email,
+                    password: password,
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.status) {
+                        navigate("/login");
+                    } else {
+                        console.log(data.message);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+            });
+        }
     };
 
     const handleUsername = (e) => {
@@ -52,6 +116,10 @@ function Signup() {
 
     const handlePassword = (e) => {
         setPassword(e.target.value);
+    };
+
+    const handleConfirmPassword = (e) => {
+        setConfirmPassword(e.target.value);
     };
 
     return (
@@ -72,18 +140,39 @@ function Signup() {
                     required
                     onChange={handleUsername}
                 />
+                {errors.username && (
+                    <span className={styles.errorMessage}>{errors.username}</span>
+                )}
+            
                 <input
                     type="email"
                     placeholder="Email"
                     required
                     onChange={handleEmail}
                 />
+                {errors.email && (
+                    <span className={styles.errorMessage}>{errors.email}</span>
+                )}
+            
                 <input
                     type="password"
                     placeholder="Password"
                     required
                     onChange={handlePassword}
                 />
+                {errors.password && (
+                    <span className={styles.errorMessage}>{errors.password}</span>
+                )}
+
+                <input
+                    type="password"
+                    placeholder="Confirm Password"
+                    required
+                    onChange={handleConfirmPassword}
+                />
+                {errors.confirmPassword && (
+                    <span className={styles.errorMessage}>{errors.confirmPassword}</span>
+                )}
 
                 <div className={styles.signupCondition}>
                     <button

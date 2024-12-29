@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Category.module.css";
 
 function Category() {
     const [selectedCategory, setSelectedCategory] = useState("");
+
+    const [selectedSubcategory, setSelectedSubcategory] = useState(formData.category.secondarySubcategory || "");
 
     const categoryOptions = {
         Art: ["Painting", "Sculpture", "Photography"],
@@ -11,7 +13,6 @@ function Category() {
         Music: ["Rock", "Classical", "Pop"],
         Food: ["Cooking", "Baking", "Catering"],
     };
-
     const handleCategoryChange = (e) => {
         const category = e.target.value;
         setSelectedCategory(category);
@@ -38,6 +39,7 @@ function Category() {
                         className={styles.categoryFormControl}
                         name="category"
                         onChange={handleCategoryChange}
+                        value={selectedCategory}
                     >
                         <option value="">Select Category</option>
                         {Object.keys(categoryOptions).map((category) => (
