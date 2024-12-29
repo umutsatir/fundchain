@@ -6,6 +6,7 @@ import {
     Routes,
     Route,
     useLocation,
+    Navigate,
 } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -78,7 +79,10 @@ const App = () => {
                             <Route path="/profile" element={<Profile />} />
                             <Route path="/create" element={<Create />} />
                             <Route path="/settings" element={<Settings />} />
-                            <Route path="/saved-projects" element={<CardSaved />} />
+                            <Route
+                                path="/saved-projects"
+                                element={<CardSaved />}
+                            />
                         </>
                     ) : (
                         <>
@@ -92,7 +96,10 @@ const App = () => {
                             <Route path="/forgot-password" element={<ForgotPassword />} />
                         </>
                     )}
-                    <Route path="*" element={<Error />} />
+                    <Route
+                        path="*"
+                        element={<Navigate to="/error" replace />}
+                    />
                 </Routes>
             </div>
             {!isAuthPage && <Footer />}

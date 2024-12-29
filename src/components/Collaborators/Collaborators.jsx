@@ -27,8 +27,6 @@ function Category({ updateCollaborators, formData }) {
         title: "",
     });
     const [editingCollaborator, setEditingCollaborator] = useState(null);
-    const [editProject, setEditProject] = useState(false);
-    const [manageCommunity, setManageCommunity] = useState(false);
     const [coordinateFulfillment, setCoordinateFulfillment] = useState(false);
 
     useEffect(() => {
@@ -43,8 +41,6 @@ function Category({ updateCollaborators, formData }) {
 
     const handleAddCollaborator = () => {
         const permissions = [
-            editProject && "Edit project",
-            manageCommunity && "Manage community",
             coordinateFulfillment && "Coordinate fulfillment",
         ].filter(Boolean); // Remove false values
 
@@ -63,10 +59,6 @@ function Category({ updateCollaborators, formData }) {
             email: collaboratorToEdit.email,
             title: collaboratorToEdit.title,
         });
-        setEditProject(collaboratorToEdit.permissions.includes("Edit project"));
-        setManageCommunity(
-            collaboratorToEdit.permissions.includes("Manage community")
-        );
         setCoordinateFulfillment(
             collaboratorToEdit.permissions.includes("Coordinate fulfillment")
         );
@@ -75,8 +67,6 @@ function Category({ updateCollaborators, formData }) {
 
     const handleSaveChanges = () => {
         const updatedPermissions = [
-            editProject && "Edit project",
-            manageCommunity && "Manage community",
             coordinateFulfillment && "Coordinate fulfillment",
         ].filter(Boolean); // Remove false values
 
@@ -102,12 +92,6 @@ function Category({ updateCollaborators, formData }) {
         setCollaborators(updatedCollaboratorsArray);
     };
 
-    const handleEditProjectClick = () => {
-        setEditProject(!editProject);
-    };
-    const handleManageCommunityClick = () => {
-        setManageCommunity(!manageCommunity);
-    };
     const handleCoordinateFulfillmentClick = () => {
         setCoordinateFulfillment(!coordinateFulfillment);
     };
@@ -227,46 +211,8 @@ function Category({ updateCollaborators, formData }) {
                                 All collaborators will be able to access your
                                 project data. This includes total funding, the
                                 amount pledged and number of backers per reward,
-                                video statistics, and referrals. Specify the
-                                level of access this collaborator should have
-                                below.
+                                video statistics, and referrals.
                             </p>
-
-                            {/* Edit Project section */}
-                            <div className={styles.permissions}>
-                                <button
-                                    type="button"
-                                    className={`${styles.permissionButton} ${
-                                        editProject ? styles.confirmed : ""
-                                    }`}
-                                    onClick={handleEditProjectClick}
-                                >
-                                    {editProject && (
-                                        <i className="fas fa-check"></i>
-                                    )}
-                                </button>
-                                <span className={styles.permissionText}>
-                                    Edit project
-                                </span>
-                            </div>
-
-                            {/* Manage Community section */}
-                            <div className={styles.permissions}>
-                                <button
-                                    type="button"
-                                    className={`${styles.permissionButton} ${
-                                        manageCommunity ? styles.confirmed : ""
-                                    }`}
-                                    onClick={handleManageCommunityClick}
-                                >
-                                    {manageCommunity && (
-                                        <i className="fas fa-check"></i>
-                                    )}
-                                </button>
-                                <span className={styles.permissionText}>
-                                    Manage community
-                                </span>
-                            </div>
 
                             {/* Coordinate fulfillment section */}
                             <div className={styles.permissions}>
@@ -296,12 +242,8 @@ function Category({ updateCollaborators, formData }) {
                                     Cancel
                                 </button>
                                 <button
-                                    onClick={
-                                        editingCollaborator
-                                            ? handleSaveChanges
-                                            : handleAddCollaborator
-                                    }
                                     className={styles.popupAddButton}
+                                    type="submit"
                                 >
                                     {editingCollaborator
                                         ? "Save changes"

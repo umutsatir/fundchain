@@ -102,3 +102,39 @@
 .seeMore:hover {
     color: var(--primary-color-hover);
 }
+
+@media screen and (max-width: 768px) {
+    .profileCard {
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .profileFrame {
+        padding: 20px 0;
+    }
+
+    .profileImage img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .profileInfo h2 {
+        font-size: 18px;
+    }
+
+    .profileInfo p {
+        font-size: 12px;
+    }
+
+    .ratingValue {
+        font-size: 12px;
+    }
+
+    .rating .star {
+        font-size: 20px;
+    }
+
+    .profileDescription p {
+        font-size: 12px;
+    }
+}
