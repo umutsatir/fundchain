@@ -18,7 +18,7 @@
     In this way, the center point of the element comes exactly in the middle of the page. */
     transform: translate(-50%, -50%);
 
-    width: 500px;
+    width: 600px;
     height: auto;
 
     padding: 30px;
