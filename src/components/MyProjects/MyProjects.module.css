@@ -1,0 +1,190 @@
+.knowledgeSection {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    padding: 20px;
+    width: 100%;
+}
+
+.knowledgeSection .knowledge {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    width: 70%;
+}
+
+.knowledgeSection .picture {
+    height: 160px;
+    border-radius: 5px;
+
+}
+
+.knowledgeSection .button {
+    border: none;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    color: white;
+
+    font-size: 1.1em;
+    
+    height: 55px;
+    width: 120px;
+}
+
+.knowledgeSection .button:hover {
+    cursor: pointer;
+    background-color: var(--primary-color-hover);
+}
+
+.knowledgeSection .knowledge .projectTitle {
+    font-size: 1.6em;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.knowledgeSection .knowledge .projectDescription {
+    font-size: 1.1em;
+    margin-bottom: 0;
+}
+
+.knowledgeSection .knowledge .projectAbout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.knowledgeSection .knowledge .projectAbout .projectBackers {
+    background: rgba(137, 43, 226, 0.442);
+    border-radius: 7px;
+    font-size: 1em;
+    padding: 6px;
+
+    margin-right: 20px;
+}
+
+.knowledgeSection .knowledge .projectAbout .projectDeadline {
+    background: rgba(0, 128, 0, 0.893);
+    color: white;
+    border-radius: 7px;
+    font-size: 1em;
+    padding: 6px;
+}
+
+.knowledgeSection .knowledge .projectAbout .projectExpiredDeadline {
+    background:  rgb(199, 0, 0);
+    color: white;
+    border-radius: 7px;
+    font-size: 1em;
+    padding: 6px;
+}
+
+@media (max-width: 1200px) {
+    .knowledgeSection {
+        padding: 15px;
+    }
+
+    .knowledgeSection .knowledge {    
+        width: 60%;
+    }
+
+    .knowledgeSection .picture {
+        height: 150px;
+    }
+
+    .knowledgeSection .button {
+        height: 50px;
+        width: 110px;
+    }
+
+    .knowledgeSection .knowledge .projectTitle {
+        font-size: 1.5em;
+    }
+
+    .knowledgeSection .knowledge .projectDescription {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 992px) {
+    .knowledgeSection {
+        padding: 10px;
+    }
+
+    .knowledgeSection .knowledge {    
+        width: 50%;
+    }
+
+    .knowledgeSection .picture {
+        height: 140px;
+    }
+
+    .knowledgeSection .button {
+        font-size: 1em;
+        height: 45px;
+        width: 100px;
+    }
+
+    .knowledgeSection .knowledge .projectTitle {
+        font-size: 1.4em;
+    }
+
+    .knowledgeSection .knowledge .projectDescription {
+        font-size: 0.9em;
+    }
+
+    .knowledgeSection .knowledge .projectAbout .projectBackers {
+        font-size: 0.9em;
+        margin-right: 15px;
+    }
+    
+    .knowledgeSection .knowledge .projectAbout .projectDeadline {
+        font-size: 0.9em;
+    }
+    
+    .knowledgeSection .knowledge .projectAbout .projectExpiredDeadline {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 768px) {
+    .knowledgeSection {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 5px;
+    }
+
+    .knowledgeSection .knowledge {  
+        width: 65%;
+    }
+
+    .knowledgeSection .picture {
+        height: 130px;
+    }
+
+    .knowledgeSection .button {
+        font-size: 1em;
+        height: 40px;
+        width: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .knowledgeSection {
+        display: block;
+        margin-bottom: 30px;
+        padding: 10px;
+    }
+
+    .knowledgeSection .knowledge {  
+        width: 100%;
+    }
+
+    .knowledgeSection .knowledge .projectTitle {
+        margin-bottom: -10px;
+        margin-top: 5px;
+    }
+}
