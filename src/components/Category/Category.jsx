@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./Category.module.css";
 
 function Category() {
     const [selectedCategory, setSelectedCategory] = useState("");
-
-    const [selectedSubcategory, setSelectedSubcategory] = useState(formData.category.secondarySubcategory || "");
 
     const categoryOptions = {
         Art: ["Painting", "Sculpture", "Photography"],

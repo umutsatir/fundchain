@@ -10,6 +10,8 @@ import styles from "../styles/Project.module.css";
 import Loading from "../components/Loading/Loading";
 import Report from "../components/Report/Report";
 import { apiUrl } from "../api_url";
+import CommentItem from "../components/CommentItem/CommentItem";
+import CommentCreate from "../components/CommentCreate/CommentCreate";
 
 function Project() {
     const { id } = useParams();
@@ -91,15 +93,26 @@ function Project() {
                         {activeTab === "Campaign" ? (
                             <Campaign story={story} />
                         ) : (
-                            <p>asd</p> // todo add comment components
-                            // comments.map((comment) => {
-                            // })
+                            <div className={styles.commentsContainer}>
+                                <CommentCreate projectId={id} />
+                                <div className={styles.comments}>
+                                    <CommentItem comment={[]} />
+                                    <CommentItem comment={[]} />
+                                    <CommentItem comment={[]} />
+                                    <CommentItem comment={[]} />
+                                    {comments.map((comment) => {
+                                        <CommentItem comment={comment} />;
+                                    })}
+                                </div>
+                            </div>
                         )}
                     </div>
-                    <div className={styles.rightCampaign}>
-                        <ProjectOwner userId={project.userId} />
-                        <Report id={id} />
-                    </div>
+                    {activeTab === "Campaign" && (
+                        <div className={styles.rightCampaign}>
+                            <ProjectOwner userId={project.userId} />
+                            <Report id={id} />
+                        </div>
+                    )}
                 </div>
                 <RecommendedProjects userId={project.userId} />
             </div>
