@@ -4,6 +4,7 @@ import styles from "./Cards.module.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import $ from "jquery";
 import { Cookies } from "react-cookie";
+import { apiUrl } from "../../api_url";
 
 function Cards(props) {
     const cookies = new Cookies();
@@ -11,7 +12,7 @@ function Cards(props) {
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/checkSave.php",
+            url: apiUrl + "/checkSave.php",
             type: "POST",
             data: {
                 projectId: props.id,
@@ -45,7 +46,7 @@ function Cards(props) {
 
     const setSavedProject = () => {
         $.ajax({
-            url: "http://localhost:8000/save.php",
+            url: apiUrl + "/save.php",
             type: "POST",
             data: {
                 projectId: props.id,
@@ -91,7 +92,9 @@ function Cards(props) {
                     <p className={styles.cardOwner}>{props.owner}</p>
                     <p className={styles.cardDeadline}>
                         <i className="fa fa-clock"></i> {/* time symbol */}
-                        {props.deadline} days left
+                        {props.deadline <= 0
+                            ? "0 days left"
+                            : `${props.deadline} days left`}
                     </p>
                 </div>
                 {/* save button */}

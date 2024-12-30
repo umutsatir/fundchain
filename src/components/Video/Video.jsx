@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
 import styles from './Video.module.css';
 
-function Video() {
-    const [video, setVideo] = useState(null);
+function Video({updateBasics, formData}) {
+    const [video, setVideo] = useState(formData.video || null);
 
     const handleVideoUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
             setVideo(URL.createObjectURL(file));
         }
+        updateBasics("video", URL.createObjectURL(file));
     };
 
     return (

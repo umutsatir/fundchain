@@ -3,6 +3,7 @@ import Cards from "../components/Cards/Cards";
 import $ from "jquery";
 import styles from "../styles/Search.module.css";
 import Loading from "../components/Loading/Loading";
+import { apiUrl } from "../api_url";
 
 function Search() {
     const [projects, setProjects] = useState([]);
@@ -35,7 +36,7 @@ function Search() {
 
     function getResults(searchText) {
         $.ajax({
-            url: "http://localhost:8000/search.php",
+            url: apiUrl + "/search.php",
             type: "GET",
             data: {
                 search: searchText,

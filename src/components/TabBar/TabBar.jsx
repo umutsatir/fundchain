@@ -1,13 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./TabBar.module.css"; // Import the CSS Module
 
-function TabBar() {
-    const [activeTab, setActiveTab] = useState("Campaign");
-
-    const handleTabClick = (tab) => {
-        setActiveTab(tab);
-    };
-
+function TabBar({ activeTab, setActiveTab }) {
     return (
         <div className={styles.tabBar}>
             <div className={`${styles.tabBarLine} ${styles.topLine}`} />{" "}
@@ -17,7 +11,7 @@ function TabBar() {
                     className={`${styles.tab} ${
                         activeTab === "Campaign" ? styles.tabActive : ""
                     }`}
-                    onClick={() => handleTabClick("Campaign")}
+                    onClick={() => setActiveTab("Campaign")}
                 >
                     Campaign
                 </div>
@@ -25,7 +19,7 @@ function TabBar() {
                     className={`${styles.tab} ${
                         activeTab === "Comments" ? styles.tabActive : ""
                     }`}
-                    onClick={() => handleTabClick("Comments")}
+                    onClick={() => setActiveTab("Comments")}
                 >
                     Comments
                 </div>

@@ -1,5 +1,5 @@
 <?php 
-    header('Access-Control-Allow-Origin: http://localhost:5173');
+    header('Access-Control-Allow-Origin: *');
     include './pdo.php';
     $pdo = (new PDOClass())->connect();
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM projects where status = 2");

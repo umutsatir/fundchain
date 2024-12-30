@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Cookies } from "react-cookie";
 import $ from "jquery";
 import styles from "../styles/Login.module.css"; // Import CSS module
+import { apiUrl } from "../api_url";
 
 function Login({ onLogin }) {
     const [isConfirmed, setIsConfirmed] = useState(false);
@@ -25,9 +26,8 @@ function Login({ onLogin }) {
     const handleSubmit = (event) => {
         event.preventDefault(); // Prevent default form submission
 
-        // Send AJAX request if inputs are valid
         $.ajax({
-            url: "http://localhost:8000/login.php",
+            url: apiUrl + "/login.php",
             type: "POST",
             data: {
                 email: email,
@@ -35,7 +35,6 @@ function Login({ onLogin }) {
                 isRemembered: isConfirmed,
             },
             success: function (data) {
-                console.log(data);
                 data = JSON.parse(data);
                 if (data.status) {
                     onLogin(data.token, data.username);
@@ -78,7 +77,7 @@ function Login({ onLogin }) {
                     required
                     onChange={handlePassword}
                 />
-                <Link to="/enter-email" className={styles.forgotPassword}>
+                <Link to="/forgot-password" className={styles.forgotPassword}>
                     Forgot your password?
                 </Link>
                 <button type="submit" className={styles.loginButton}>

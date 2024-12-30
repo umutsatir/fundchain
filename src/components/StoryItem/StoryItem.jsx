@@ -1,25 +1,69 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import styles from "./StoryItem.module.css";
 
-function Story() {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+const StoryItem = ({ id, title, paragraphs = [""], updateStoryItem, removeStoryItem }) => {
+  const paragraphRefs = useRef([]); // Yeni eklenen alana otomatik geçiş için referans
+
+  const handleParagraphChange = (index, value) => {
+    const updatedParagraphs = [...paragraphs];
+    updatedParagraphs[index] = value;
+    updateStoryItem(id, { paragraphs: updatedParagraphs });
+  };
+
+  const handleKeyPress = (e, index) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const updatedParagraphs = [...paragraphs];
+      updatedParagraphs.splice(index + 1, 0, ""); // Yeni bir paragraf ekle
+      updateStoryItem(id, { paragraphs: updatedParagraphs });
+
+      // Yeni textarea'ya odaklan
+      setTimeout(() => {
+        paragraphRefs.current[index + 1]?.focus();
+      }, 0);
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && paragraphs[index] === "" && paragraphs.length > 1) {
+      e.preventDefault();
+      const updatedParagraphs = paragraphs.filter((_, i) => i !== index);
+      updateStoryItem(id, { paragraphs: updatedParagraphs });
+
+      // Önceki textarea'ya odaklan
+      setTimeout(() => {
+        paragraphRefs.current[index - 1]?.focus();
+      }, 0);
+    }
+  };
 
   return (
-    <div className={styles["story-component"]}>
-      <h5>Title</h5>
+    <div className={styles.storyComponent}>
       <input
         type="text"
+        placeholder="Title"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => updateStoryItem(id, { title: e.target.value })}
       />
-      <h5>Body</h5>
-      <textarea
-        value={body}
-        onChange={(e) => setBody(e.target.value)}
-      />
+      {paragraphs.map((paragraph, index) => (
+        <textarea
+          key={index}
+          ref={(el) => (paragraphRefs.current[index] = el)}
+          placeholder="Content"
+          value={paragraph}
+          onChange={(e) => handleParagraphChange(index, e.target.value)}
+          onKeyPress={(e) => handleKeyPress(e, index)}
+          onKeyDown={(e) => handleKeyDown(e, index)}
+        />
+      ))}
+      <button
+        onClick={() => removeStoryItem(id)}
+        className={styles.removeButton}
+      >
+        Remove
+      </button>
     </div>
   );
-}
+};
 
-export default Story;
+export default StoryItem;

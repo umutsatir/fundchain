@@ -1,47 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Collaborators.module.css";
 
-function Category() {
-    const [Collaborators, setCollaborators] = useState([]);
+function Category({ updateCollaborators, formData }) {
+    const [Collaborators, setCollaborators] = useState(() => {
+        if (formData.collaborators && formData.collaborators.length > 0) {
+            return formData.collaborators
+                .split("}, {")
+                .map((collaborator) => {
+                    collaborator = collaborator.replace(/[{}]/g, "");
+                    const collaboratorList = collaborator.split(", ");
+                    return {
+                        email: collaboratorList[0],
+                        title: collaboratorList[1],
+                        permissions: collaboratorList.slice(2),
+                    };
+                });
+        }
+        return [];
+    });
+
+
+
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [newCollaborator, setNewCollaborator] = useState({
         email: "",
         title: "",
     });
     const [editingCollaborator, setEditingCollaborator] = useState(null);
-    const [editProject, setEditProject] = useState(false);
-    const [manageCommunity, setManageCommunity] = useState(false);
     const [coordinateFulfillment, setCoordinateFulfillment] = useState(false);
+
+    useEffect(() => {
+        const collaboratorsList = Collaborators.map(collaborator => {
+            const { email, title, permissions } = collaborator;
+            return `{${email}, ${title}, {${permissions.join(", ")}}}`;
+        }).join(", ");
+    
+        updateCollaborators("collaborators", collaboratorsList);
+    }, [Collaborators, updateCollaborators]);
+    
 
     const handleAddCollaborator = () => {
         const permissions = [
-            editProject && "Edit project",
-            manageCommunity && "Manage community",
             coordinateFulfillment && "Coordinate fulfillment",
-        ].filter(Boolean); //remove the false
+        ].filter(Boolean); // Remove false values
 
         const collaboratorWithPermissions = { ...newCollaborator, permissions };
 
         setCollaborators([...Collaborators, collaboratorWithPermissions]);
         setIsPopupOpen(false);
-        setNewCollaborator({ email: "", title: "" });
-        setEditProject(false); //Reset
-        setManageCommunity(false); //Reset
-        setCoordinateFulfillment(false); //Reset
+        resetForm();
     };
 
     const handleEditClick = (index) => {
         const collaboratorToEdit = { ...Collaborators[index] };
-        setEditingCollaborator({ ...collaboratorToEdit, index }); //save with index.
+        setEditingCollaborator({ ...collaboratorToEdit, index }); // Save with index
 
         setNewCollaborator({
             email: collaboratorToEdit.email,
             title: collaboratorToEdit.title,
         });
-        setEditProject(collaboratorToEdit.permissions.includes("Edit project"));
-        setManageCommunity(
-            collaboratorToEdit.permissions.includes("Manage community")
-        );
         setCoordinateFulfillment(
             collaboratorToEdit.permissions.includes("Coordinate fulfillment")
         );
@@ -50,49 +67,45 @@ function Category() {
 
     const handleSaveChanges = () => {
         const updatedPermissions = [
-            editProject && "Edit project",
-            manageCommunity && "Manage community",
             coordinateFulfillment && "Coordinate fulfillment",
-        ].filter(Boolean); //remove the false
+        ].filter(Boolean); // Remove false values
 
         const updatedCollaborator = {
             ...newCollaborator,
             permissions: updatedPermissions,
         };
 
-        //Update the current updated collaborator in the collaborators array.
+        // Update the edited collaborator in the collaborators array
         const updatedCollaboratorsArray = [...Collaborators];
         updatedCollaboratorsArray[editingCollaborator.index] =
             updatedCollaborator;
 
         setCollaborators(updatedCollaboratorsArray);
         setIsPopupOpen(false);
-        setNewCollaborator({ email: "", title: "" });
-        setEditProject(false); //Reset
-        setManageCommunity(false); //Reset
-        setCoordinateFulfillment(false); //Reset
-        setEditingCollaborator(null); //Reset
+        resetForm();
     };
 
     const handleRemoveCollaborator = (index) => {
         const updatedCollaboratorsArray = Collaborators.filter(
             (_, i) => i !== index
-        ); //Get the all collaborators except trashed array.
-        setCollaborators(updatedCollaboratorsArray); //Set the updated list.
+        ); // Get all collaborators except the one being removed
+        setCollaborators(updatedCollaboratorsArray);
     };
 
-    const handleEditProjectClick = () => {
-        setEditProject(!editProject);
-    };
-    const handleManageCommunityClick = () => {
-        setManageCommunity(!manageCommunity);
-    };
     const handleCoordinateFulfillmentClick = () => {
         setCoordinateFulfillment(!coordinateFulfillment);
     };
 
+    const resetForm = () => {
+        setNewCollaborator({ email: "", title: "" });
+        setEditProject(false);
+        setManageCommunity(false);
+        setCoordinateFulfillment(false);
+        setEditingCollaborator(null);
+    };
+
     const renderCollaborators = () => {
-        if (Collaborators.length == 0) {
+        if (Collaborators.length === 0) {
             return (
                 <p className={styles.collaboratorDisplayText}>
                     You haven't added any collaborators yet.
@@ -156,9 +169,13 @@ function Category() {
             {isPopupOpen && (
                 <div className={styles.popup}>
                     <div className={styles.popupContent}>
-                        <h2>New Collaborator</h2>
+                        <h2>
+                            {editingCollaborator
+                                ? "Edit Collaborator"
+                                : "New Collaborator"}
+                        </h2>
                         <form>
-                            <label for="email">Email</label>
+                            <label htmlFor="email">Email</label>
                             <input
                                 type="email"
                                 value={newCollaborator.email}
@@ -172,7 +189,7 @@ function Category() {
                                 }
                             />
                             <br />
-                            <label for="title">Title</label>
+                            <label htmlFor="title">Title</label>
                             <input
                                 type="text"
                                 value={newCollaborator.title}
@@ -194,46 +211,8 @@ function Category() {
                                 All collaborators will be able to access your
                                 project data. This includes total funding, the
                                 amount pledged and number of backers per reward,
-                                video statistics, and referrals. Specify the
-                                level of access this collaborator should have
-                                below.
+                                video statistics, and referrals.
                             </p>
-
-                            {/* Edit Project section */}
-                            <div className={styles.permissions}>
-                                <button
-                                    type="button"
-                                    className={`${styles.permissionButton} ${
-                                        editProject ? styles.confirmed : ""
-                                    }`}
-                                    onClick={handleEditProjectClick}
-                                >
-                                    {editProject && (
-                                        <i className="fas fa-check"></i>
-                                    )}
-                                </button>
-                                <span className={styles.permissionText}>
-                                    Edit project
-                                </span>
-                            </div>
-
-                            {/* Manage Community section */}
-                            <div className={styles.permissions}>
-                                <button
-                                    type="button"
-                                    className={`${styles.permissionButton} ${
-                                        manageCommunity ? styles.confirmed : ""
-                                    }`}
-                                    onClick={handleManageCommunityClick}
-                                >
-                                    {manageCommunity && (
-                                        <i className="fas fa-check"></i>
-                                    )}
-                                </button>
-                                <span className={styles.permissionText}>
-                                    Manage community
-                                </span>
-                            </div>
 
                             {/* Coordinate fulfillment section */}
                             <div className={styles.permissions}>
@@ -263,12 +242,8 @@ function Category() {
                                     Cancel
                                 </button>
                                 <button
-                                    onClick={
-                                        editingCollaborator
-                                            ? handleSaveChanges
-                                            : handleAddCollaborator
-                                    }
                                     className={styles.popupAddButton}
+                                    type="submit"
                                 >
                                     {editingCollaborator
                                         ? "Save changes"

@@ -8,11 +8,17 @@ import TabBar from "../components/TabBar/TabBar";
 import RecommendedProjects from "../components/RecommendedProjects/RecommendedProjects";
 import styles from "../styles/Project.module.css";
 import Loading from "../components/Loading/Loading";
+import Report from "../components/Report/Report";
+import { apiUrl } from "../api_url";
+import CommentItem from "../components/CommentItem/CommentItem";
+import CommentCreate from "../components/CommentCreate/CommentCreate";
 
 function Project() {
     const { id } = useParams();
     const [project, setProject] = useState({});
     const [story, setStory] = useState([]);
+    const [comments, setComments] = useState([]);
+    const [activeTab, setActiveTab] = useState("Campaign");
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
@@ -22,7 +28,7 @@ function Project() {
             return;
         }
         $.ajax({
-            url: "http://localhost:8000/project.php",
+            url: apiUrl + "/project.php",
             type: "GET",
             data: {
                 projectId: id,
@@ -39,7 +45,7 @@ function Project() {
         });
 
         $.ajax({
-            url: "http://localhost:8000/story.php",
+            url: apiUrl + "/story.php",
             type: "GET",
             data: {
                 projectId: id,
@@ -55,6 +61,23 @@ function Project() {
             },
         });
 
+        $.ajax({
+            url: apiUrl + "/viewComments.php",
+            type: "POST",
+            data: {
+                projectId_input: id,
+            },
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result.status) setComments(result.data);
+                else console.log(result.message);
+            },
+            error: function (error) {
+                console.log(error);
+                // navigate("/error");
+            },
+        });
+
         setIsLoading(false);
     }, []);
 
@@ -64,14 +87,28 @@ function Project() {
         <div>
             <div className={styles.main}>
                 <Intro project={project} />
-                <TabBar />
+                <TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
                 <div className={styles.bottom}>
                     <div className={styles.campaign}>
-                        <Campaign story={story} />
+                        {activeTab === "Campaign" ? (
+                            <Campaign story={story} />
+                        ) : (
+                            <div className={styles.commentsContainer}>
+                                <CommentCreate projectId={id} />
+                                <div className={styles.comments}>
+                                    {comments.map((comment) => {
+                                        <CommentItem comment={comment} />;
+                                    })}
+                                </div>
+                            </div>
+                        )}
                     </div>
-                    <div className={styles.projectOwner}>
-                        <ProjectOwner userId={project.userId} />
-                    </div>
+                    {activeTab === "Campaign" && (
+                        <div className={styles.rightCampaign}>
+                            <ProjectOwner userId={project.userId} />
+                            <Report id={id} />
+                        </div>
+                    )}
                 </div>
                 <RecommendedProjects userId={project.userId} />
             </div>

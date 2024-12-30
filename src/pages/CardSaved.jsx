@@ -4,13 +4,13 @@ import { Cookies } from "react-cookie";
 import Loading from "../components/Loading/Loading";
 import Cards from "../components/Cards/Cards";
 import $ from "jquery";
+import { apiUrl } from "../api_url";
 
 function CardSaved() {
     const cookies = new Cookies();
     const [projects, setProjects] = useState([]);
     const [savedProjects, setSavedProjects] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-
 
     const handleSaveToggle = (projectId) => {
         setSavedProjects((prevSavedProjects) => ({
@@ -31,12 +31,12 @@ function CardSaved() {
         return diffInDays;
     }
 
-    useEffect( () => {
+    useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/savedProjects.php",
+            url: apiUrl + "/savedProjects.php",
             type: "POST",
             data: {
-                username: cookies.get("username")
+                username: cookies.get("username"),
             },
             success: function (result) {
                 result = JSON.parse(result);
