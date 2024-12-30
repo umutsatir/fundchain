@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useReadContract, useAccount, useWriteContract } from "wagmi";
 import { abi } from "../../../contracts/abi/abi";
 import { parseEther } from "viem";
+import { apiUrl } from "../../api_url";
 
 const Funding = (props) => {
     const cookies = new Cookies();
@@ -34,7 +35,7 @@ const Funding = (props) => {
     useEffect(() => {
         if (!cookies.get("loggedIn")) return;
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/checkSave.php",
+            url: apiUrl + "/checkSave.php",
             type: "POST",
             data: {
                 projectId: props.id,
@@ -57,7 +58,7 @@ const Funding = (props) => {
     const setSavedProject = () => {
         if (!cookies.get("loggedIn")) navigate("/login");
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/save.php",
+            url: apiUrl + "/save.php",
             type: "POST",
             data: {
                 projectId: props.id,

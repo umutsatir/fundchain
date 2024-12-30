@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Stats.module.css"; // Import the CSS Module
 import $ from "jquery";
+import { apiUrl } from "../../api_url";
 
 function Stats() {
     const [stats, setStats] = useState([]);
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/stats.php",
+            url: apiUrl + "/stats.php",
             type: "GET",
             success: function (data) {
                 setStats(JSON.parse(data));

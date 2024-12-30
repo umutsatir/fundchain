@@ -3,6 +3,7 @@ import styles from "./SettingsTab.module.css";
 import $, { isEmptyObject } from "jquery";
 import { useNavigate } from "react-router-dom";
 import { Cookies } from "react-cookie";
+import { apiUrl } from "../../api_url";
 
 const SettingsTab = () => {
     const [activeTab, setActiveTab] = useState("account");
@@ -36,7 +37,7 @@ const SettingsTab = () => {
         });
 
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/editProfile.php",
+            url: apiUrl + "/editProfile.php",
             type: "POST",
             data: {
                 data: JSON.stringify(data),
@@ -78,7 +79,7 @@ const SettingsTab = () => {
         });
 
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/changePw.php",
+            url: apiUrl + "/changePw.php",
             type: "POST",
             data: {
                 data: JSON.stringify(data),

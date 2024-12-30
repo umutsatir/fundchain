@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../styles/Signup.module.css"; // Import CSS Module
 import { useNavigate, Link } from "react-router-dom";
+import { apiUrl } from "../api_url";
 import $ from "jquery";
 
 function Signup() {
@@ -93,7 +94,7 @@ function Signup() {
 
         if (valid) {
             $.ajax({
-                url: "http://localhost:8000/fundchain/api/signup.php",
+                url: apiUrl + "/signup.php",
                 type: "POST",
                 data: {
                     username: username,

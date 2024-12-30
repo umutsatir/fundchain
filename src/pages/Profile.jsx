@@ -5,6 +5,7 @@ import { Cookies } from "react-cookie";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading/Loading";
+import { apiUrl } from "../api_url";
 
 function Profile() {
     const [user, setUser] = useState([]);
@@ -15,7 +16,7 @@ function Profile() {
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/profile.php",
+            url: apiUrl + "/profile.php",
             type: "POST",
             data: {
                 username: cookies.get("username"),
@@ -35,7 +36,7 @@ function Profile() {
         });
 
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/usersProjects.php",
+            url: apiUrl + "/usersProjects.php",
             type: "POST",
             data: {
                 username: cookies.get("username"),

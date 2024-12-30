@@ -4,6 +4,7 @@ import { Cookies } from "react-cookie";
 import Loading from "../components/Loading/Loading";
 import Cards from "../components/Cards/Cards";
 import $ from "jquery";
+import { apiUrl } from "../api_url";
 
 function CardSaved() {
     const cookies = new Cookies();
@@ -32,7 +33,7 @@ function CardSaved() {
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/savedProjects.php",
+            url: apiUrl + "/savedProjects.php",
             type: "POST",
             data: {
                 username: cookies.get("username"),

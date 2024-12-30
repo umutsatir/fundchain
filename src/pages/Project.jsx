@@ -9,6 +9,7 @@ import RecommendedProjects from "../components/RecommendedProjects/RecommendedPr
 import styles from "../styles/Project.module.css";
 import Loading from "../components/Loading/Loading";
 import Report from "../components/Report/Report";
+import { apiUrl } from "../api_url";
 
 function Project() {
     const { id } = useParams();
@@ -25,7 +26,7 @@ function Project() {
             return;
         }
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/project.php",
+            url: apiUrl + "/project.php",
             type: "GET",
             data: {
                 projectId: id,
@@ -42,7 +43,7 @@ function Project() {
         });
 
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/story.php",
+            url: apiUrl + "/story.php",
             type: "GET",
             data: {
                 projectId: id,
@@ -59,7 +60,7 @@ function Project() {
         });
 
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/viewComments.php",
+            url: apiUrl + "/viewComments.php",
             type: "POST",
             data: {
                 projectId_input: id,
@@ -71,7 +72,7 @@ function Project() {
             },
             error: function (error) {
                 console.log(error);
-                navigate("/error");
+                // navigate("/error");
             },
         });
 

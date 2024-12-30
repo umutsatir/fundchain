@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Cookies } from "react-cookie";
 import $ from "jquery";
 import styles from "../styles/Login.module.css"; // Import CSS module
+import { apiUrl } from "../api_url";
 
 function Login({ onLogin }) {
     const [isConfirmed, setIsConfirmed] = useState(false);
@@ -26,7 +27,7 @@ function Login({ onLogin }) {
         event.preventDefault(); // Prevent default form submission
 
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/login.php",
+            url: apiUrl + "/login.php",
             type: "POST",
             data: {
                 email: email,

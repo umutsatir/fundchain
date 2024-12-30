@@ -4,6 +4,7 @@ import styles from "./Cards.module.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import $ from "jquery";
 import { Cookies } from "react-cookie";
+import { apiUrl } from "../../api_url";
 
 function Cards(props) {
     const cookies = new Cookies();
@@ -11,7 +12,7 @@ function Cards(props) {
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/checkSave.php",
+            url: apiUrl + "/checkSave.php",
             type: "POST",
             data: {
                 projectId: props.id,
@@ -45,7 +46,7 @@ function Cards(props) {
 
     const setSavedProject = () => {
         $.ajax({
-            url: "http://localhost:8000/fundchain/api/save.php",
+            url: apiUrl + "/save.php",
             type: "POST",
             data: {
                 projectId: props.id,
