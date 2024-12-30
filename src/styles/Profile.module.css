@@ -1,6 +1,6 @@
 .profileWrapper {
     font-family: Arial, sans-serif;
-    height: 120vh;
+    min-height: 100vh;
 }
 
 .profileCover {
@@ -50,8 +50,7 @@
 .infosContainer {
     max-width: 800px;
     text-align: left;
-    margin: 0 auto;
-    margin-top: 50px;
+    margin: 50px auto;
 
     display: flex;
     flex-direction: column;
