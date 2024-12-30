@@ -5,7 +5,7 @@ import $ from "jquery";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../../api_url";
 import FundingMenu from "../FundingMenu/FundingMenu";
-import { useReadContract } from "wagmi";
+import { useReadContract, useAccount } from "wagmi";
 import { abi } from "../../../contracts/abi/abi";
 
 import photop from "/public/profilePicture.png"; //temporarily added.
