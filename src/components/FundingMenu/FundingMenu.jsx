@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 
 function FundingMenu(props) {
     const [amount, setAmount] = useState(0);
-    const [isVisible, setIsVisible] = useState(true); // Controling the popup visibility
 
     const handleAmount = (e) => {
         setAmount(e.target.value);
@@ -12,10 +11,10 @@ function FundingMenu(props) {
 
     const handleCancelButton = (e) => {
         e.preventDefault(); // Prevent the sending null form.
-        setIsVisible(false);        
+        props.setIsVisible(false);        
     }
 
-    if(!isVisible) return null;
+    if(!props.isVisible) return null;
 
     return(
         <div className={styles.FundingMenuContainer}>
@@ -57,6 +56,8 @@ FundingMenu.propTypes = {
     title: PropTypes.string,
     backers: PropTypes.number,
     photo: PropTypes.string,
+    isVisible: PropTypes.bool,
+    setIsVisible: PropTypes.func,
 }
 
 export default FundingMenu;
