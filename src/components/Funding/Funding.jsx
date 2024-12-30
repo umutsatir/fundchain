@@ -4,6 +4,8 @@ import { Cookies } from "react-cookie";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
 
+import photop from "/public/profilePicture.png"; //temporarily added.
+
 const Funding = (props) => {
     const cookies = new Cookies();
     const navigate = useNavigate();
@@ -13,6 +15,7 @@ const Funding = (props) => {
     const [daysLeft, setDaysLeft] = useState(36);
     const [isSaved, setIsSaved] = useState(false);
     const [loggedIn, setLoggedIn] = useState(cookies.get("loggedIn"));
+    const [backProject, setBackProject] = useState(false);
 
     const progress = (pledged / goal) * 100;
 
@@ -65,6 +68,17 @@ const Funding = (props) => {
 
     return (
         <div className={styles.progressContainer}>
+            {
+                backProject && (
+                    <FundingMenu
+                        title="Titlee"
+                        backers={123}
+                        photo={photop}
+                        isVisible={backProject}
+                        setIsVisible={setBackProject}
+                    />
+                )
+            }
             <div className={styles.progressBackground}>
                 <div
                     className={styles.progressBar}
@@ -80,7 +94,7 @@ const Funding = (props) => {
                 <p>days to go</p>
             </div>
             <div className={styles.buttons}>
-                <button className={styles.backButton}>Back this project</button>
+                <button className={styles.backButton} onClick={() => setBackProject(!backProject)}>Back this project</button>
                 <button className={styles.shareButton}>Share</button>
                 <button
                     className={`${styles.remindButton} ${
