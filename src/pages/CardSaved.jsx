@@ -11,7 +11,6 @@ function CardSaved() {
     const [savedProjects, setSavedProjects] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
-
     const handleSaveToggle = (projectId) => {
         setSavedProjects((prevSavedProjects) => ({
             ...prevSavedProjects,
@@ -31,12 +30,12 @@ function CardSaved() {
         return diffInDays;
     }
 
-    useEffect( () => {
+    useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/savedProjects.php",
+            url: "http://localhost:8000/fundchain/api/savedProjects.php",
             type: "POST",
             data: {
-                username: cookies.get("username")
+                username: cookies.get("username"),
             },
             success: function (result) {
                 result = JSON.parse(result);

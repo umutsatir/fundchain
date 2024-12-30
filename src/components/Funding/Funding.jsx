@@ -34,7 +34,7 @@ const Funding = (props) => {
     useEffect(() => {
         if (!cookies.get("loggedIn")) return;
         $.ajax({
-            url: "http://localhost:8000/checkSave.php",
+            url: "http://localhost:8000/fundchain/api/checkSave.php",
             type: "POST",
             data: {
                 projectId: props.id,
@@ -57,7 +57,7 @@ const Funding = (props) => {
     const setSavedProject = () => {
         if (!cookies.get("loggedIn")) navigate("/login");
         $.ajax({
-            url: "http://localhost:8000/save.php",
+            url: "http://localhost:8000/fundchain/api/save.php",
             type: "POST",
             data: {
                 projectId: props.id,
@@ -82,7 +82,7 @@ const Funding = (props) => {
         if (!isConnected)
             console.log("Please connect your wallet"); // todo add popup message
         else {
-            // todo add menu for typing the amount
+            // todo add fund menu popup
             fundProject(1);
         }
     }

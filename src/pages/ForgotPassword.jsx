@@ -1,12 +1,18 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "../styles/ForgotPassword.module.css";
 
 function ForgotPassword() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    if (!location.state || !location.state.isValidated) {
+        navigate("/forgot-password");
+        return;
+    }
+
     const [password, setPassword] = useState("");
     const [passwordAgain, setPasswordAgain] = useState("");
     const [error, setError] = useState("");
-    const navigate = useNavigate();
 
     const handlePassword = (e) => {
         setPassword(e.target.value);
@@ -19,10 +25,9 @@ function ForgotPassword() {
     const handleSubmit = (event) => {
         event.preventDefault(); // Prevent default form submission
 
-        if(password !== passwordAgain) {
+        if (password !== passwordAgain) {
             setError("Both passwords must be the same.");
-        }
-        else {
+        } else {
             navigate("/login");
         }
     };
@@ -41,8 +46,10 @@ function ForgotPassword() {
             </div>
 
             <p className={styles.divider}></p>
-            <p className={styles.knowledge}>Create a new password for your account.</p>
-            
+            <p className={styles.knowledge}>
+                Create a new password for your account.
+            </p>
+
             <form onSubmit={handleSubmit}>
                 <input
                     type="password"
@@ -57,12 +64,12 @@ function ForgotPassword() {
                     required
                     onChange={handlePasswordAgain}
                 />
-                
+
                 {error && <p className={styles.errorMessage}>{error}</p>}
                 <button type="submit" className={styles.finishButton}>
                     Finish
                 </button>
-            </form>  
+            </form>
         </div>
     );
 }

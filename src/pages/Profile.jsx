@@ -15,7 +15,7 @@ function Profile() {
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/profile.php",
+            url: "http://localhost:8000/fundchain/api/profile.php",
             type: "POST",
             data: {
                 username: cookies.get("username"),
@@ -35,7 +35,7 @@ function Profile() {
         });
 
         $.ajax({
-            url: "http://localhost:8000/usersProjects.php",
+            url: "http://localhost:8000/fundchain/api/usersProjects.php",
             type: "POST",
             data: {
                 username: cookies.get("username"),
