@@ -3,10 +3,10 @@ import styles from "./Funding.module.css";
 import { Cookies } from "react-cookie";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
-import { useReadContract, useAccount, useWriteContract } from "wagmi";
-import { abi } from "../../../contracts/abi/abi";
-import { parseEther } from "viem";
 import { apiUrl } from "../../api_url";
+import FundingMenu from "../FundingMenu/FundingMenu";
+import { useReadContract } from "wagmi";
+import { abi } from "../../../contracts/abi/abi";
 
 import photop from "/public/profilePicture.png"; //temporarily added.
 
@@ -22,7 +22,6 @@ const Funding = (props) => {
     const backers = readFromContract("getBackers");
     const daysLeft = readFromContract("getDeadline");
     const { isConnected } = useAccount();
-    const { writeContract } = useWriteContract();
 
     function readFromContract(functionName) {
         useReadContract({
@@ -83,37 +82,23 @@ const Funding = (props) => {
         });
     };
 
-    function handleBackProjectButton() {
+    const handleBackButton = () => {
         if (!isConnected)
             console.log("Please connect your wallet"); // todo add popup message
-        else {
-            // todo add fund menu popup
-            fundProject(1);
-        }
-    }
-
-    function fundProject(value) {
-        writeContract({
-            abi,
-            address: props.contractAddress,
-            functionName: "fundProject",
-            value: parseEther(value),
-        });
-    }
+        else setBackProject(!backProject);
+    };
 
     return (
         <div className={styles.progressContainer}>
-            {
-                backProject && (
-                    <FundingMenu
-                        title="Titlee"
-                        backers={123}
-                        photo={photop}
-                        isVisible={backProject}
-                        setIsVisible={setBackProject}
-                    />
-                )
-            }
+            {backProject && (
+                <FundingMenu
+                    title="Titlee"
+                    backers={123}
+                    photo={photop}
+                    isVisible={backProject}
+                    setIsVisible={setBackProject}
+                />
+            )}
             <div className={styles.progressBackground}>
                 <div
                     className={styles.progressBar}
@@ -129,7 +114,12 @@ const Funding = (props) => {
                 <p>days to go</p>
             </div>
             <div className={styles.buttons}>
-                <button className={styles.backButton} onClick={() => setBackProject(!backProject)}>Back this project</button>
+                <button
+                    className={styles.backButton}
+                    onClick={handleBackButton}
+                >
+                    Back this project
+                </button>
                 <button className={styles.shareButton}>Share</button>
                 <button
                     className={`${styles.remindButton} ${
