@@ -96,10 +96,6 @@ function Project() {
                             <div className={styles.commentsContainer}>
                                 <CommentCreate projectId={id} />
                                 <div className={styles.comments}>
-                                    <CommentItem comment={[]} />
-                                    <CommentItem comment={[]} />
-                                    <CommentItem comment={[]} />
-                                    <CommentItem comment={[]} />
                                     {comments.map((comment) => {
                                         <CommentItem comment={comment} />;
                                     })}
