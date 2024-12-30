@@ -1,13 +1,13 @@
-import React from 'react';
-import styles from '../styles/DisplayProjects.module.css';
-import CreateProjects from '../components/CreateProjects/CreateProjects';
+import React from "react";
+import styles from "../styles/DisplayProjects.module.css";
+import CreateProjects from "../components/CreateProjects/CreateProjects";
 
-const Create = () => {
+function DisplayProjects() {
     return (
         <div className={styles.tabContainer}>
             <CreateProjects />
         </div>
     );
-};
+}
 
-export default Create;
+export default DisplayProjects;

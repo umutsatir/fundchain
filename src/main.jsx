@@ -31,6 +31,7 @@ import CardSaved from "./pages/CardSaved";
 import EnteringEmail from "./pages/EnteringEmail";
 import ValidationEmail from "./pages/ValidationEmail";
 import ForgotPassword from "./pages/ForgotPassword";
+import DisplayProjects from "./pages/DisplayProjects";
 
 const queryClient = new QueryClient();
 
@@ -83,6 +84,10 @@ const App = () => {
                             <Route path="/profile" element={<Profile />} />
                             <Route path="/create" element={<Create />} />
                             <Route path="/settings" element={<Settings />} />
+                            <Route
+                                path="/projects"
+                                element={<DisplayProjects />}
+                            />
                             <Route
                                 path="/saved-projects"
                                 element={<CardSaved />}

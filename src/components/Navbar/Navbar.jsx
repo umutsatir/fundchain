@@ -143,6 +143,15 @@ function Navbar({ onLogout, loggedIn }) {
                                                     </li>
                                                     <li
                                                         onClick={() =>
+                                                            handleNavigate(
+                                                                "/projects"
+                                                            )
+                                                        }
+                                                    >
+                                                        My Projects
+                                                    </li>
+                                                    <li
+                                                        onClick={() =>
                                                             onLogout()
                                                         }
                                                     >
@@ -220,6 +229,13 @@ function Navbar({ onLogout, loggedIn }) {
                                                 }
                                             >
                                                 Create a Project
+                                            </li>
+                                            <li
+                                                onClick={() =>
+                                                    handleNavigate("/projects")
+                                                }
+                                            >
+                                                My Projects
                                             </li>
                                             <li
                                                 onClick={() => {
