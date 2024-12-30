@@ -26,7 +26,7 @@ function Login({ onLogin }) {
         event.preventDefault(); // Prevent default form submission
 
         $.ajax({
-            url: "http://localhost:8000/api/login.php",
+            url: "http://localhost:8000/fundchain/api/login.php",
             type: "POST",
             data: {
                 email: email,

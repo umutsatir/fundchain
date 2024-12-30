@@ -11,7 +11,7 @@ function Cards(props) {
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/api/checkSave.php",
+            url: "http://localhost:8000/fundchain/api/checkSave.php",
             type: "POST",
             data: {
                 projectId: props.id,
@@ -45,7 +45,7 @@ function Cards(props) {
 
     const setSavedProject = () => {
         $.ajax({
-            url: "http://localhost:8000/api/save.php",
+            url: "http://localhost:8000/fundchain/api/save.php",
             type: "POST",
             data: {
                 projectId: props.id,

@@ -32,7 +32,7 @@ function CardSaved() {
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/api/savedProjects.php",
+            url: "http://localhost:8000/fundchain/api/savedProjects.php",
             type: "POST",
             data: {
                 username: cookies.get("username"),

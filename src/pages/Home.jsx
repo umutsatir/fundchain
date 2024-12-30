@@ -13,7 +13,7 @@ function Home() {
         const fetchProjects = async () => {
             try {
                 const response = await fetch(
-                    "http://localhost:8000/api/home.php"
+                    "http://localhost:8000/fundchain/api/home.php"
                 );
                 const data = await response.json();
                 setProjects(data);

@@ -8,7 +8,7 @@ const ProjectOwner = ({ userId }) => {
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/projectOwner.php",
+            url: "http://localhost:8000/fundchain/api/projectOwner.php",
             type: "GET",
             data: {
                 id: userId,

@@ -36,7 +36,7 @@ const SettingsTab = () => {
         });
 
         $.ajax({
-            url: "http://localhost:8000/api/editProfile.php",
+            url: "http://localhost:8000/fundchain/api/editProfile.php",
             type: "POST",
             data: {
                 data: JSON.stringify(data),
@@ -78,7 +78,7 @@ const SettingsTab = () => {
         });
 
         $.ajax({
-            url: "http://localhost:8000/api/changePw.php",
+            url: "http://localhost:8000/fundchain/api/changePw.php",
             type: "POST",
             data: {
                 data: JSON.stringify(data),

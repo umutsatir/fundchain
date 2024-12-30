@@ -93,7 +93,7 @@ function Signup() {
 
         if (valid) {
             $.ajax({
-                url: "http://localhost:8000/api/signup.php",
+                url: "http://localhost:8000/fundchain/api/signup.php",
                 type: "POST",
                 data: {
                     username: username,
