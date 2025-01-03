@@ -101,6 +101,7 @@ const Funding = (props) => {
                     photo={photop}
                     isVisible={backProject}
                     setIsVisible={setBackProject}
+                    handleNotification={props.handleNotification}
                 />
             )}
             <div className={styles.progressBackground}>
