@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Category.module.css";
+import $ from "jquery";
+import { apiUrl } from "../../api_url";
 
-function Category() {
+function Category({ updateBasics, formData, activeTab }) {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [categoryOptions, setCategoryOptions] = useState([]);
 
@@ -21,11 +23,13 @@ function Category() {
                 console.log(error);
             },
         });
+        setSelectedCategory(formData.category);
     }, []);
 
     const handleCategoryChange = (e) => {
         const category = e.target.value;
         setSelectedCategory(category);
+        updateBasics("category", category);
     };
 
     return (
@@ -54,8 +58,8 @@ function Category() {
                         <option value="">Select Category</option>
                         {categoryOptions.length > 0 &&
                             categoryOptions.map((category) => (
-                                <option key={category} value={category}>
-                                    {category}
+                                <option key={category.id} value={category.id}>
+                                    {category.name}
                                 </option>
                             ))}
                     </select>
