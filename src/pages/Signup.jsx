@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { apiUrl } from "../api_url";
 import $ from "jquery";
 
-function Signup() {
+function Signup({ handleNotification }) {
     const [isConfirmedFirst, setIsConfirmedFirst] = useState(false);
     const [isConfirmedSecond, setIsConfirmedSecond] = useState(false);
     const [username, setUsername] = useState("");
@@ -39,42 +39,42 @@ function Signup() {
         };
 
         if (!username) {
-            newErrors.username = "Username is required.";
+            newErrors.username = "* Username is required.";
             valid = false;
         } else if (username.trim().length < 5 || username.trim().length > 20) {
             newErrors.username =
-                "Username must be between 5 and 20 characters.";
+                "* Username must be between 5 and 20 characters.";
             valid = false;
         } else if (/[^a-zA-Z0-9]/.test(username)) {
             newErrors.username =
-                "Username can only contain letters and numbers.";
+                "* Username can only contain letters and numbers.";
             valid = false;
         }
 
         if (!email) {
-            newErrors.email = "Email is required.";
+            newErrors.email = "* Email is required.";
             valid = false;
         } else if (!/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = "Please enter a valid email address.";
+            newErrors.email = "* Please enter a valid email address.";
             valid = false;
         }
 
         if (!password) {
-            newErrors.password = "Password is required.";
+            newErrors.password = "* Password is required.";
             valid = false;
         } else if (password.length < 8) {
-            newErrors.password = "Password must be at least 8 characters.";
+            newErrors.password = "* Password must be at least 8 characters.";
             valid = false;
         } else if (!/[A-Z]/.test(password)) {
             newErrors.password =
-                "Password must contain at least one uppercase letter.";
+                "* Password must contain at least one uppercase letter.";
             valid = false;
         } else if (!/[a-z]/.test(password)) {
             newErrors.password =
-                "Password must contain at least one lowercase letter.";
+                "* Password must contain at least one lowercase letter.";
             valid = false;
         } else if (!/[0-9]/.test(password)) {
-            newErrors.password = "Password must contain at least one number.";
+            newErrors.password = "* Password must contain at least one number.";
             valid = false;
         }
         // else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
@@ -83,10 +83,10 @@ function Signup() {
         // }
 
         if (!confirmPassword) {
-            newErrors.confirmPassword = "Confirm password is required.";
+            newErrors.confirmPassword = "* Confirm password is required.";
             valid = false;
         } else if (password !== confirmPassword) {
-            newErrors.confirmPassword = "Passwords do not match.";
+            newErrors.confirmPassword = "* Passwords do not match.";
             valid = false;
         }
 
@@ -106,11 +106,14 @@ function Signup() {
                     if (data.status) {
                         navigate("/login");
                     } else {
-                        console.log(data.message);
+                        handleNotification(data.message, "error");
                     }
                 },
                 error: function (error) {
-                    console.log(error);
+                    handleNotification(
+                        "Signup failed due to an error",
+                        "error"
+                    );
                 },
             });
         }
@@ -150,11 +153,6 @@ function Signup() {
                     required
                     onChange={handleUsername}
                 />
-                {errors.username && (
-                    <span className={styles.errorMessage}>
-                        {errors.username}
-                    </span>
-                )}
 
                 <input
                     type="email"
@@ -162,9 +160,6 @@ function Signup() {
                     required
                     onChange={handleEmail}
                 />
-                {errors.email && (
-                    <span className={styles.errorMessage}>{errors.email}</span>
-                )}
 
                 <input
                     type="password"
@@ -172,11 +167,6 @@ function Signup() {
                     required
                     onChange={handlePassword}
                 />
-                {errors.password && (
-                    <span className={styles.errorMessage}>
-                        {errors.password}
-                    </span>
-                )}
 
                 <input
                     type="password"
@@ -184,11 +174,23 @@ function Signup() {
                     required
                     onChange={handleConfirmPassword}
                 />
-                {errors.confirmPassword && (
-                    <span className={styles.errorMessage}>
-                        {errors.confirmPassword}
-                    </span>
-                )}
+
+                <div className={styles.errors}>
+                    {errors.username && (
+                        <p className={styles.errorMessage}>{errors.username}</p>
+                    )}
+                    {errors.email && (
+                        <p className={styles.errorMessage}>{errors.email}</p>
+                    )}
+                    {errors.password && (
+                        <p className={styles.errorMessage}>{errors.password}</p>
+                    )}
+                    {errors.confirmPassword && (
+                        <p className={styles.errorMessage}>
+                            {errors.confirmPassword}
+                        </p>
+                    )}
+                </div>
 
                 <div className={styles.signupCondition}>
                     <button

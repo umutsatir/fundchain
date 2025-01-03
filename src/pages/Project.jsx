@@ -13,7 +13,7 @@ import { apiUrl } from "../api_url";
 import CommentItem from "../components/CommentItem/CommentItem";
 import CommentCreate from "../components/CommentCreate/CommentCreate";
 
-function Project() {
+function Project({ handleNotification }) {
     const { id } = useParams();
     const [project, setProject] = useState({});
     const [story, setStory] = useState([]);
@@ -53,7 +53,7 @@ function Project() {
             success: function (result) {
                 result = JSON.parse(result);
                 if (result.status) setStory(result.data);
-                else console.log(result.message);
+                else handleNotification(result.message, "error");
             },
             error: function (error) {
                 console.log(error);
@@ -70,7 +70,7 @@ function Project() {
             success: function (result) {
                 result = JSON.parse(result);
                 if (result.status) setComments(result.data);
-                else console.log(result.message);
+                else handleNotification(result.message, "error");
             },
             error: function (error) {
                 console.log(error);
@@ -86,7 +86,10 @@ function Project() {
     ) : (
         <div>
             <div className={styles.main}>
-                <Intro project={project} />
+                <Intro
+                    project={project}
+                    handleNotification={handleNotification}
+                />
                 <TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
                 <div className={styles.bottom}>
                     <div className={styles.campaign}>

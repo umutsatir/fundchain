@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Cookies } from "react-cookie";
 import { apiUrl } from "../../api_url";
 
-const SettingsTab = () => {
+const SettingsTab = ({ handleNotification }) => {
     const [activeTab, setActiveTab] = useState("account");
     const [activePasswordChange, setActivePasswordChange] = useState(false);
     const navigate = useNavigate();
@@ -49,11 +49,11 @@ const SettingsTab = () => {
                 if (result.status) {
                     console.log("Profile updated");
                 } else {
-                    console.log(result.message);
+                    handleNotification(result.message, "error");
                 }
             },
             error: function (error) {
-                console.log("error: ", error);
+                handleNotification("Failed to update profile", "error");
                 navigate("/error");
             },
         });
@@ -89,14 +89,16 @@ const SettingsTab = () => {
                 console.log(result);
                 result = JSON.parse(result);
                 if (result.status) {
-                    // todo send popup message to user
-                    console.log("Password updated");
+                    handleNotification(
+                        "Password changed successfully",
+                        "success"
+                    );
                 } else {
-                    console.log(result.message);
+                    handleNotification(result.message, "error");
                 }
             },
             error: function (error) {
-                console.log("error: ", error);
+                handleNotification("Failed to change password", "error");
                 navigate("/error");
             },
         });

@@ -6,7 +6,7 @@ import Cards from "../components/Cards/Cards";
 import $ from "jquery";
 import { apiUrl } from "../api_url";
 
-function CardSaved() {
+function CardSaved({ handleNotification }) {
     const cookies = new Cookies();
     const [projects, setProjects] = useState([]);
     const [savedProjects, setSavedProjects] = useState({});
@@ -41,7 +41,7 @@ function CardSaved() {
             success: function (result) {
                 result = JSON.parse(result);
                 if (result.status) setProjects(result.data);
-                else console.log(result.message, result.error);
+                else handleNotification(result.message, "error");
             },
             error: function (error) {
                 console.log(error);

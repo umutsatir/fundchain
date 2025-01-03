@@ -73,18 +73,22 @@ const Funding = (props) => {
                 if (data.status) {
                     setIsSaved(!isSaved);
                 } else {
-                    console.log(data.message);
+                    props.handleNotification(data.message, "error");
                 }
             },
             error: function (error) {
-                console.log(error);
+                props.handleNotification("Failed to save project", "error");
             },
         });
     };
 
     const handleBackButton = () => {
-        if (!isConnected)
-            console.log("Please connect your wallet"); // todo add popup message
+        if (!loggedIn) props.handleNotification("Please login first", "info");
+        else if (!isConnected)
+            props.handleNotification(
+                "Please connect your wallet first",
+                "info"
+            );
         else setBackProject(!backProject);
     };
 

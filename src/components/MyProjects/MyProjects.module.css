@@ -38,6 +38,11 @@
     background-color: var(--primary-color-hover);
 }
 
+.knowledgeSection .button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
 .knowledgeSection .knowledge .projectTitle {
     font-size: 1.6em;
     margin-bottom: 0;

@@ -1,19 +1,74 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./CreateProjects.module.css";
-
 import MyProjects from "../MyProjects/MyProjects";
 import Donations from "../Donations/Donations";
+import $ from "jquery";
+import { Cookies } from "react-cookie";
+import { apiUrl } from "../../api_url";
 
-import photop from "/public/profilePicture.png"; //temporarily added.
+import Loading from "../Loading/Loading";
 
-const CreateProjects = () => {
+const CreateProjects = ({ handleNotification }) => {
     const [activeTab, setActiveTab] = useState("My Projects");
+    const [projects, setProjects] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const cookies = new Cookies();
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
 
-    return (
+    useEffect(() => {
+        setIsLoading(true);
+        if (activeTab === "My Projects") {
+            $.ajax({
+                url: apiUrl + "/getProjects.php",
+                type: "POST",
+                data: {
+                    username: cookies.get("username"),
+                },
+                success: function (result) {
+                    result = JSON.parse(result);
+                    if (result.status) {
+                        setProjects(result.data);
+                    } else {
+                        handleNotification(result.message, "error");
+                        setProjects([]);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                    setProjects([]);
+                },
+            });
+        } else {
+            $.ajax({
+                url: apiUrl + "/getDonations.php",
+                type: "POST",
+                data: {
+                    username: cookies.get("username"),
+                },
+                success: function (result) {
+                    result = JSON.parse(result);
+                    if (result.status) {
+                        setProjects(result.data);
+                    } else {
+                        handleNotification(result.message, "error");
+                        setProjects([]);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                    setProjects([]);
+                },
+            });
+        }
+        setIsLoading(false);
+    }, [activeTab]);
+
+    return isLoading ? (
+        <Loading />
+    ) : (
         <div className={styles.container}>
             <div className={styles.tabGroup}>
                 <button
@@ -31,59 +86,68 @@ const CreateProjects = () => {
                     onClick={() => handleTabClick("Donations")}
                 >
                     Donations
-                </button>  
+                </button>
             </div>
 
             <div className={styles.content}>
-                {activeTab === "My Projects" && <MyProjectsTab />}
-                {activeTab === "Donations" && <DonationsTab />}
+                {activeTab === "My Projects" && (
+                    <MyProjectsTab
+                        projects={projects}
+                        handleNotification={handleNotification}
+                    />
+                )}
+                {activeTab === "Donations" && (
+                    <DonationsTab
+                        donations={projects}
+                        handleNotification={handleNotification}
+                    />
+                )}
             </div>
         </div>
     );
 };
 
-
-const MyProjectsTab = () => (
+const MyProjectsTab = ({ projects, handleNotification }) => (
     <div>
-        <MyProjects 
-            title="Project Name0"
-            description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus quisquam in consequatur unde iste harum nesciunt corporis deleniti. Iste, accusantium?"
-            backers={59}
-            photo={photop}
-            buttonName="Button"
-            deadline={"2025-01-20T23:59:59Z"}>
-        </MyProjects>
-
-        <MyProjects 
-            title="Project Name1"
-            description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus quisquam in consequatur unde iste harum nesciunt corporis deleniti. Iste, accusantium?"
-            backers={195}
-            photo={photop}
-            buttonName="Button"
-            deadline={"2024-12-27T23:59:59Z"}>
-        </MyProjects>
+        {projects.length > 0 ? (
+            projects.map((project) => (
+                <MyProjects
+                    key={project.projectId}
+                    title={project.title}
+                    description={project.description}
+                    backers={0}
+                    photo={project.image}
+                    contractAddress={project.contractAddress}
+                    buttonName="Withdraw Funds"
+                    deadline={project.launchDate}
+                    handleNotification={handleNotification}
+                />
+            ))
+        ) : (
+            <h1>No projects found</h1>
+        )}
     </div>
 );
 
-const DonationsTab = () => (
+const DonationsTab = ({ donations, handleNotification }) => (
     <div>
-        <Donations 
-            title="Donation Project Name1"
-            description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus quisquam in consequatur unde iste harum nesciunt corporis deleniti. Iste, accusantium?"
-            backers={190}
-            photo={photop}
-            buttonName="Button"
-            deadline={"2024-12-27T23:59:59Z"}>
-        </Donations>
-
-        <Donations 
-            title="Donation Project Name0"
-            description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus quisquam in consequatur unde iste harum nesciunt corporis deleniti. Iste, accusantium?"
-            backers={29}
-            photo={photop}
-            buttonName="Button"
-            deadline={"2025-01-17T23:59:59Z"}>
-        </Donations>
+        {donations.length > 0 ? (
+            donations.map((donation) => (
+                <Donations
+                    key={donation.projectId}
+                    title={donation.title}
+                    description={donation.description}
+                    backers={0}
+                    photo={donation.image}
+                    contractAddress={donation.contractAddress}
+                    buttonName="Withdraw Donate"
+                    deadline={donation.launchDate}
+                    handleNotification={handleNotification}
+                />
+            ))
+        ) : (
+            <h1>No donations found</h1>
+        )}
     </div>
 );
 

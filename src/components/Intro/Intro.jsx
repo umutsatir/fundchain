@@ -3,7 +3,7 @@ import styles from "./Intro.module.css"; // CSS Modules import
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Funding from "../Funding/Funding";
 
-const Intro = ({ project }) => {
+const Intro = ({ project, handleNotification }) => {
     const getDeadline = (dbDate) => {
         const currentDate = new Date(); // Current date
         const targetDate = new Date(dbDate); // Date from the database
@@ -37,6 +37,7 @@ const Intro = ({ project }) => {
                 <Funding
                     id={project.id}
                     contractAddress={project.contractAddress}
+                    handleNotification={handleNotification}
                 />
             </div>
 

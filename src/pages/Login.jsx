@@ -5,9 +5,8 @@ import $ from "jquery";
 import styles from "../styles/Login.module.css"; // Import CSS module
 import { apiUrl } from "../api_url";
 
-function Login({ onLogin }) {
+function Login({ onLogin, handleNotification }) {
     const [isConfirmed, setIsConfirmed] = useState(false);
-    const [error, setError] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -18,10 +17,6 @@ function Login({ onLogin }) {
             navigate("/profile");
         }
     }, []);
-
-    useEffect(() => {
-        console.log(error);
-    }, [error]);
 
     const handleSubmit = (event) => {
         event.preventDefault(); // Prevent default form submission
@@ -40,11 +35,11 @@ function Login({ onLogin }) {
                     onLogin(data.token, data.username);
                     navigate("/");
                 } else {
-                    setError(data.message);
+                    handleNotification(data.message || "Login failed", "error");
                 }
             },
             error: function (error) {
-                console.log(error);
+                handleNotification("Login failed due to an error", "error");
             },
         });
     };
@@ -104,7 +99,6 @@ function Login({ onLogin }) {
                     Sign up
                 </Link>
             </div>
-            {error && <p className={styles.errorMessage}>{error}</p>}
         </div>
     );
 }

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading/Loading";
 import { apiUrl } from "../api_url";
 
-function Profile() {
+function Profile({ handleNotification }) {
     const [user, setUser] = useState([]);
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,7 +26,7 @@ function Profile() {
                 if (result.status) {
                     setUser(result.data);
                 } else {
-                    console.log(result.message);
+                    handleNotification(result.message, "error");
                 }
             },
             error: function (error) {
@@ -46,7 +46,7 @@ function Profile() {
                 if (result.status) {
                     setProjects(result.data);
                 } else {
-                    console.log(result.message);
+                    handleNotification(result.message, "error");
                 }
             },
             error: function (error) {
