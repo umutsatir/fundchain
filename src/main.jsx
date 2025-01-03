@@ -101,7 +101,14 @@ const App = () => {
                                     />
                                 }
                             />
-                            <Route path="/create" element={<Create />} />
+                            <Route
+                                path="/create"
+                                element={
+                                    <Create
+                                        handleNotification={handleNotification}
+                                    />
+                                }
+                            />
                             <Route
                                 path="/settings"
                                 element={

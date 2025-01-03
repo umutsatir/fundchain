@@ -1,11 +1,11 @@
-import React from 'react';
-import styles from '../styles/Create.module.css';
-import CreateTab from '../components/CreateTab/CreateTab';
+import React from "react";
+import styles from "../styles/Create.module.css";
+import CreateTab from "../components/CreateTab/CreateTab";
 
-const Create = () => {
+const Create = ({ handleNotification }) => {
     return (
         <div className={styles.tabContainer}>
-            <CreateTab />
+            <CreateTab handleNotification={handleNotification} />
         </div>
     );
 };
