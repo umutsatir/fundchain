@@ -58,7 +58,7 @@
     background-color: darken(var(--primary-color), 10%);
 }
 
-.tabs button:hover {
+.tabs button:enabled:hover {
     color: var(--primary-color);
 }
 
@@ -100,7 +100,7 @@
     transition: transform 0.3s ease-in-out;
 }
 
-.tabs button:hover::after {
+.tabs button:enabled:hover::after {
     transform: scaleX(1);
 }
 
@@ -120,6 +120,27 @@
 
 .container > .content::after {
     bottom: 0;
+}
+
+.saveGroup {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.createButton {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: var(--buttonPadding);
+    border: none;
+    border-radius: var(--buttonBorderRadius);
+    font-size: var(--buttonFontSize);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.createButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 @media (max-width: 768px) {

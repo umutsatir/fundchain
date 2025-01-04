@@ -44,7 +44,7 @@ function FundingGoal({ category, updateFunding, formData }) {
         } else {
             setWarning(false);
         }
-    }, [amount, currency, convertedAmount, maxAmount, updateFunding]);
+    }, [amount, currency, convertedAmount, maxAmount]);
 
     const handleAmountChange = (e) => {
         const value = e.target.value;

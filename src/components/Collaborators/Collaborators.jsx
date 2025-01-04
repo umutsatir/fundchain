@@ -4,22 +4,18 @@ import styles from "./Collaborators.module.css";
 function Category({ updateCollaborators, formData }) {
     const [Collaborators, setCollaborators] = useState(() => {
         if (formData.collaborators && formData.collaborators.length > 0) {
-            return formData.collaborators
-                .split("}, {")
-                .map((collaborator) => {
-                    collaborator = collaborator.replace(/[{}]/g, "");
-                    const collaboratorList = collaborator.split(", ");
-                    return {
-                        email: collaboratorList[0],
-                        title: collaboratorList[1],
-                        permissions: collaboratorList.slice(2),
-                    };
-                });
+            return formData.collaborators.split("}, {").map((collaborator) => {
+                collaborator = collaborator.replace(/[{}]/g, "");
+                const collaboratorList = collaborator.split(", ");
+                return {
+                    email: collaboratorList[0],
+                    title: collaboratorList[1],
+                    permissions: collaboratorList.slice(2),
+                };
+            });
         }
         return [];
     });
-
-
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [newCollaborator, setNewCollaborator] = useState({
@@ -30,14 +26,13 @@ function Category({ updateCollaborators, formData }) {
     const [coordinateFulfillment, setCoordinateFulfillment] = useState(false);
 
     useEffect(() => {
-        const collaboratorsList = Collaborators.map(collaborator => {
+        const collaboratorsList = Collaborators.map((collaborator) => {
             const { email, title, permissions } = collaborator;
             return `{${email}, ${title}, {${permissions.join(", ")}}}`;
         }).join(", ");
-    
+
         updateCollaborators("collaborators", collaboratorsList);
-    }, [Collaborators, updateCollaborators]);
-    
+    }, [Collaborators]);
 
     const handleAddCollaborator = () => {
         const permissions = [
@@ -98,8 +93,6 @@ function Category({ updateCollaborators, formData }) {
 
     const resetForm = () => {
         setNewCollaborator({ email: "", title: "" });
-        setEditProject(false);
-        setManageCommunity(false);
         setCoordinateFulfillment(false);
         setEditingCollaborator(null);
     };
@@ -174,7 +167,13 @@ function Category({ updateCollaborators, formData }) {
                                 ? "Edit Collaborator"
                                 : "New Collaborator"}
                         </h2>
-                        <form>
+                        <form
+                            onSubmit={
+                                editingCollaborator
+                                    ? handleSaveChanges
+                                    : handleAddCollaborator
+                            }
+                        >
                             <label htmlFor="email">Email</label>
                             <input
                                 type="email"

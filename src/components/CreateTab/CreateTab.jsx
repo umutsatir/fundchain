@@ -11,13 +11,13 @@ import TargetDate from "../TargetDate/TargetDate";
 import Duration from "../Duration/Duration";
 import FundingGoal from "../FundingGoal/FundingGoal";
 
-const CreateTab = () => {
+const CreateTab = ({ handleNotification }) => {
     const [activeTab, setActiveTab] = useState("basics");
+    const [isSaved, setIsSaved] = useState(false);
     const [formData, setFormData] = useState({
         basics: {
             category: "",
             title: "",
-            subtitle: "",
             location: "",
             image: "",
             video: "",
@@ -32,7 +32,7 @@ const CreateTab = () => {
             amount: "",
         },
         story: {
-            story: "",
+            story: [],
         },
         collaborators: {
             collaborators: [],
@@ -43,65 +43,66 @@ const CreateTab = () => {
         setActiveTab(tab);
     };
 
-    const [message, setMessage] = useState("");
-    const [type, setType] = useState("");
-
-    const handleNotification = (msg, type) => {
-        setMessage(msg);
-        setType(type);
-    };
-
     const handleSave = async () => {
         try {
+            console.log(formData);
             const errors = [];
+            let isStoryTyped = true;
+            formData.story.story.forEach((data) => {
+                if (data.title == "" || data.paragraphs[0] == "")
+                    isStoryTyped = false;
+            });
 
-            if (!formData.basics.title) errors.push("Title is required.");
-            if (!formData.basics.subtitle) errors.push("Subtitle is required.");
-            if (!formData.basics.location) errors.push("Location is required.");
-            if (!formData.basics.image) errors.push("Image is required.");
+            if (!formData.basics.category) errors.push("category");
+            if (!formData.basics.title) errors.push("title");
+            if (!formData.basics.location) errors.push("location");
+            if (!formData.basics.image) errors.push("image");
             if (
                 !formData.basics.duration.type ||
                 !formData.basics.duration.value
             ) {
-                errors.push("Duration type and value are required.");
+                errors.push("duration");
             }
-            if (!formData.funding.amount)
-                errors.push("Funding amount is required.");
-            if (!formData.story.story) errors.push("Story is required.");
+            if (!formData.funding.amount) errors.push("funding amount");
+            if (formData.story.story.length === 0 || !isStoryTyped)
+                errors.push("story");
+            if (!formData.basics.targetDate) errors.push("target date");
 
-            // ADDITIONAL VALIDATION
-            // if (!formData.basics.video) errors.push("Video is required.");
-            // if (!formData.basics.targetDate) errors.push("Target date is required.");
-            // if (formData.collaborators.collaborators.length === 0) {
-            //     errors.push("At least one collaborator is required.");
-            // }
+            if (errors.length > 0) {
+                handleNotification(
+                    `Please fill in the following fields:\n\n${errors.join(
+                        ", "
+                    )}`,
+                    "error"
+                );
+                return;
+            }
 
-            // if (errors.length > 0) {
-            //     alert(`Please fill in the following fields:\n\n${errors.join("\n")}`);
-            //     return;
-            // }
-
-            // const formattedData = JSON.stringify(formData, null, 2);
-            // const newWindow = window.open("", "_blank");
-            // newWindow.document.write(`<pre>${formattedData}</pre>`);
-            // newWindow.document.title = "Saved Data";
-
-            // BACKEND API CALL
-            // const response = await fetch("https://api.example.com/projects", {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //     },
-            //     body: JSON.stringify(formData),
-            // });
-            // if (response.ok) {
-            //     alert("Changes have been saved!");
-            // } else {
-            //     alert("Failed to save changes.");
-            // }
+            handleNotification("Changes have been saved!", "success");
+            setIsSaved(true);
         } catch (error) {
             alert("An error occurred: " + error.message);
         }
+    };
+
+    const handleCreate = async () => {
+        // const formattedData = JSON.stringify(formData, null, 2);
+        // const newWindow = window.open("", "_blank");
+        // newWindow.document.write(`<pre>${formattedData}</pre>`);
+        // newWindow.document.title = "Saved Data";
+        // BACKEND API CALL
+        // const response = await fetch("https://api.example.com/projects", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify(formData),
+        // });
+        // if (response.ok) {
+        //     alert("Changes have been saved!");
+        // } else {
+        //     alert("Failed to save changes.");
+        // }
     };
 
     const updateBasics = (key, value) => {
@@ -204,20 +205,20 @@ const CreateTab = () => {
                         Collaborators
                     </button>
                 </div>
-                <button className={styles.saveButton} onClick={handleSave}>
-                    Save
-                </button>
-            </div>
-            <div className={styles.content}>
-                {tabs[activeTab]}
-                <div className={styles.notification}>
-                    {message && (
-                        <p className={type === "error" ? styles.error : ""}>
-                            {message}
-                        </p>
-                    )}
+                <div className={styles.saveGroup}>
+                    <button
+                        className={styles.createButton}
+                        onClick={handleCreate}
+                        disabled={!isSaved}
+                    >
+                        Create
+                    </button>
+                    <button className={styles.saveButton} onClick={handleSave}>
+                        Save
+                    </button>
                 </div>
             </div>
+            <div className={styles.content}>{tabs[activeTab]}</div>
         </div>
     );
 };
