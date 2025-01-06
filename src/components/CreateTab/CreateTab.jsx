@@ -7,7 +7,6 @@ import Details from "../Details/Details";
 import Location from "../Location/Location";
 import Image from "../Image/Image";
 import Video from "../Video/Video";
-import TargetDate from "../TargetDate/TargetDate";
 import Duration from "../Duration/Duration";
 import FundingGoal from "../FundingGoal/FundingGoal";
 import $ from "jquery";
@@ -19,6 +18,7 @@ import { abi } from "../../../contracts/abi/abi";
 import { bytecode } from "../../../contracts/bytecode/bytecode";
 import { config } from "../../config";
 import { sepolia } from "viem/chains";
+import { parseEther } from "viem";
 
 const CreateTab = ({ handleNotification }) => {
     const [activeTab, setActiveTab] = useState("basics");
@@ -32,7 +32,6 @@ const CreateTab = ({ handleNotification }) => {
             location: "",
             image: [],
             video: "",
-            targetDate: "",
             duration: {
                 type: "",
                 value: "",
@@ -77,6 +76,11 @@ const CreateTab = ({ handleNotification }) => {
                 errors.push("duration");
             }
             if (!formData.funding.amount) errors.push("funding amount");
+            if (
+                parseFloat(formData.funding.amount) <= 0 ||
+                parseFloat(formData.funding.amount) >= 250
+            )
+                errors.push("funding");
             if (formData.story.story.length === 0 || !isStoryTyped)
                 errors.push("story");
 
@@ -134,11 +138,17 @@ const CreateTab = ({ handleNotification }) => {
                 formData.basics.duration.type === "fixed"
                     ? formData.basics.duration.value
                     : getDaysFromDuration(formData.basics.duration.value);
-            const timestamp = Math.floor(Date.now() / 1000);
+            const timestamp = new Date().getTime() / 1000;
+            const currDate = new Date();
+            currDate.setDate(currDate.getDate() + parseInt(duration));
+            const launchDate = currDate.toISOString().split("T")[0];
 
             const hash = await deployContract(config, {
                 abi: abi,
-                args: [timestamp + duration, formData.funding.amount],
+                args: [
+                    parseInt(timestamp + duration * 24 * 60 * 60),
+                    parseEther(formData.funding.amount),
+                ],
                 bytecode: bytecode,
                 gas: 3000000,
             });
@@ -154,6 +164,7 @@ const CreateTab = ({ handleNotification }) => {
                 ...formData,
                 contractAddress: contractAddress,
                 username: cookies.get("username"),
+                launchDate: launchDate,
             };
             newData = JSON.stringify(newData);
 
@@ -170,10 +181,12 @@ const CreateTab = ({ handleNotification }) => {
                     } else {
                         handleNotification(data.message, "error");
                     }
+                    setIsInProgress(false);
                 },
                 error: function (error) {
                     console.log(error);
                     handleNotification("Failed to create project", "error");
+                    setIsInProgress(false);
                 },
             });
         } catch (error) {
@@ -182,6 +195,7 @@ const CreateTab = ({ handleNotification }) => {
                 "Failed to create project. Please try again.",
                 "error"
             );
+            setIsInProgress(false);
         }
     };
 
@@ -310,18 +324,13 @@ const BasicsTab = ({ updateBasics, formData }) => (
         <Location updateBasics={updateBasics} formData={formData} />
         <Image updateBasics={updateBasics} formData={formData} />
         <Video updateBasics={updateBasics} formData={formData} />
-        <TargetDate updateBasics={updateBasics} formData={formData} />
         <Duration updateBasics={updateBasics} formData={formData} />
     </div>
 );
 
 const FundingTab = ({ updateFunding, formData }) => (
     <div>
-        <FundingGoal
-            category={"tech"}
-            updateFunding={updateFunding}
-            formData={formData}
-        />
+        <FundingGoal updateFunding={updateFunding} formData={formData} />
     </div>
 );
 

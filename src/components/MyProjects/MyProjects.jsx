@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 import styles from "./MyProjects.module.css";
 import PropTypes from "prop-types";
-import { useWriteContract, useAccount } from "wagmi";
+import { useAccount } from "wagmi";
+import { writeContract } from "@wagmi/core";
+import { config } from "../../config";
+import { abi } from "../../../contracts/abi/abi";
 
 function MyProjects(props) {
     const [deadlineInfo, setDeadlineInfo] = useState("");
     const { isConnected } = useAccount();
-    const { writeContract } = useWriteContract();
 
     const getDeadline = (dbDate) => {
+        if (!dbDate) return;
         const currentDate = new Date();
-        const targetDate = new Date(dbDate);
-        const diffInMs = targetDate - currentDate;
+        const [year, month, day] = dbDate.split("-");
+        const targetDate = new Date(year, month - 1, day);
+        const diffInMs = targetDate.getTime() - currentDate.getTime();
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
         if (diffInDays > 0) {
@@ -25,18 +29,30 @@ function MyProjects(props) {
         getDeadline(props.deadline);
     }, []);
 
-    function handleWithdraw() {
+    async function handleWithdraw() {
         if (!isConnected)
             props.handleNotification(
                 "Please connect your wallet first",
                 "info"
             );
         else {
-            writeContract({
-                abi,
-                address: props.contractAddress,
-                functionName: "withdraw",
-            });
+            try {
+                await writeContract(config, {
+                    abi,
+                    address: props.contractAddress,
+                    functionName: "withdraw",
+                });
+                props.handleNotification(
+                    "Withdrawal successful. Please check your wallet account.",
+                    "success"
+                );
+            } catch (error) {
+                console.log(error);
+                props.handleNotification(
+                    "An error occurred. Please check your wallet account. It should be the same as you created the project.",
+                    "error"
+                );
+            }
         }
     }
 

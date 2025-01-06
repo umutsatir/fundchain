@@ -20,6 +20,10 @@ const Funding = (props) => {
     const [loggedIn, setLoggedIn] = useState(cookies.get("loggedIn"));
     const [backProject, setBackProject] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [ETHValue, setETHValue] = useState({
+        pledged: 0,
+        goal: 0,
+    });
     const [data, setData] = useState({
         pledged: 0,
         goal: 0,
@@ -90,8 +94,8 @@ const Funding = (props) => {
                 const pledgedData = convertEtherToUSD(
                     formatEther(await readFromContract("getTotalBalance"))
                 );
-                const goalData = convertUSDToEther(
-                    parseInt(await readFromContract("getGoal"))
+                const goalData = convertEtherToUSD(
+                    formatEther(await readFromContract("getGoal"))
                 );
                 const backersData = parseInt(
                     await readFromContract("getDonatorCount")
@@ -99,6 +103,10 @@ const Funding = (props) => {
                 const daysLeftData = parseInt(
                     await readFromContract("getDeadline")
                 );
+                setETHValue({
+                    pledged: pledgedData / etherPrice,
+                    goal: goalData / etherPrice,
+                });
                 setData({
                     pledged: pledgedData,
                     goal: goalData,
@@ -169,8 +177,12 @@ const Funding = (props) => {
                 ></div>
             </div>
             <div className={styles.progressInfo}>
-                <h1>{data.pledged}$</h1>
-                <p>pledged of {data.goal}$ goal</p>
+                <h1>
+                    {data.pledged}$ / {ETHValue.pledged} ETH
+                </h1>
+                <p>
+                    pledged of {data.goal}$ / {ETHValue.goal} ETH goal
+                </p>
                 <h1>{data.backers}</h1>
                 <p>backers</p>
                 <h1>{data.daysLeft}</h1>

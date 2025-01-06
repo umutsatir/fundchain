@@ -16,13 +16,11 @@ const CommentItem = ({ comment }) => {
     };
 
     const getDeadline = (dbDate) => {
-        const currentDate = new Date(); // Current date
-        const targetDate = new Date(dbDate); // Date from the database
-
-        // Calculate the difference in milliseconds
-        const diffInMs = targetDate - currentDate;
-
-        // Convert milliseconds to days
+        if (!dbDate) return;
+        const currentDate = new Date();
+        const [year, month, day] = dbDate.split("-");
+        const targetDate = new Date(year, month - 1, day);
+        const diffInMs = targetDate.getTime() - currentDate.getTime();
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
         return diffInDays > 0

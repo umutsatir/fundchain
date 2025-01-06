@@ -23,20 +23,32 @@ const formatNumber = (number) => {
     }).format(number);
 };
 
-function FundingGoal({ category, updateFunding, formData }) {
-    const [amount, setAmount] = useState(formData.amount || "");
+function FundingGoal({ updateFunding, formData }) {
+    const [etherPrice, setEtherPrice] = useState(4000);
+    const [amount, setAmount] = useState(formData.amount * etherPrice || "");
     const [currency, setCurrency] = useState(formData.currency || "USD");
     const [warning, setWarning] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
+    const [etherValue, setEtherValue] = useState(0);
 
-    const maxAmount = categoryLimits[category] || 1000000;
+    const maxAmount = 1000000;
     const convertedAmount =
         parseFloat(amount) / (exchangeRates[currency] || 1) || 0;
 
     useEffect(() => {
+        if (currency === "EUR") {
+            setEtherPrice(3900);
+        } else if (currency === "GBP") {
+            setEtherPrice(3100);
+        } else if (currency === "TRY") {
+            setEtherPrice(130000);
+        }
         // Update funding whenever amount or currency changes
+        setEtherValue(
+            amount ? (parseFloat(amount) / etherPrice).toFixed(2) : 0
+        );
         updateFunding("currency", currency);
-        updateFunding("amount", amount);
+        updateFunding("amount", etherValue);
 
         // Check if the entered amount exceeds the maximum allowed amount
         if (convertedAmount > maxAmount) {
@@ -44,7 +56,7 @@ function FundingGoal({ category, updateFunding, formData }) {
         } else {
             setWarning(false);
         }
-    }, [amount, currency, convertedAmount, maxAmount]);
+    }, [amount, currency, convertedAmount, etherPrice, etherValue]);
 
     const handleAmountChange = (e) => {
         const value = e.target.value;
@@ -108,15 +120,15 @@ function FundingGoal({ category, updateFunding, formData }) {
                     <div className={styles.convertedAmount}>
                         <p>
                             Converted Amount: {formatNumber(convertedAmount)} $
+                            = {formatNumber(etherValue)} ETH
                         </p>
                     </div>
 
                     {warning && (
                         <div className={styles.warning}>
                             <p>
-                                Warning: The maximum allowed amount for{" "}
-                                {category} category is {formatNumber(maxAmount)}{" "}
-                                $.
+                                Warning: The maximum allowed amount is{" "}
+                                {formatNumber(maxAmount)} $.
                             </p>
                         </div>
                     )}

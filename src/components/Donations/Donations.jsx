@@ -9,9 +9,11 @@ function Donations(props) {
     const { writeContract } = useWriteContract();
 
     const getDeadline = (dbDate) => {
+        if (!dbDate) return;
         const currentDate = new Date();
-        const targetDate = new Date(dbDate);
-        const diffInMs = targetDate - currentDate;
+        const [year, month, day] = dbDate.split("-");
+        const targetDate = new Date(year, month - 1, day);
+        const diffInMs = targetDate.getTime() - currentDate.getTime();
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
         if (diffInDays > 0) {

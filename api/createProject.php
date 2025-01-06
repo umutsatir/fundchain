@@ -21,7 +21,7 @@
             'video' => $data['basics']['video'],
             'goal' => $data['funding']['amount'],
             'contractAddress' => $data['contractAddress'],
-            'launchDate' => date('Y-m-d')
+            'launchDate' => $data['launchDate']
         ]);
 
         $stories = [];
@@ -47,28 +47,3 @@
         echo json_encode(array('status' => false, 'message' => $e->getMessage()));
     }
 ?>
-<!-- 
-{
-    "basics": {
-        "category": "",
-        "title": "",
-        "location": "",
-        "image": "",
-        "video": "",
-        "targetDate": "",
-        "duration": {
-            "type": "",
-            "value": ""
-        }
-    },
-    "funding": {
-        "currency": "USD",
-        "amount": ""
-    },
-    "story": {
-        "story": []
-    },
-    "collaborators": {
-        "collaborators": []
-    }
-} -->
