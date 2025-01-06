@@ -4,7 +4,7 @@ pragma solidity ^0.8.19;
 contract Project {
     address owner;
     mapping(address => uint) fundedAmount;
-    mapping (address => bool) donators;
+    mapping(address => bool) donators;
     uint donatorCount = 0;
     uint goal;
     uint totalBalance = 0;

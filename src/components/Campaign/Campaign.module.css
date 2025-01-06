@@ -1,7 +1,9 @@
 .campaignBar {
     display: flex;
     align-items: flex-start;
+    justify-content: flex-start;
     padding: 10px;
+    width: 55vw;
 }
 
 .campaignTabs {
@@ -52,6 +54,12 @@
     */
 }
 
+@media screen and (max-width: 1200px) {
+    .campaignBar {
+        width: 80vw;
+    }
+}
+
 @media screen and (max-width: 576px) {
     .campaignTabs {
         display: none;
@@ -60,6 +68,7 @@
     .campaignBar {
         flex-direction: column;
         align-items: center;
+        width: 80%;
     }
 
     .descriptionContainer {

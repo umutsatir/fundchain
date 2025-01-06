@@ -33,7 +33,9 @@ const SettingsTab = ({ handleNotification }) => {
         const formData = new FormData(e.target);
         const data = {};
         formData.forEach((value, key) => {
-            data[key] = value;
+            if (key === "avatar") {
+                data[key] = URL.createObjectURL(value);
+            } else data[key] = value;
         });
 
         $.ajax({
@@ -47,7 +49,10 @@ const SettingsTab = ({ handleNotification }) => {
                 console.log(result);
                 result = JSON.parse(result);
                 if (result.status) {
-                    console.log("Profile updated");
+                    handleNotification(
+                        "Profile updated successfully",
+                        "success"
+                    );
                 } else {
                     handleNotification(result.message, "error");
                 }

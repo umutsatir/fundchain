@@ -29,6 +29,17 @@ function Details({ updateBasics, formData }) {
                         onChange={handleInputChange}
                     />
                 </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="description">Description</label>
+                    <textarea
+                        type="text"
+                        id="description"
+                        rows="5"
+                        value={formData.description}
+                        className={styles.input}
+                        onChange={handleInputChange}
+                    />
+                </div>
             </form>
         </div>
     );

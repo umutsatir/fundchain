@@ -10,16 +10,27 @@ import Video from "../Video/Video";
 import TargetDate from "../TargetDate/TargetDate";
 import Duration from "../Duration/Duration";
 import FundingGoal from "../FundingGoal/FundingGoal";
+import $ from "jquery";
+import { apiUrl } from "../../api_url";
+import { Cookies } from "react-cookie";
+import { useAccount } from "wagmi";
+import { waitForTransactionReceipt, deployContract } from "@wagmi/core";
+import { abi } from "../../../contracts/abi/abi";
+import { bytecode } from "../../../contracts/bytecode/bytecode";
+import { config } from "../../config";
+import { sepolia } from "viem/chains";
 
 const CreateTab = ({ handleNotification }) => {
     const [activeTab, setActiveTab] = useState("basics");
     const [isSaved, setIsSaved] = useState(false);
+    const [isInProgress, setIsInProgress] = useState(false);
     const [formData, setFormData] = useState({
         basics: {
             category: "",
             title: "",
+            description: "",
             location: "",
-            image: "",
+            image: [],
             video: "",
             targetDate: "",
             duration: {
@@ -38,6 +49,8 @@ const CreateTab = ({ handleNotification }) => {
             collaborators: [],
         },
     });
+    const cookies = new Cookies();
+    const { isConnected } = useAccount();
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -45,7 +58,6 @@ const CreateTab = ({ handleNotification }) => {
 
     const handleSave = async () => {
         try {
-            console.log(formData);
             const errors = [];
             let isStoryTyped = true;
             formData.story.story.forEach((data) => {
@@ -55,8 +67,9 @@ const CreateTab = ({ handleNotification }) => {
 
             if (!formData.basics.category) errors.push("category");
             if (!formData.basics.title) errors.push("title");
+            if (!formData.basics.description) errors.push("description");
             if (!formData.basics.location) errors.push("location");
-            if (!formData.basics.image) errors.push("image");
+            if (formData.basics.image.length === 0) errors.push("image");
             if (
                 !formData.basics.duration.type ||
                 !formData.basics.duration.value
@@ -66,7 +79,6 @@ const CreateTab = ({ handleNotification }) => {
             if (!formData.funding.amount) errors.push("funding amount");
             if (formData.story.story.length === 0 || !isStoryTyped)
                 errors.push("story");
-            if (!formData.basics.targetDate) errors.push("target date");
 
             if (errors.length > 0) {
                 handleNotification(
@@ -77,6 +89,12 @@ const CreateTab = ({ handleNotification }) => {
                 );
                 return;
             }
+            if (formData.basics.description.length > 85) {
+                handleNotification(
+                    "Description should not exceed 85 characters",
+                    "error"
+                );
+            }
 
             handleNotification("Changes have been saved!", "success");
             setIsSaved(true);
@@ -85,24 +103,86 @@ const CreateTab = ({ handleNotification }) => {
         }
     };
 
+    const getDaysFromDuration = (duration) => {
+        const date = new Date(duration);
+        const currentDate = new Date();
+        const timeDifference = date.getTime() - currentDate.getTime();
+        const daysDifference = timeDifference / (1000 * 3600 * 24);
+        return Math.floor(daysDifference);
+    };
+
     const handleCreate = async () => {
-        // const formattedData = JSON.stringify(formData, null, 2);
-        // const newWindow = window.open("", "_blank");
-        // newWindow.document.write(`<pre>${formattedData}</pre>`);
-        // newWindow.document.title = "Saved Data";
-        // BACKEND API CALL
-        // const response = await fetch("https://api.example.com/projects", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify(formData),
-        // });
-        // if (response.ok) {
-        //     alert("Changes have been saved!");
-        // } else {
-        //     alert("Failed to save changes.");
-        // }
+        if (isInProgress) {
+            handleNotification(
+                "You can only create the same project once.",
+                "warning"
+            );
+            return;
+        }
+        if (!isConnected) {
+            handleNotification("Please connect your wallet first", "info");
+            return;
+        }
+        setIsInProgress(true);
+
+        try {
+            handleNotification(
+                "Please wait for the transaction to complete. This may take a few seconds.",
+                "info"
+            );
+            const duration =
+                formData.basics.duration.type === "fixed"
+                    ? formData.basics.duration.value
+                    : getDaysFromDuration(formData.basics.duration.value);
+            const timestamp = Math.floor(Date.now() / 1000);
+
+            const hash = await deployContract(config, {
+                abi: abi,
+                args: [timestamp + duration, formData.funding.amount],
+                bytecode: bytecode,
+                gas: 3000000,
+            });
+            const receipt = await waitForTransactionReceipt(config, {
+                hash: hash,
+            });
+            const contractAddress = receipt.contractAddress;
+            handleNotification(
+                "Contract created successfully, waiting for project creation.",
+                "info"
+            );
+            let newData = {
+                ...formData,
+                contractAddress: contractAddress,
+                username: cookies.get("username"),
+            };
+            newData = JSON.stringify(newData);
+
+            $.ajax({
+                url: apiUrl + "/createProject.php",
+                type: "POST",
+                data: {
+                    data: newData,
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.status) {
+                        handleNotification(data.message, "success");
+                    } else {
+                        handleNotification(data.message, "error");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                    handleNotification("Failed to create project", "error");
+                },
+            });
+        } catch (error) {
+            console.error("Error while creating the project:", error);
+            handleNotification(
+                "Failed to create project. Please try again.",
+                "error"
+            );
+        }
     };
 
     const updateBasics = (key, value) => {

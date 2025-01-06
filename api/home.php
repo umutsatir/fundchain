@@ -28,10 +28,11 @@
     }
 
     $projects = array_map(function($project) {
+        $image = json_decode($project['image'], true);
         return array(
             'id' => $project['projectId'],
             'title' => $project['title'],
-            'img' => $project['image'],
+            'img' => $image[0],
             'subimg' => $project['subimage'],
             'owner' => $project['owner'],
             'deadline' => $project['launchDate']
@@ -39,10 +40,11 @@
     }, $projects);
 
     $popular = array_map(function($project) {
+        $image = json_decode($project['image'], true);
         return array(
             'id' => $project['projectId'],
             'title' => $project['title'],
-            'img' => $project['image'],
+            'img' => $image[0],
             'subimg' => $project['subimage'],
             'owner' => $project['owner'],
             'deadline' => $project['launchDate']

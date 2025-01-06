@@ -112,8 +112,8 @@
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    background-image: url("https://i.imgur.com/cBselON.png");
     background-size: cover;
+    background-position: center;
 }
 
 .profileImage:hover {
@@ -224,6 +224,6 @@
     }
 
     .dropdownCard {
-        top: 90px;
+        top: 100px;
     }
 }
