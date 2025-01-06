@@ -5,8 +5,11 @@ import $ from "jquery";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../../api_url";
 import FundingMenu from "../FundingMenu/FundingMenu";
-import { useReadContract, useAccount } from "wagmi";
+import { useAccount } from "wagmi";
+import { readContract } from "@wagmi/core";
+import { formatEther } from "viem";
 import { abi } from "../../../contracts/abi/abi";
+import { config } from "../../config";
 
 import photop from "/public/profilePicture.png"; //temporarily added.
 
@@ -17,23 +20,48 @@ const Funding = (props) => {
     const [loggedIn, setLoggedIn] = useState(cookies.get("loggedIn"));
     const [backProject, setBackProject] = useState(false);
     const [progress, setProgress] = useState(0);
-    const pledged = readFromContract("getTotalBalance");
-    const goal = readFromContract("getFundedAmount");
-    const backers = readFromContract("getBackers");
-    const daysLeft = readFromContract("getDeadline");
+    const [data, setData] = useState({
+        pledged: 0,
+        goal: 0,
+        backers: 0,
+        daysLeft: 0,
+    });
     const { isConnected } = useAccount();
+    const etherPrice = 4000;
 
-    function readFromContract(functionName) {
-        useReadContract({
+    async function readFromContract(functionName) {
+        return await readContract(config, {
             abi,
             address: props.contractAddress,
             functionName: functionName,
         });
     }
 
-    useEffect(() => {
-        setProgress((pledged / goal) * 100);
-    }, [pledged, goal]);
+    function convertEtherToUSD(ether) {
+        return (ether * etherPrice).toFixed(1);
+        // const api =
+        //     "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
+        // $.ajax({
+        //     url: api,
+        //     type: "GET",
+        //     headers: {
+        //         x_cg_demo_api_key: "CG-Y7X3sef8d5QgDUxGwoiQ9FYr",
+        //         "Access-Control-Allow-Origin": "*",
+        //         "Content-Type": "application/json",
+        //     },
+        //     success: function (data) {
+        //         return data.ethereum.usd * ether;
+        //     },
+        //     error: function (error) {
+        //         console.log(error);
+        //         return 0;
+        //     },
+        // });
+    }
+
+    function convertUSDToEther(usd) {
+        return usd * etherPrice;
+    }
 
     useEffect(() => {
         if (!cookies.get("loggedIn")) return;
@@ -56,7 +84,37 @@ const Funding = (props) => {
                 console.log(error);
             },
         });
+        const fetchData = async () => {
+            try {
+                if (!props.contractAddress) return;
+                const pledgedData = convertEtherToUSD(
+                    formatEther(await readFromContract("getTotalBalance"))
+                );
+                const goalData = convertUSDToEther(
+                    parseInt(await readFromContract("getGoal"))
+                );
+                const backersData = parseInt(
+                    await readFromContract("getDonatorCount")
+                );
+                const daysLeftData = parseInt(
+                    await readFromContract("getDeadline")
+                );
+                setData({
+                    pledged: pledgedData,
+                    goal: goalData,
+                    backers: backersData,
+                    daysLeft: daysLeftData,
+                });
+            } catch (error) {
+                console.log("Contract data fetch failed\n", error);
+            }
+        };
+        fetchData();
     }, [props]);
+
+    useEffect(() => {
+        setProgress((data.pledged / data.goal) * 100);
+    }, [data]);
 
     const setSavedProject = () => {
         if (!cookies.get("loggedIn")) navigate("/login");
@@ -96,8 +154,8 @@ const Funding = (props) => {
         <div className={styles.progressContainer}>
             {backProject && (
                 <FundingMenu
-                    title="Titlee"
-                    backers={123}
+                    title={props.title}
+                    backers={data.backers}
                     photo={photop}
                     isVisible={backProject}
                     setIsVisible={setBackProject}
@@ -111,11 +169,11 @@ const Funding = (props) => {
                 ></div>
             </div>
             <div className={styles.progressInfo}>
-                <h1>{pledged}$</h1>
-                <p>pledged of {goal}$ goal</p>
-                <h1>{backers}</h1>
+                <h1>{data.pledged}$</h1>
+                <p>pledged of {data.goal}$ goal</p>
+                <h1>{data.backers}</h1>
                 <p>backers</p>
-                <h1>{daysLeft}</h1>
+                <h1>{data.daysLeft}</h1>
                 <p>days to go</p>
             </div>
             <div className={styles.buttons}>

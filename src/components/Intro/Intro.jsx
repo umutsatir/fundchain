@@ -36,6 +36,7 @@ const Intro = ({ project, handleNotification }) => {
                 </div>
                 <Funding
                     id={project.id}
+                    title={project.title}
                     contractAddress={project.contractAddress}
                     handleNotification={handleNotification}
                 />

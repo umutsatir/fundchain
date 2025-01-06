@@ -56,7 +56,7 @@ contract Project {
     }
 
     function getDeadline() public view returns (uint) {
-        return (deadline - startingTime) / 1 days; // convert seconds into days
+        return (deadline - startingTime) * 1 days; // convert seconds into days
     }
 
     function getOwner() public view returns (address) {
