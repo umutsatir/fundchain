@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import styles from "./Donations.module.css";
 import PropTypes from "prop-types";
-import { useWriteContract, useAccount } from "wagmi";
+import { useAccount } from "wagmi";
+import { writeContract } from "@wagmi/core";
+import { abi } from "../../../contracts/abi/abi";
+import { config } from "../../config";
 
 function Donations(props) {
     const [deadlineInfo, setDeadlineInfo] = useState("");
     const { isConnected } = useAccount();
-    const { writeContract } = useWriteContract();
 
     const getDeadline = (dbDate) => {
         if (!dbDate) return;
@@ -27,14 +29,14 @@ function Donations(props) {
         getDeadline(props.deadline);
     }, [props.deadline]);
 
-    function handleWithdraw() {
+    async function handleWithdraw() {
         if (!isConnected)
             props.handleNotification(
                 "Please connect your wallet first",
                 "info"
             );
         else {
-            writeContract({
+            await writeContract(config, {
                 abi,
                 address: props.contractAddress,
                 functionName: "withdrawDonate",

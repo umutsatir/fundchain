@@ -109,5 +109,6 @@ contract Project {
         fundedAmount[msg.sender] = 0;
         donators[msg.sender] = false;
         donatorCount--;
+        totalBalance--;
     }
 }
