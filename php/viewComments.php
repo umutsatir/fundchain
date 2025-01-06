@@ -32,20 +32,27 @@ if ($comments) {
     // Loop through the comments
     while ($i < count($comments)) {
         // Fetch the username for the current comment
-        $stmt = $pdo->prepare("SELECT username FROM users WHERE userId = :u_id");
+        $stmt = $pdo->prepare("SELECT username,name,surname,profilePic FROM users WHERE userId = :u_id");
         $stmt->execute(['u_id' => $comments[$i]['userId']]);
-        $temp_username = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user= $stmt->fetch(PDO::FETCH_ASSOC);
 
         // Set the username or 'unknown' if not found
         $send_name = 'unknown';
-        if ($temp_username) {
-            $send_name = $temp_username['username']; // Correct access to username
+        $send_surname = 'unknown';
+        $send_username = 'unknown';
+        if ($user) {
+            $send_name = $user['name'];
+            $send_surname = $user['surname'];
+            $send_username = $user['username']; // Correct access to username
         }
 
         // Create the dictionary for the current comment
         $dict = array(
+            'username_php' => $send_username,
+            'name'=>$send_name,
+            'surname'=>$send_surname,
+            'profile_pic'=>$user['profilePic'],
             'projectId_php' => $comments[$i]['projectId'],
-            'username_php' => $send_name,
             'title_php' => $comments[$i]['title'],
             'description_php' => $comments[$i]['description'],
             'rate_php' => $comments[$i]['rate'],
