@@ -2,13 +2,20 @@ import React, { useState, useEffect } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css"; // Importing CSS Module
+import { Cookies } from "react-cookie";
+import $ from "jquery";
+import { apiUrl } from "../../api_url";
 
 function Navbar({ onLogout, loggedIn }) {
     const [searchText, setSearchText] = useState("");
     const [isHamburger, setIsHamburger] = useState(window.innerWidth <= 1200);
     const [isLoggedIn, setIsLoggedIn] = useState(loggedIn);
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+    const [profilePic, setProfilePic] = useState(
+        "https://i.imgur.com/cBselON.png"
+    );
     const navigate = useNavigate();
+    const cookies = new Cookies();
 
     // Handle window resize for hamburger menu
     useEffect(() => {
@@ -30,6 +37,23 @@ function Navbar({ onLogout, loggedIn }) {
     // Sync state with the loggedIn prop
     useEffect(() => {
         setIsLoggedIn(loggedIn);
+
+        $.ajax({
+            url: apiUrl + "/getProfilePic.php",
+            type: "POST",
+            data: {
+                username: cookies.get("username"),
+            },
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result.status) {
+                    setProfilePic(result.data);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
     }, [loggedIn]);
 
     const handleStartProject = () => {
@@ -99,6 +123,9 @@ function Navbar({ onLogout, loggedIn }) {
                                     <ConnectButton chainStatus={"none"} />
                                     <div
                                         className={styles.profileImage}
+                                        style={{
+                                            backgroundImage: `url(${profilePic})`,
+                                        }}
                                         onClick={handleProfileClick}
                                     />
                                     {isProfileMenuOpen && (
@@ -140,6 +167,15 @@ function Navbar({ onLogout, loggedIn }) {
                                                         }
                                                     >
                                                         Saved Projects
+                                                    </li>
+                                                    <li
+                                                        onClick={() =>
+                                                            handleNavigate(
+                                                                "/projects"
+                                                            )
+                                                        }
+                                                    >
+                                                        My Projects
                                                     </li>
                                                     <li
                                                         onClick={() =>
@@ -193,6 +229,13 @@ function Navbar({ onLogout, loggedIn }) {
                                         <ul>
                                             <li
                                                 onClick={() =>
+                                                    handleNavigate("/create")
+                                                }
+                                            >
+                                                Create a Project
+                                            </li>
+                                            <li
+                                                onClick={() =>
                                                     handleNavigate("/profile")
                                                 }
                                             >
@@ -216,10 +259,10 @@ function Navbar({ onLogout, loggedIn }) {
                                             </li>
                                             <li
                                                 onClick={() =>
-                                                    handleNavigate("/create")
+                                                    handleNavigate("/projects")
                                                 }
                                             >
-                                                Create a Project
+                                                My Projects
                                             </li>
                                             <li
                                                 onClick={() => {

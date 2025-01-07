@@ -34,16 +34,15 @@
 .EnteringEmailContainer .upperPart .backButton {
     border: none;
     background: none;
-    font-size: 2.3em;
-    font-weight: bold;
+    font-family: Calibri, sans-serif;
+    font-size: 2em;
+    border-radius: 5px;
     color: var(--primary-color-hover);
-
-    border-radius: 50%;
     margin-right: 100px;
 }
 
 .EnteringEmailContainer .upperPart .backButton:hover {
-    background-color:  rgba(112, 77, 145, 0.065);
+    background-color: rgba(112, 77, 145, 0.065);
     cursor: pointer;
 }
 
@@ -60,9 +59,9 @@
 
 .EnteringEmailContainer form {
     display: flex;
-    flex-direction: column; 
-    align-items: flex-start; 
-    width: 100%; 
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .EnteringEmailContainer input {
@@ -77,6 +76,7 @@
     padding: 15px;
 
     font-size: 1.2em;
+    transition: all 0.3s ease;
 }
 
 .EnteringEmailContainer input:hover {
@@ -105,7 +105,6 @@
 .continueButton:active {
     background-color: var(--primary-color-click);
 }
-
 
 .EnteringEmailContainer .divider {
     width: 100%;

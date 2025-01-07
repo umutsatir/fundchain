@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Stats.module.css"; // Import the CSS Module
 import $ from "jquery";
+import { apiUrl } from "../../api_url";
 
-function Stats() {
+function Stats({ handleNotification }) {
     const [stats, setStats] = useState([]);
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/stats.php",
+            url: apiUrl + "/stats.php",
             type: "GET",
             success: function (data) {
                 setStats(JSON.parse(data));
             },
             error: function (error) {
-                console.log(error);
+                handleNotification("Failed to fetch stats", "error");
                 setStats([0, 0, 0]);
             },
         });

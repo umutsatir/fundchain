@@ -4,13 +4,13 @@ import { Cookies } from "react-cookie";
 import Loading from "../components/Loading/Loading";
 import Cards from "../components/Cards/Cards";
 import $ from "jquery";
+import { apiUrl } from "../api_url";
 
-function CardSaved() {
+function CardSaved({ handleNotification }) {
     const cookies = new Cookies();
     const [projects, setProjects] = useState([]);
     const [savedProjects, setSavedProjects] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-
 
     const handleSaveToggle = (projectId) => {
         setSavedProjects((prevSavedProjects) => ({
@@ -24,24 +24,26 @@ function CardSaved() {
     };
 
     function getDeadline(dbDate) {
+        if (!dbDate) return;
         const currentDate = new Date();
-        const targetDate = new Date(dbDate);
-        const diffInMs = targetDate - currentDate;
+        const [year, month, day] = dbDate.split("-");
+        const targetDate = new Date(year, month - 1, day);
+        const diffInMs = targetDate.getTime() - currentDate.getTime();
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
         return diffInDays;
     }
 
-    useEffect( () => {
+    useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/savedProjects.php",
+            url: apiUrl + "/savedProjects.php",
             type: "POST",
             data: {
-                username: cookies.get("username")
+                username: cookies.get("username"),
             },
             success: function (result) {
                 result = JSON.parse(result);
                 if (result.status) setProjects(result.data);
-                else console.log(result.message, result.error);
+                else handleNotification(result.message, "error");
             },
             error: function (error) {
                 console.log(error);

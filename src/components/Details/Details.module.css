@@ -22,9 +22,7 @@
 }
 
 .formGroup {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #ddd;
+    margin: 10px;
 }
 
 .input {
@@ -33,6 +31,10 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 16px;
+}
+
+.formGroup textarea {
+    resize: none;
 }
 
 @media screen and (max-width: 768px) {

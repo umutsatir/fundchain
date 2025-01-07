@@ -5,8 +5,9 @@ import { Cookies } from "react-cookie";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading/Loading";
+import { apiUrl } from "../api_url";
 
-function Profile() {
+function Profile({ handleNotification }) {
     const [user, setUser] = useState([]);
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,7 +16,7 @@ function Profile() {
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/profile.php",
+            url: apiUrl + "/profile.php",
             type: "POST",
             data: {
                 username: cookies.get("username"),
@@ -25,7 +26,7 @@ function Profile() {
                 if (result.status) {
                     setUser(result.data);
                 } else {
-                    console.log(result.message);
+                    handleNotification(result.message, "error");
                 }
             },
             error: function (error) {
@@ -35,7 +36,7 @@ function Profile() {
         });
 
         $.ajax({
-            url: "http://localhost:8000/usersProjects.php",
+            url: apiUrl + "/usersProjects.php",
             type: "POST",
             data: {
                 username: cookies.get("username"),
@@ -45,7 +46,7 @@ function Profile() {
                 if (result.status) {
                     setProjects(result.data);
                 } else {
-                    console.log(result.message);
+                    handleNotification(result.message, "error");
                 }
             },
             error: function (error) {

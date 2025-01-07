@@ -1,6 +1,6 @@
 <?php 
     try {
-        header('Access-Control-Allow-Origin: http://localhost:5173');
+        header('Access-Control-Allow-Origin: *');
         include './pdo.php';
         $pdo = (new PDOClass())->connect();
         $username = $_POST['username'];
@@ -27,10 +27,11 @@
             $projects[$i]['owner'] = $user['username'];
         }
         $projects = array_map(function($project) {
+            $image = json_decode($project['image'], true);
             return array(
                 'id' => $project['projectId'],
                 'title' => $project['title'],
-                'img' => $project['image'],
+                'img' => $image[0],
                 'subimg' => $project['subimage'],
                 'owner' => $project['owner'],
                 'deadline' => $project['launchDate']

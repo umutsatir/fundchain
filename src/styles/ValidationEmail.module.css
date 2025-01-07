@@ -22,6 +22,18 @@
     font-family: inherit;
 }
 
+.ValidationEmailContainer input::-webkit-outer-spin-button,
+.ValidationEmailContainer input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.ValidationEmailContainer input {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    transition: all 0.3s ease;
+}
+
 .ValidationEmailContainer .upperPart {
     display: flex;
     flex-direction: row;
@@ -34,16 +46,17 @@
 .ValidationEmailContainer .upperPart .backButton {
     border: none;
     background: none;
-    font-size: 2.3em;
-    font-weight: bold;
+    font-family: Calibri, sans-serif;
+    font-size: 2em;
+    border-radius: 5px;
     color: var(--primary-color-hover);
 
-    border-radius: 50%;
     margin-right: 100px;
+    transition: all 0.3s ease;
 }
 
 .ValidationEmailContainer .upperPart .backButton:hover {
-    background-color:  rgba(112, 77, 145, 0.065);
+    background-color: rgba(112, 77, 145, 0.065);
     cursor: pointer;
 }
 
@@ -60,10 +73,10 @@
 
 .ValidationEmailContainer .timer {
     align-self: center;
-    
-    border: 1px solid  white;
+
+    border: 1px solid white;
     border-radius: 50%;
-    background-color:  rgba(0, 128, 0, 0.755);
+    background-color: rgba(0, 128, 0, 0.755);
     color: white;
 
     display: flex;
@@ -80,20 +93,17 @@
 
 .ValidationEmailContainer .timerExpired {
     align-self: center;
-
     color: rgb(184, 19, 19);
-
-    font-size: 1.5em;
-    font-weight: bold;
-
+    font-size: 0.9em;
+    font-weight: 600;
     margin-top: 0;
 }
 
 .ValidationEmailContainer form {
     display: flex;
-    flex-direction: column; 
-    align-items: flex-start; 
-    width: 100%; 
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .ValidationEmailContainer input {
@@ -126,6 +136,7 @@
     margin-top: 20px;
 
     font-size: 1.2em;
+    transition: all 0.3s ease;
 }
 
 .continueButton:hover {
@@ -137,6 +148,11 @@
     background-color: var(--primary-color-click);
 }
 
+.continueButton:disabled {
+    background-color: #ccc;
+    border: 1px solid #ccc;
+    cursor: not-allowed;
+}
 
 .ValidationEmailContainer .divider {
     width: 100%;

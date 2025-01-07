@@ -1,6 +1,5 @@
 <?php
-
-header('Access-Control-Allow-Origin: http://localhost:5173');
+header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 require_once '../vendor/autoload.php';
 include './pdo.php';
@@ -16,8 +15,8 @@ function TopThreeKeys($array) {
     return array_keys(array_slice($counts, 0, 3, true));
 }
 
-$pdo = (new PDOClass())->connect();
 use Firebase\JWT\JWT;
+$pdo = (new PDOClass())->connect();
 
 $gump = new GUMP();
 $_POST = $gump->sanitize($_POST);
@@ -31,7 +30,7 @@ $stmt->execute(['userName' => $u_name]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user) {
-    $stmt = $pdo->prepare("SELECT * FROM savedprojects WHERE userId = :u_id");
+    $stmt = $pdo->prepare("SELECT * FROM savedProjects WHERE userId = :u_id");
     $stmt->execute(['u_id' => $user['userId']]);
     $savedProjectsByUser = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

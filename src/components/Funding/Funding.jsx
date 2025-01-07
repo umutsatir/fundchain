@@ -3,38 +3,74 @@ import styles from "./Funding.module.css";
 import { Cookies } from "react-cookie";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
-import { useReadContract, useAccount, useWriteContract } from "wagmi";
+import { apiUrl } from "../../api_url";
+import FundingMenu from "../FundingMenu/FundingMenu";
+import { useAccount } from "wagmi";
+import { readContract } from "@wagmi/core";
+import { formatEther } from "viem";
 import { abi } from "../../../contracts/abi/abi";
-import { parseEther } from "viem";
+import { config } from "../../config";
+
+import photop from "/public/profilePicture.png"; //temporarily added.
 
 const Funding = (props) => {
     const cookies = new Cookies();
     const navigate = useNavigate();
     const [isSaved, setIsSaved] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(cookies.get("loggedIn"));
+    const [backProject, setBackProject] = useState(false);
     const [progress, setProgress] = useState(0);
-    const pledged = readFromContract("getTotalBalance");
-    const goal = readFromContract("getFundedAmount");
-    const backers = readFromContract("getBackers");
-    const daysLeft = readFromContract("getDeadline");
+    const [ETHValue, setETHValue] = useState({
+        pledged: 0,
+        goal: 0,
+    });
+    const [data, setData] = useState({
+        pledged: 0,
+        goal: 0,
+        backers: 0,
+        daysLeft: 0,
+    });
     const { isConnected } = useAccount();
-    const { writeContract } = useWriteContract();
+    const etherPrice = 4000;
 
-    function readFromContract(functionName) {
-        useReadContract({
+    async function readFromContract(functionName) {
+        return await readContract(config, {
             abi,
             address: props.contractAddress,
             functionName: functionName,
         });
     }
 
-    useEffect(() => {
-        setProgress((pledged / goal) * 100);
-    }, [pledged, goal]);
+    function convertEtherToUSD(ether) {
+        return (ether * etherPrice).toFixed(1);
+        // const api =
+        //     "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
+        // $.ajax({
+        //     url: api,
+        //     type: "GET",
+        //     headers: {
+        //         x_cg_demo_api_key: "CG-Y7X3sef8d5QgDUxGwoiQ9FYr",
+        //         "Access-Control-Allow-Origin": "*",
+        //         "Content-Type": "application/json",
+        //     },
+        //     success: function (data) {
+        //         return data.ethereum.usd * ether;
+        //     },
+        //     error: function (error) {
+        //         console.log(error);
+        //         return 0;
+        //     },
+        // });
+    }
+
+    function convertUSDToEther(usd) {
+        return usd * etherPrice;
+    }
 
     useEffect(() => {
         if (!cookies.get("loggedIn")) return;
         $.ajax({
-            url: "http://localhost:8000/checkSave.php",
+            url: apiUrl + "/checkSave.php",
             type: "POST",
             data: {
                 projectId: props.id,
@@ -52,12 +88,46 @@ const Funding = (props) => {
                 console.log(error);
             },
         });
+        const fetchData = async () => {
+            try {
+                if (!props.contractAddress) return;
+                const pledgedData = convertEtherToUSD(
+                    formatEther(await readFromContract("getTotalBalance"))
+                );
+                const goalData = convertEtherToUSD(
+                    formatEther(await readFromContract("getGoal"))
+                );
+                const backersData = parseInt(
+                    await readFromContract("getDonatorCount")
+                );
+                const daysLeftData = parseInt(
+                    await readFromContract("getDeadline")
+                );
+                setETHValue({
+                    pledged: pledgedData / etherPrice,
+                    goal: goalData / etherPrice,
+                });
+                setData({
+                    pledged: pledgedData,
+                    goal: goalData,
+                    backers: backersData,
+                    daysLeft: daysLeftData,
+                });
+            } catch (error) {
+                console.log("Contract data fetch failed\n", error);
+            }
+        };
+        fetchData();
     }, [props]);
+
+    useEffect(() => {
+        setProgress((data.pledged / data.goal) * 100);
+    }, [data]);
 
     const setSavedProject = () => {
         if (!cookies.get("loggedIn")) navigate("/login");
         $.ajax({
-            url: "http://localhost:8000/save.php",
+            url: apiUrl + "/save.php",
             type: "POST",
             data: {
                 projectId: props.id,
@@ -69,35 +139,37 @@ const Funding = (props) => {
                 if (data.status) {
                     setIsSaved(!isSaved);
                 } else {
-                    console.log(data.message);
+                    props.handleNotification(data.message, "error");
                 }
             },
             error: function (error) {
-                console.log(error);
+                props.handleNotification("Failed to save project", "error");
             },
         });
     };
 
-    function handleBackProjectButton() {
-        if (!isConnected)
-            console.log("Please connect your wallet"); // todo add popup message
-        else {
-            // todo add menu for typing the amount
-            fundProject(1);
-        }
-    }
-
-    function fundProject(value) {
-        writeContract({
-            abi,
-            address: props.contractAddress,
-            functionName: "fundProject",
-            value: parseEther(value),
-        });
-    }
+    const handleBackButton = () => {
+        if (!loggedIn) props.handleNotification("Please login first", "info");
+        else if (!isConnected)
+            props.handleNotification(
+                "Please connect your wallet first",
+                "info"
+            );
+        else setBackProject(!backProject);
+    };
 
     return (
         <div className={styles.progressContainer}>
+            {backProject && (
+                <FundingMenu
+                    title={props.title}
+                    backers={data.backers}
+                    photo={photop}
+                    isVisible={backProject}
+                    setIsVisible={setBackProject}
+                    handleNotification={props.handleNotification}
+                />
+            )}
             <div className={styles.progressBackground}>
                 <div
                     className={styles.progressBar}
@@ -105,17 +177,21 @@ const Funding = (props) => {
                 ></div>
             </div>
             <div className={styles.progressInfo}>
-                <h1>{pledged}$</h1>
-                <p>pledged of {goal}$ goal</p>
-                <h1>{backers}</h1>
+                <h1>
+                    {data.pledged}$ / {ETHValue.pledged} ETH
+                </h1>
+                <p>
+                    pledged of {data.goal}$ / {ETHValue.goal} ETH goal
+                </p>
+                <h1>{data.backers}</h1>
                 <p>backers</p>
-                <h1>{daysLeft}</h1>
+                <h1>{data.daysLeft}</h1>
                 <p>days to go</p>
             </div>
             <div className={styles.buttons}>
                 <button
                     className={styles.backButton}
-                    onClick={handleBackProjectButton}
+                    onClick={handleBackButton}
                 >
                     Back this project
                 </button>

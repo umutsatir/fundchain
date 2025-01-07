@@ -13,7 +13,7 @@ function EnteringEmail() {
 
     const handleSubmit = (event) => {
         event.preventDefault(); // Prevent default form submission
-        navigate("/validation-email");
+        navigate("/validation-email", { state: { isValidated: true } });
     };
 
     const handleBack = () => {
@@ -30,8 +30,11 @@ function EnteringEmail() {
             </div>
 
             <p className={styles.divider}></p>
-            <p className={styles.knowledge}>Enter the email address you used to sign up and we'll send you a link to reset your password.</p>
-            
+            <p className={styles.knowledge}>
+                Enter the email address you used to sign up and we'll send you a
+                link to reset your password.
+            </p>
+
             <form onSubmit={handleSubmit}>
                 <input
                     type="email"
@@ -39,12 +42,12 @@ function EnteringEmail() {
                     required
                     onChange={handleEmail}
                 />
-                
+
                 {error && <p className={styles.errorMessage}>{error}</p>}
                 <button type="submit" className={styles.continueButton}>
                     Continue
                 </button>
-            </form>  
+            </form>
         </div>
     );
 }

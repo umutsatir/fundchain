@@ -3,20 +3,13 @@ import { useNavigate, Link } from "react-router-dom";
 import { Cookies } from "react-cookie";
 import $ from "jquery";
 import styles from "../styles/Login.module.css"; // Import CSS module
+import { apiUrl } from "../api_url";
 
-function Login({ onLogin }) {
+function Login({ onLogin, handleNotification }) {
     const [isConfirmed, setIsConfirmed] = useState(false);
-    const [error, setError] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-
-    const [errors, setErrors] = useState({
-            username: "",
-            email: "",
-            password: "",
-        });
-    
 
     useEffect(() => {
         const cookies = new Cookies();
@@ -25,72 +18,30 @@ function Login({ onLogin }) {
         }
     }, []);
 
-    useEffect(() => {
-        console.log(error);
-    }, [error]);
-
     const handleSubmit = (event) => {
         event.preventDefault(); // Prevent default form submission
 
-        let valid = true;
-        const newErrors = { email: "", password: ""};
-
-        if (!email) {
-            newErrors.email = "Email is required.";
-            valid = false;
-        } else if (!/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = "Please enter a valid email address.";
-            valid = false;
-        }
-
-        if (!password) {
-            newErrors.password = "Password is required.";
-            valid = false;
-        } else if (password.length < 8) {
-            newErrors.password = "Password must be at least 8 characters.";
-            valid = false;
-        } else if (!/[A-Z]/.test(password)) {
-            newErrors.password = "Password must contain at least one uppercase letter.";
-            valid = false;
-        } else if (!/[a-z]/.test(password)) {
-            newErrors.password = "Password must contain at least one lowercase letter.";
-            valid = false;
-        } else if (!/[0-9]/.test(password)) {
-            newErrors.password = "Password must contain at least one number.";
-            valid = false;
-        }
-        // else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-        //     newErrors.password = "Password must contain at least one special character.";
-        //     valid = false;
-        // }
-
-        setErrors(newErrors);
-
-        if(valid) {
-            // Send AJAX request if inputs are valid
-            $.ajax({
-                url: "http://localhost:8000/login.php",
-                type: "POST",
-                data: {
-                    email: email,
-                    password: password,
-                    isRemembered: isConfirmed,
-                },
-                success: function (data) {
-                    console.log(data);
-                    data = JSON.parse(data);
-                    if (data.status) {
-                        onLogin(data.token, data.username);
-                        navigate("/");
-                    } else {
-                        setError(data.message);
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-            });
-        }
+        $.ajax({
+            url: apiUrl + "/login.php",
+            type: "POST",
+            data: {
+                email: email,
+                password: password,
+                isRemembered: isConfirmed,
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.status) {
+                    onLogin(data.token, data.username);
+                    navigate("/");
+                } else {
+                    handleNotification(data.message || "Login failed", "error");
+                }
+            },
+            error: function (error) {
+                handleNotification("Login failed due to an error", "error");
+            },
+        });
     };
 
     const handleButtonClick = () => {
@@ -115,15 +66,13 @@ function Login({ onLogin }) {
                     required
                     onChange={handleEmail}
                 />
-                {errors.email && (<span className={styles.errorMessage}>{errors.email}</span>)}
                 <input
                     type="password"
                     placeholder="Password"
                     required
                     onChange={handlePassword}
                 />
-                {errors.password && (<span className={styles.errorMessage}>{errors.password}</span>)}
-                <Link to="#" className={styles.forgotPassword}>
+                <Link to="/forgot-password" className={styles.forgotPassword}>
                     Forgot your password?
                 </Link>
                 <button type="submit" className={styles.loginButton}>
@@ -150,7 +99,6 @@ function Login({ onLogin }) {
                     Sign up
                 </Link>
             </div>
-            {error && <p className={styles.errorMessage}>{error}</p>}
         </div>
     );
 }

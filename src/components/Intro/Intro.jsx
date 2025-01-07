@@ -3,15 +3,13 @@ import styles from "./Intro.module.css"; // CSS Modules import
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Funding from "../Funding/Funding";
 
-const Intro = ({ project }) => {
+const Intro = ({ project, handleNotification }) => {
     const getDeadline = (dbDate) => {
-        const currentDate = new Date(); // Current date
-        const targetDate = new Date(dbDate); // Date from the database
-
-        // Calculate the difference in milliseconds
-        const diffInMs = targetDate - currentDate;
-
-        // Convert milliseconds to days
+        if (!dbDate) return;
+        const currentDate = new Date();
+        const [year, month, day] = dbDate.split("-");
+        const targetDate = new Date(year, month - 1, day);
+        const diffInMs = targetDate.getTime() - currentDate.getTime();
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
         return diffInDays > 0
@@ -36,7 +34,9 @@ const Intro = ({ project }) => {
                 </div>
                 <Funding
                     id={project.id}
+                    title={project.title}
                     contractAddress={project.contractAddress}
+                    handleNotification={handleNotification}
                 />
             </div>
 

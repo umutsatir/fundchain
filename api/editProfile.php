@@ -1,4 +1,12 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+require_once '../vendor/autoload.php';
+include './pdo.php';
+$pdo = (new PDOClass())->connect();
+
+$gump = new GUMP();
+$_POST = $gump->sanitize($_POST);
 
 ///////////REAL/////////////////////
 $username = $_POST['username'];

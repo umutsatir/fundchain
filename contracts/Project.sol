@@ -4,7 +4,7 @@ pragma solidity ^0.8.19;
 contract Project {
     address owner;
     mapping(address => uint) fundedAmount;
-    mapping (address => bool) donators;
+    mapping(address => bool) donators;
     uint donatorCount = 0;
     uint goal;
     uint totalBalance = 0;
@@ -25,7 +25,7 @@ contract Project {
         );
         owner = msg.sender;
         startingTime = block.timestamp;
-        deadline = startingTime + (newDeadline * 1 days);
+        deadline = newDeadline;
         goal = newGoal;
     }
 
@@ -109,5 +109,6 @@ contract Project {
         fundedAmount[msg.sender] = 0;
         donators[msg.sender] = false;
         donatorCount--;
+        totalBalance--;
     }
 }

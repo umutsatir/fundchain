@@ -18,7 +18,7 @@ import Settings from "./pages/Settings";
 import Search from "./pages/Search";
 import Create from "./pages/Create";
 import { Cookies } from "react-cookie";
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -31,6 +31,8 @@ import CardSaved from "./pages/CardSaved";
 import EnteringEmail from "./pages/EnteringEmail";
 import ValidationEmail from "./pages/ValidationEmail";
 import ForgotPassword from "./pages/ForgotPassword";
+import DisplayProjects from "./pages/DisplayProjects";
+import Notification from "./components/Notification/Notification";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +41,7 @@ const App = () => {
     const cookies = new Cookies();
     const location = useLocation();
     const { disconnect } = useDisconnect();
+    const notificationRef = useRef();
 
     // Check cookie on initial load
     useEffect(() => {
@@ -59,41 +62,109 @@ const App = () => {
         disconnect(); // Disconnect from the blockchain
     };
 
+    function handleNotification(msg, type) {
+        notificationRef.current.addNotification(msg, type);
+    }
+
     // Check if the current path is for login or signup
     const isAuthPage =
-        location.pathname === "/login" || location.pathname === "/signup" || location.pathname === "/error"
-        || location.pathname === "/enter-email"  || location.pathname === "/validation-email" || location.pathname === "/forgot-password";
+        location.pathname === "/login" ||
+        location.pathname === "/signup" ||
+        location.pathname === "/error" ||
+        location.pathname === "/reset-password" ||
+        location.pathname === "/validation-email" ||
+        location.pathname === "/forgot-password";
 
     return (
         <div>
+            <Notification ref={notificationRef} />
             {/* Render Navbar only if not on the login or signup page */}
             {!isAuthPage && <Navbar loggedIn={loggedIn} onLogout={onLogout} />}
             <div className="content">
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/project/:id" element={<Project />} />
+                    <Route
+                        path="/project/:id"
+                        element={
+                            <Project handleNotification={handleNotification} />
+                        }
+                    />
                     <Route path="/search" element={<Search />} />
                     <Route path="/error" element={<Error />} />
                     {loggedIn ? (
                         <>
-                            <Route path="/profile" element={<Profile />} />
-                            <Route path="/create" element={<Create />} />
-                            <Route path="/settings" element={<Settings />} />
+                            <Route
+                                path="/profile"
+                                element={
+                                    <Profile
+                                        handleNotification={handleNotification}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="/create"
+                                element={
+                                    <Create
+                                        handleNotification={handleNotification}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="/settings"
+                                element={
+                                    <Settings
+                                        handleNotification={handleNotification}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="/projects"
+                                element={
+                                    <DisplayProjects
+                                        handleNotification={handleNotification}
+                                    />
+                                }
+                            />
                             <Route
                                 path="/saved-projects"
-                                element={<CardSaved />}
+                                element={
+                                    <CardSaved
+                                        handleNotification={handleNotification}
+                                    />
+                                }
                             />
                         </>
                     ) : (
                         <>
                             <Route
                                 path="/login"
-                                element={<Login onLogin={onLogin} />}
+                                element={
+                                    <Login
+                                        onLogin={onLogin}
+                                        handleNotification={handleNotification}
+                                    />
+                                }
                             />
-                            <Route path="/signup" element={<Signup />} />
-                            <Route path="/enter-email" element={<EnteringEmail />} />
-                            <Route path="/validation-email" element={<ValidationEmail />} />
-                            <Route path="/forgot-password" element={<ForgotPassword />} />
+                            <Route
+                                path="/signup"
+                                element={
+                                    <Signup
+                                        handleNotification={handleNotification}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="/forgot-password"
+                                element={<EnteringEmail />}
+                            />
+                            <Route
+                                path="/validation-email"
+                                element={<ValidationEmail />}
+                            />
+                            <Route
+                                path="/reset-password"
+                                element={<ForgotPassword />}
+                            />
                         </>
                     )}
                     <Route

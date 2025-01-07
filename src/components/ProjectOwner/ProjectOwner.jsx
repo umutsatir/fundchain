@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./ProjectOwner.module.css"; // import the module CSS
 import $ from "jquery";
+import { apiUrl } from "../../api_url";
 
 const ProjectOwner = ({ userId }) => {
     const rating = 4.5;
@@ -8,7 +9,7 @@ const ProjectOwner = ({ userId }) => {
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/projectOwner.php",
+            url: apiUrl + "/projectOwner.php",
             type: "GET",
             data: {
                 id: userId,

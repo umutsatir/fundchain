@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Report.module.css";
 import { Cookies } from "react-cookie";
 import $ from "jquery";
+import { apiUrl } from "../../api_url";
 
 const Report = ({ id }) => {
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -12,7 +13,7 @@ const Report = ({ id }) => {
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:8000/checkReport.php",
+            url: apiUrl + "/checkReport.php",
             type: "POST",
             data: {
                 projectId_input: id,
@@ -36,7 +37,7 @@ const Report = ({ id }) => {
         if (isButtonDisabled) return;
 
         $.ajax({
-            url: "http://localhost:8000/createReport.php",
+            url: apiUrl + "/createReport.php",
             type: "POST",
             data: {
                 projectId_input: id,

@@ -9,8 +9,11 @@ import RecommendedProjects from "../components/RecommendedProjects/RecommendedPr
 import styles from "../styles/Project.module.css";
 import Loading from "../components/Loading/Loading";
 import Report from "../components/Report/Report";
+import { apiUrl } from "../api_url";
+import CommentItem from "../components/CommentItem/CommentItem";
+import CommentCreate from "../components/CommentCreate/CommentCreate";
 
-function Project() {
+function Project({ handleNotification }) {
     const { id } = useParams();
     const [project, setProject] = useState({});
     const [story, setStory] = useState([]);
@@ -25,7 +28,7 @@ function Project() {
             return;
         }
         $.ajax({
-            url: "http://localhost:8000/project.php",
+            url: apiUrl + "/project.php",
             type: "GET",
             data: {
                 projectId: id,
@@ -42,7 +45,7 @@ function Project() {
         });
 
         $.ajax({
-            url: "http://localhost:8000/story.php",
+            url: apiUrl + "/story.php",
             type: "GET",
             data: {
                 projectId: id,
@@ -50,7 +53,7 @@ function Project() {
             success: function (result) {
                 result = JSON.parse(result);
                 if (result.status) setStory(result.data);
-                else console.log(result.message);
+                else handleNotification(result.message, "error");
             },
             error: function (error) {
                 console.log(error);
@@ -59,7 +62,7 @@ function Project() {
         });
 
         $.ajax({
-            url: "http://localhost:8000/viewComments.php",
+            url: apiUrl + "/viewComments.php",
             type: "POST",
             data: {
                 projectId_input: id,
@@ -67,11 +70,11 @@ function Project() {
             success: function (result) {
                 result = JSON.parse(result);
                 if (result.status) setComments(result.data);
-                else console.log(result.message);
+                else handleNotification(result.message, "error");
             },
             error: function (error) {
                 console.log(error);
-                navigate("/error");
+                // navigate("/error");
             },
         });
 
@@ -83,22 +86,32 @@ function Project() {
     ) : (
         <div>
             <div className={styles.main}>
-                <Intro project={project} />
+                <Intro
+                    project={project}
+                    handleNotification={handleNotification}
+                />
                 <TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
                 <div className={styles.bottom}>
                     <div className={styles.campaign}>
                         {activeTab === "Campaign" ? (
                             <Campaign story={story} />
                         ) : (
-                            <p>asd</p> // todo add comment components
-                            // comments.map((comment) => {
-                            // })
+                            <div className={styles.commentsContainer}>
+                                <CommentCreate projectId={id} />
+                                <div className={styles.comments}>
+                                    {comments.map((comment) => {
+                                        <CommentItem comment={comment} />;
+                                    })}
+                                </div>
+                            </div>
                         )}
                     </div>
-                    <div className={styles.rightCampaign}>
-                        <ProjectOwner userId={project.userId} />
-                        <Report id={id} />
-                    </div>
+                    {activeTab === "Campaign" && (
+                        <div className={styles.rightCampaign}>
+                            <ProjectOwner userId={project.userId} />
+                            <Report id={id} />
+                        </div>
+                    )}
                 </div>
                 <RecommendedProjects userId={project.userId} />
             </div>

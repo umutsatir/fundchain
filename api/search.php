@@ -1,5 +1,5 @@
 <?php
-    header('Access-Control-Allow-Origin: http://localhost:5173');
+    header('Access-Control-Allow-Origin: *');
 
     include './pdo.php';
     $search = $_GET['search'];
@@ -17,10 +17,11 @@
         }
         $json = array();
         foreach($projects as $project){
+            $image = json_decode($project['image'], true);
             $json[] = array(
                 'id' => $project['projectId'],
                 'title' => $project['title'],
-                'img' => $project['image'],
+                'img' => $image[0],
                 'subimg' => $project['subimage'],
                 'owner' => $project['userId'],
                 'deadline' => $project['launchDate'],

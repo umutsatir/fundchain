@@ -3,6 +3,7 @@ import Cards from "../components/Cards/Cards";
 import Stats from "../components/Stats/Stats";
 import Loading from "../components/Loading/Loading";
 import styles from "../styles/Home.module.css"; // Import the CSS module
+import { apiUrl } from "../api_url";
 
 function Home() {
     const [projects, setProjects] = useState({ popular: [], trending: [] });
@@ -12,7 +13,7 @@ function Home() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await fetch("http://localhost:8000/home.php");
+                const response = await fetch(apiUrl + "/home.php");
                 const data = await response.json();
                 setProjects(data);
 
@@ -41,9 +42,11 @@ function Home() {
     };
 
     function getDeadline(dbDate) {
+        if (!dbDate) return;
         const currentDate = new Date();
-        const targetDate = new Date(dbDate);
-        const diffInMs = targetDate - currentDate;
+        const [year, month, day] = dbDate.split("-");
+        const targetDate = new Date(year, month - 1, day);
+        const diffInMs = targetDate.getTime() - currentDate.getTime();
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
         return diffInDays;
     }

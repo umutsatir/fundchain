@@ -3,8 +3,9 @@ import styles from "./SettingsTab.module.css";
 import $, { isEmptyObject } from "jquery";
 import { useNavigate } from "react-router-dom";
 import { Cookies } from "react-cookie";
+import { apiUrl } from "../../api_url";
 
-const SettingsTab = () => {
+const SettingsTab = ({ handleNotification }) => {
     const [activeTab, setActiveTab] = useState("account");
     const [activePasswordChange, setActivePasswordChange] = useState(false);
     const navigate = useNavigate();
@@ -32,11 +33,13 @@ const SettingsTab = () => {
         const formData = new FormData(e.target);
         const data = {};
         formData.forEach((value, key) => {
-            data[key] = value;
+            if (key === "avatar") {
+                data[key] = URL.createObjectURL(value);
+            } else data[key] = value;
         });
 
         $.ajax({
-            url: "http://localhost:8000/editProfile.php",
+            url: apiUrl + "/editProfile.php",
             type: "POST",
             data: {
                 data: JSON.stringify(data),
@@ -46,13 +49,16 @@ const SettingsTab = () => {
                 console.log(result);
                 result = JSON.parse(result);
                 if (result.status) {
-                    console.log("Profile updated");
+                    handleNotification(
+                        "Profile updated successfully",
+                        "success"
+                    );
                 } else {
-                    console.log(result.message);
+                    handleNotification(result.message, "error");
                 }
             },
             error: function (error) {
-                console.log("error: ", error);
+                handleNotification("Failed to update profile", "error");
                 navigate("/error");
             },
         });
@@ -78,7 +84,7 @@ const SettingsTab = () => {
         });
 
         $.ajax({
-            url: "http://localhost:8000/changePw.php",
+            url: apiUrl + "/changePw.php",
             type: "POST",
             data: {
                 data: JSON.stringify(data),
@@ -88,14 +94,16 @@ const SettingsTab = () => {
                 console.log(result);
                 result = JSON.parse(result);
                 if (result.status) {
-                    // todo send popup message to user
-                    console.log("Password updated");
+                    handleNotification(
+                        "Password changed successfully",
+                        "success"
+                    );
                 } else {
-                    console.log(result.message);
+                    handleNotification(result.message, "error");
                 }
             },
             error: function (error) {
-                console.log("error: ", error);
+                handleNotification("Failed to change password", "error");
                 navigate("/error");
             },
         });
