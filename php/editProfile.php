@@ -1,5 +1,4 @@
 <?php
-Create comment table in database and connect comments into database
 
 ///////////REAL/////////////////////
 $username = $_POST['username'];
