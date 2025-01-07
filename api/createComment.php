@@ -38,7 +38,7 @@ if($username_input && $projectId_input){
 		}
 		else{
 			if($projectId_input && $title_input && $description_input && $rate_input){
-				$stmt = $pdo->prepare("INSERT INTO comments (projectId, userId, title , description ,rate) VALUES (:p_id, :u_id, :ttle, :desc, :rte)");
+				$stmt = $pdo->prepare("INSERT INTO comments (projectId, userId, title, description, rate, creationDate) VALUES (:p_id, :u_id, :ttle, :desc, :rte, NOW())");
             	$stmt->execute(['p_id' => $projectId_input, 'u_id' => $user_id, 'ttle' => $title_input, 'desc'=>$description_input,'rte'=>$rate_input ]);
 
 				echo json_encode(['status' => true, 'message' => 'Comment made succesfully!']);

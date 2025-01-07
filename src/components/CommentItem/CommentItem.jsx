@@ -2,16 +2,13 @@ import React from "react";
 import styles from "./CommentItem.module.css";
 
 const CommentItem = ({ comment }) => {
-    const profileImageUrl = comment.profilePic_php;
-    const name = comment.name_php;
-    const surname = comment.surname_php;
-    // const timeAgo = getDeadline(comment.creationDate_php);
-    const timeAgo = "Just now";
+    const profileImageUrl = comment.profile_pic;
+    const name = comment.name;
+    const surname = comment.surname;
+    const timeAgo = getDeadline(comment.creationDate_php);
     const getInitials = (name, surname) => {
-        const nameInitial =
-            name && name.trim() ? name.charAt(0).toUpperCase() : "U";
-        const surnameInitial =
-            surname && surname.trim() ? surname.charAt(0).toUpperCase() : "S";
+        const nameInitial = name && name.charAt(0).toUpperCase();
+        const surnameInitial = surname && surname.charAt(0).toUpperCase();
         return `${nameInitial}${surnameInitial}`;
     };
 
@@ -38,10 +35,10 @@ const CommentItem = ({ comment }) => {
         <div className={styles.profileImage}>{getInitials(name, surname)}</div>
     );
 
-    const displayName = name || "Umut";
-    const displaySurname = surname || "Satır";
-    const displayComment = comment || "This is a default comment content.";
-    const displayTimeAgo = timeAgo || "Just now";
+    const displayName = name;
+    const displaySurname = surname;
+    const displayComment = comment;
+    const displayTimeAgo = timeAgo;
 
     return (
         <div className={styles.commentContainer}>

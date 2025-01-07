@@ -16,21 +16,17 @@ const Report = ({ id }) => {
             url: apiUrl + "/checkReport.php",
             type: "POST",
             data: {
-                projectId_input: id,
-                username_input: cookies.get("username"),
+                projectId: id,
+                username: cookies.get("username"),
             },
             success: function (data) {
-                data = JSON.parse(data);
                 if (!data.status) setIsButtonDisabled(false);
-                else console.log(data.message);
             },
             error: function (error) {
                 console.log(error);
             },
         });
     }, []);
-
-    useEffect(() => {}, [isButtonDisabled]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -40,13 +36,12 @@ const Report = ({ id }) => {
             url: apiUrl + "/createReport.php",
             type: "POST",
             data: {
-                projectId_input: id,
-                username_input: cookies.get("username"),
-                reportType_input: reportReason,
-                description_input: additionalDetails,
+                projectId: id,
+                username: cookies.get("username"),
+                reportType: reportReason,
+                description: additionalDetails,
             },
             success: function (data) {
-                data = JSON.parse(data);
                 if (data.status) {
                     setFeedback("Report submitted successfully");
                     setIsButtonDisabled(true);

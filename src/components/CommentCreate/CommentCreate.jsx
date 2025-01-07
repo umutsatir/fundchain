@@ -1,44 +1,74 @@
 import React, { useState } from "react";
 import styles from "./CommentCreate.module.css";
+import { apiUrl } from "../../api_url";
+import { Cookies } from "react-cookie";
+import $ from "jquery";
 
-const CommentCreate = () => {
-  const [comment, setComment] = useState("");
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+const CommentCreate = ({ projectId, handleNotification }) => {
+    const [title, setTitle] = useState("");
+    const [comment, setComment] = useState("");
+    const cookies = new Cookies();
 
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
-  };
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (comment.trim() === "") {
+            handleNotification("Comment cannot be empty", "error");
+            setSuccessMessage("");
+        } else {
+            createComment();
+            setComment("");
+            setTitle("");
+        }
+    };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (comment.trim() === "") {
-      setError("Please enter a comment.");
-      setSuccessMessage("");
-    } else {
-      setError("");
-      setSuccessMessage("Your comment has been submitted.");
-      setComment("");
-    }
-  };
+    const createComment = () => {
+        $.ajax({
+            url: apiUrl + "/createComment.php",
+            type: "POST",
+            data: {
+                username: cookies.get("username"),
+                projectId: projectId,
+                description: comment,
+                title: title,
+                rate: 5,
+            },
+            success: function (result) {
+                if (result.status) {
+                    handleNotification(
+                        "Comment created successfully",
+                        "success"
+                    );
+                } else {
+                    handleNotification(result.message, "error");
+                }
+            },
+            error: function (error) {
+                console.log(error);
+                handleNotification(error, "error");
+            },
+        });
+    };
 
-  return (
-    <div className={styles.commentCreateContainer}>
-      <textarea
-        className={styles.commentText}
-        placeholder="Write your comment here..."
-        value={comment}
-        onChange={handleCommentChange}
-      />
-      {error && <div className={styles.errorMessage}>{error}</div>}
-      {successMessage && (
-        <div className={styles.successMessage}>{successMessage}</div>
-      )}{" "}
-      <button className={styles.submitButton} onClick={handleSubmit}>
-        Submit
-      </button>
-    </div>
-  );
+    return (
+        <div className={styles.commentCreateContainer}>
+            <input
+                type="text"
+                placeholder="Title"
+                id="title"
+                className={styles.titleText}
+                onChange={(e) => setTitle(e.target.value)}
+            />
+            <textarea
+                className={styles.commentText}
+                placeholder="Write your comment here..."
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+            />
+            <button className={styles.submitButton} onClick={handleSubmit}>
+                Submit
+            </button>
+        </div>
+    );
 };
 
 export default CommentCreate;

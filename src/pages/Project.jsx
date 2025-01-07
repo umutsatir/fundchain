@@ -65,7 +65,7 @@ function Project({ handleNotification }) {
             url: apiUrl + "/viewComments.php",
             type: "POST",
             data: {
-                projectId_input: id,
+                projectId: id,
             },
             success: function (result) {
                 result = JSON.parse(result);
@@ -73,11 +73,10 @@ function Project({ handleNotification }) {
                 else handleNotification(result.message, "error");
             },
             error: function (error) {
-                console.log(error);
-                // navigate("/error");
+                handleNotification("Failed to fetch comments", "error");
             },
         });
-
+        console.log(comments);
         setIsLoading(false);
     }, []);
 
@@ -97,7 +96,10 @@ function Project({ handleNotification }) {
                             <Campaign story={story} />
                         ) : (
                             <div className={styles.commentsContainer}>
-                                <CommentCreate projectId={id} />
+                                <CommentCreate
+                                    projectId={id}
+                                    handleNotification={handleNotification}
+                                />
                                 <div className={styles.comments}>
                                     {comments.map((comment) => {
                                         <CommentItem comment={comment} />;

@@ -7,6 +7,7 @@ header('Content-Type: application/json');
 require_once '../vendor/autoload.php';
 include './pdo.php';
 
+$maxReports = 10;
 // Database connection
 $pdo = (new PDOClass())->connect();
 
@@ -66,6 +67,14 @@ try {
         'description' => $description,
         'reportType' => $reportType
     ]);
+
+    $stmt = $pdo->prepare("SELECT COUNT(*) AS report_count FROM reports WHERE projectId = :projectId");
+    $stmt->execute(['projectId' => $projectId]);
+    $reportCount = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($reportCount['report_count'] >= $maxReports) {
+        $stmt = $pdo->prepare("UPDATE projects SET status = -1 WHERE projectId = :projectId");
+        $stmt->execute(['projectId' => $projectId]);
+    }
 
     echo json_encode(['status' => true, 'message' => 'Project reported successfully!']);
 } catch (PDOException $e) {

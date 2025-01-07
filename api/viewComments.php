@@ -8,7 +8,8 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 require_once '../vendor/autoload.php';
 include './pdo.php';
 
-// Database connection
+try {
+    // Database connection
 $pdo = (new PDOClass())->connect();
 
 // Sanitize POST data
@@ -16,7 +17,7 @@ $gump = new GUMP();
 $_POST = $gump->sanitize($_POST);
 
 // Get the input ProjectId
-$ProjectId_input = $_POST['ProjectId'];
+$ProjectId_input = $_POST['projectId'];
 // $ProjectId_input = 1; //TEST
 
 // Prepare the SQL query to fetch comments
@@ -24,7 +25,6 @@ $stmt = $pdo->prepare("SELECT * FROM comments WHERE projectId = :p_id");
 $stmt->execute(['p_id' => $ProjectId_input]);
 $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if ($comments) {
     // Prepare the response data array
     $response_data = [];
     $i = 0;
@@ -67,9 +67,7 @@ if ($comments) {
 
     // Return the final response as JSON
     echo json_encode(['status' => true, 'message' => 'Comments Found!', 'data' => $response_data]);
-} else {
-    // No comments found
-    echo json_encode(['status' => false, 'message' => 'No Comments Found!']);
+} catch (Exception $e) {
+    echo json_encode(['status' => false, 'message' => "An error occurred while fetching comments: {$e->getMessage()}"]);
 }
-
 ?>
