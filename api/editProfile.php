@@ -32,8 +32,8 @@ $u_id = $user['userId'];
 //$biography_input = 'EAFL->GTU'  ;
 ///////////TEST/////////////////////
 
-$stmt= $pdo->prepare("SELECT * FROM users WHERE userId = :userid");
-$stmt->execute(params:['userid'=>$u_id]);
+$stmt= $pdo->prepare("SELECT * FROM users WHERE username = :u_name");
+$stmt->execute(params:['u_name'=>$u_name]);
 $old_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($old_data){
@@ -49,13 +49,13 @@ if ($old_data){
 	if($location_input){$locationToChange = $location_input;}
 	if($biography_input){$biographyToChange = $biography_input;}
 
-	$stmt= $pdo->prepare("UPDATE users SET name = :setName ,surname = :setSurname , profilePic = :setProfilePic , location = :setLocation , description=:setDescription  WHERE userId= :id");
-	$stmt->execute(params:['setName'=>$nameToChange,'setSurname'=>$surnameToChange,'setProfilePic'=>$profilePicToChange,'setLocation'=>$locationToChange,'setDescription'=>$biographyToChange, 'id' =>$u_id]);
+	$stmt= $pdo->prepare("UPDATE users SET name = :setName ,surname = :setSurname , profilePic = :setProfilePic , location = :setLocation , description=:setDescription  WHERE username= :u_name");
+	$stmt->execute(params:['setName'=>$nameToChange,'setSurname'=>$surnameToChange,'setProfilePic'=>$profilePicToChange,'setLocation'=>$locationToChange,'setDescription'=>$biographyToChange, 'u_name' =>$u_name]);
 
 	echo json_encode(['status' => true, 'message' => "Made changes on user:$u_id"]);
 }
 else{
-	echo json_encode(['status' => false, 'message' => "User with id:$u_id not Found!"]);
+	echo json_encode(['status' => false, 'message' => "User:$u_name not Found!"]);
 }
 
 /*
