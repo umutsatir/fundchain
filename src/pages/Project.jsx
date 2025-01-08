@@ -73,12 +73,31 @@ function Project({ handleNotification }) {
                 else handleNotification(result.message, "error");
             },
             error: function (error) {
+                console.log(error);
                 handleNotification("Failed to fetch comments", "error");
             },
         });
-        console.log(comments);
         setIsLoading(false);
     }, []);
+
+    const handleCommentRefresh = () => {
+        $.ajax({
+            url: apiUrl + "/viewComments.php",
+            type: "POST",
+            data: {
+                projectId: id,
+            },
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result.status) setComments(result.data);
+                else handleNotification(result.message, "error");
+            },
+            error: function (error) {
+                console.log(error);
+                handleNotification("Failed to fetch comments", "error");
+            },
+        });
+    };
 
     return isLoading ? (
         <Loading />
@@ -99,10 +118,16 @@ function Project({ handleNotification }) {
                                 <CommentCreate
                                     projectId={id}
                                     handleNotification={handleNotification}
+                                    handleCommentRefresh={handleCommentRefresh}
                                 />
                                 <div className={styles.comments}>
                                     {comments.map((comment) => {
-                                        <CommentItem comment={comment} />;
+                                        return (
+                                            <CommentItem
+                                                key={comment.id}
+                                                comment={comment}
+                                            />
+                                        );
                                     })}
                                 </div>
                             </div>

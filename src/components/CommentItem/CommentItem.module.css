@@ -3,12 +3,54 @@
     border: 1px solid #ddd;
     padding: 16px;
     margin-bottom: 16px;
+    min-width: 60vw;
 }
 
 .commentHeader {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
+}
+
+.commentHeaderLeft {
+    display: flex;
+    align-items: center;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+}
+
+.ratingValue {
+    margin-left: 6px;
+    font-size: 14px;
+    color: #666;
+}
+
+.rating .star {
+    font-size: 16px;
+    color: #ccc;
+    position: relative;
+}
+
+.rating .star.full {
+    color: gold;
+}
+
+.rating .star.half {
+    color: #ccc;
+    overflow: hidden;
+}
+
+.rating .star.half::before {
+    content: "★";
+    color: gold;
+    position: absolute;
+    left: 0;
+    width: 50%;
+    overflow: hidden;
 }
 
 .profileImageContainer {
@@ -47,6 +89,7 @@
 }
 
 .commentContent {
+    padding: 0 10px;
     font-size: 14px;
     color: #333;
 }

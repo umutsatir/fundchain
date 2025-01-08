@@ -1,0 +1,15 @@
+.ratingContainer {
+    display: flex;
+    cursor: pointer;
+}
+
+.starContainer {
+    position: relative;
+    width: 24px; /* Total width of one full star */
+    height: 24px;
+    display: flex;
+}
+
+.star {
+    color: #ffd43b;
+}

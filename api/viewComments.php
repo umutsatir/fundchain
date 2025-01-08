@@ -48,6 +48,7 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Create the dictionary for the current comment
         $dict = array(
+            'id' => $comments[$i]['id'],
             'username_php' => $send_username,
             'name'=>$send_name,
             'surname'=>$send_surname,

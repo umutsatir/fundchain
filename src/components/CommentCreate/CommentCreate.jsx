@@ -3,17 +3,29 @@ import styles from "./CommentCreate.module.css";
 import { apiUrl } from "../../api_url";
 import { Cookies } from "react-cookie";
 import $ from "jquery";
+import StarRating from "../StarRating/StarRating";
 
-const CommentCreate = ({ projectId, handleNotification }) => {
+const CommentCreate = ({
+    projectId,
+    handleNotification,
+    handleCommentRefresh,
+}) => {
     const [title, setTitle] = useState("");
     const [comment, setComment] = useState("");
+    const [rating, setRating] = useState(0);
     const cookies = new Cookies();
+
+    const onRate = (rating) => {
+        setRating(rating);
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (comment.trim() === "") {
-            handleNotification("Comment cannot be empty", "error");
-            setSuccessMessage("");
+        if (comment.trim() === "" || title.trim() === "" || rating === 0) {
+            handleNotification(
+                "Please fill all the fields for sending a comment",
+                "error"
+            );
         } else {
             createComment();
             setComment("");
@@ -21,7 +33,7 @@ const CommentCreate = ({ projectId, handleNotification }) => {
         }
     };
 
-    const createComment = () => {
+    const createComment = async () => {
         $.ajax({
             url: apiUrl + "/createComment.php",
             type: "POST",
@@ -30,14 +42,16 @@ const CommentCreate = ({ projectId, handleNotification }) => {
                 projectId: projectId,
                 description: comment,
                 title: title,
-                rate: 5,
+                rate: rating,
             },
             success: function (result) {
+                result = JSON.parse(result);
                 if (result.status) {
                     handleNotification(
                         "Comment created successfully",
                         "success"
                     );
+                    handleCommentRefresh();
                 } else {
                     handleNotification(result.message, "error");
                 }
@@ -52,10 +66,11 @@ const CommentCreate = ({ projectId, handleNotification }) => {
     return (
         <div className={styles.commentCreateContainer}>
             <input
+                className={styles.titleText}
                 type="text"
                 placeholder="Title"
+                value={title}
                 id="title"
-                className={styles.titleText}
                 onChange={(e) => setTitle(e.target.value)}
             />
             <textarea
@@ -64,6 +79,7 @@ const CommentCreate = ({ projectId, handleNotification }) => {
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
             />
+            <StarRating onRate={onRate} />
             <button className={styles.submitButton} onClick={handleSubmit}>
                 Submit
             </button>
