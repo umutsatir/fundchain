@@ -24,7 +24,7 @@
     border-radius: 10px;
     padding: 20px;
 
-    width: 30%;
+    width: 35%;
 
     box-shadow: 0 8px 8px rgba(0, 0, 0, 0.533);
 }
@@ -65,56 +65,68 @@
 }
 
 .knowledgeSection .knowledge .projectBackers {
-    background: rgba(137, 43, 226, 0.442);
+    background: var(--primary-color);
+    color: white;
     border-radius: 7px;
     font-size: 1em;
     padding: 5px;
 }
 
-.FundingMenuContent .fundingSection {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-start;
-
+.FundingMenuContent form {
     width: 100%;
-    margin: 0;
-    margin-top: 10px;
+    display: flex;
 }
 
-.FundingMenuContent .fundingSection .label1 {
-    font-size: 0.9em;
+.FundingMenuContent .fundingSection {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.FundingMenuContent .fundingSection .entry {
+    display: flex;
+    flex-direction: column;
 }
 
 .FundingMenuContent .fundingSection .label2 {
-    font-size: 1.6em;
-    margin-right: 5px;
+    font-size: 1.3em;
+    font-weight: bold;
 }
 
 .FundingMenuContent .fundingSection input {
-    border: 1px solid blueviolet;
+    border: 1px solid var(--primary-color);
     border-radius: 3px;
 
-    height: 40px;
+    height: 45px;
+    width: 150px;
 }
 
-.FundingMenuContent .fundingSection .fundingButton {
+.FundingMenuContent .fundingSection .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.FundingMenuContent .fundingSection .buttons .fundingButton {
     border: 1px solid white;
-    background-color: blueviolet;
+    background-color: var(--primary-color);
     color: white;
     border-radius: 5px;
 
     font-size: 1em;
 
     height: 50px;
-    width: 130px;
-
-    margin-top: 20px;
-    margin-left: 10px;
+    width: 110px;
 }
 
 .FundingMenuContent .cancelButton {
-    border: 1px solid blueviolet;
+    border: 1px solid var(--primary-color);
     background-color: white;
     color: black;
     border-radius: 5px;
@@ -122,10 +134,7 @@
     font-size: 1em;
 
     height: 50px;
-    width: 130px;
-
-    margin-top: 20px;
-    margin-left: 50px;
+    width: 110px;
 }
 
 .FundingMenuContent .fundingSection .cancelButton:hover {
@@ -134,5 +143,146 @@
 
 .FundingMenuContent .fundingSection .fundingButton:hover {
     cursor: pointer;
-    background-color: rgba(137, 43, 226, 0.833);
+    background-color: var(--primary-color-hover);
+}
+
+@media screen and (max-width: 1200px){
+    .FundingMenuContent {
+        width: 40%;
+    }
+
+    .FundingMenuContent .knowledgeSection .picture {
+        height: 120px;
+        margin-right: 5px;
+    }
+
+    .knowledgeSection .knowledge .projectTitle {
+        font-size: 1.5em;
+    }
+    
+    .knowledgeSection .knowledge .projectDescription {
+        font-size: 1em;
+    }
+
+    .FundingMenuContent .fundingSection .label2 {
+        font-size: 1.2em;
+    }
+
+    .FundingMenuContent .fundingSection input {
+        width: 130px;
+    }
+
+    .FundingMenuContent .fundingSection .buttons .fundingButton {
+        width: 100px;
+    }
+
+    .FundingMenuContent .cancelButton {
+        width: 100px;
+    }
+}
+
+@media screen and (max-width: 992px){
+    .FundingMenuContent {
+        width: 47%;
+    }
+    
+    .knowledgeSection .knowledge .projectDescription {
+        font-size: 1em;
+    }
+
+    .FundingMenuContent .fundingSection input {
+        width: 120px;
+    }
+
+    .FundingMenuContent .fundingSection .buttons .fundingButton {
+        width: 95px;
+    }
+
+    .FundingMenuContent .cancelButton {
+        width: 95px;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .FundingMenuContent {
+        width: 53%;
+    }
+    
+    .knowledgeSection .knowledge .projectDescription {
+        font-size: 0.9em;
+    }
+
+    .FundingMenuContent .knowledgeSection .picture {
+        height: 110px;
+    }
+
+    .knowledgeSection .knowledge .projectTitle {
+        font-size: 1.3em;
+    }
+
+    .knowledgeSection .knowledge .projectBackers {
+        font-size: 0.8em;
+    }
+
+    .FundingMenuContent .fundingSection .label2 {
+        font-size: 1.1em;
+    }
+
+    .FundingMenuContent .fundingSection input {
+        width: 100px;
+    }
+
+    .FundingMenuContent .fundingSection .buttons {
+        gap: 5px;
+    }
+
+    .FundingMenuContent .fundingSection .buttons .fundingButton {
+        width: 80px;
+    }
+
+    .FundingMenuContent .cancelButton {
+        width: 80px;
+    }
+}
+
+@media screen and (max-width: 576px){
+
+    .FundingMenuContent .knowledgeSection {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .FundingMenuContent .fundingSection {
+        flex-direction: column;
+        align-items: flex-start;
+
+        margin-top: 5px;
+    }
+
+    .FundingMenuContent .knowledgeSection .knowledge {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .FundingMenuContent .knowledgeSection .picture {
+        height: 110px;
+    }
+
+    .FundingMenuContent .fundingSection input {
+        height: 40px;
+    }
+
+    .FundingMenuContent .fundingSection .buttons .fundingButton {
+        width: 100%;
+        height: 45px;
+
+        font-size: 0.8em;
+    }
+
+    .FundingMenuContent .cancelButton {
+        width: 100%;
+        height: 45px;
+
+        font-size: 0.9em;
+    }
 }
