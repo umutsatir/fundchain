@@ -5,6 +5,7 @@ import $ from "jquery";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../../api_url";
 import FundingMenu from "../FundingMenu/FundingMenu";
+import ShareButton from "../ShareButton/ShareButton";
 import { useAccount } from "wagmi";
 import { readContract } from "@wagmi/core";
 import { formatEther } from "viem";
@@ -16,6 +17,7 @@ import photop from "/public/profilePicture.png"; //temporarily added.
 const Funding = (props) => {
     const cookies = new Cookies();
     const navigate = useNavigate();
+    const [isShareOpen, setIsShareOpen] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
     const [loggedIn, setLoggedIn] = useState(cookies.get("loggedIn"));
     const [backProject, setBackProject] = useState(false);
@@ -191,13 +193,22 @@ const Funding = (props) => {
                 <p>days to go</p>
             </div>
             <div className={styles.buttons}>
+                <ShareButton
+                    isOpen={isShareOpen}
+                    handleNotification={props.handleNotification}
+                />
                 <button
                     className={styles.backButton}
                     onClick={handleBackButton}
                 >
                     Back this project
                 </button>
-                <button className={styles.shareButton}>Share</button>
+                <button
+                    className={styles.shareButton}
+                    onClick={() => setIsShareOpen(!isShareOpen)}
+                >
+                    Share
+                </button>
                 <button
                     className={`${styles.remindButton} ${
                         isSaved ? styles.saved : ""

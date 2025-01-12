@@ -1,50 +1,23 @@
-.shareButton {
-    width: 50%;
-    background-color: white;
-    color: var(--primary-color);
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-top: 10px;
-    padding: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.shareButton:hover {
-    background-color: var(--primary-color-hover);
-}
-
-.shareButton:active {
-    background-color: var(--primary-color-click); 
-}
-
 .modalOverlay {
-    position: absolute;
-    top: 50px; 
-    right: 0; /* Sağda hizalama */
-    background-color: white;
+    position: sticky;
     z-index: 999;
-    padding: 10px;
-    width: 200px; 
+    width: 200px;
 }
 
 .modalContent {
-    max-width: 500px; 
-    width: 90%; 
-    margin: 0 auto; 
-    padding: 20px;
+    max-width: 500px;
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px 20px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-
 .socialButtons {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
 }
 
 .socialBtn {
@@ -100,42 +73,41 @@
 */
 
 .socialBtn.whatsapp {
-    background-color: #25d366; 
-    border-radius: 50%; 
+    background-color: #25d366;
+    border-radius: 50%;
 }
 
 .socialBtn.whatsapp i {
-    color: #fff; 
+    color: #fff;
 }
 
 .socialBtn.whatsapp:hover {
-    background-color: #25b764; 
+    background-color: #25b764;
 }
 
 .socialBtn.copyLink {
-    background-color: #888; 
+    background-color: #888;
 }
 
 .socialBtn.copyLink i {
-    color: white; 
+    color: white;
 }
 
 .socialBtn.copyLink:hover {
-    background-color: #666; 
+    background-color: #666;
 }
 
 .copyMessage {
-    position: fixed; 
-    bottom: 35px; 
-    left: 50%; 
+    position: fixed;
+    bottom: 35px;
+    left: 50%;
     transform: translateX(-50%);
-    background-color: #28a745; 
+    background-color: #28a745;
     color: white;
     font-size: 14px;
     padding: 10px;
     border-radius: 5px;
     text-align: center;
     transition: opacity 0.5s ease;
-    z-index: 1000; 
+    z-index: 1000;
 }
-

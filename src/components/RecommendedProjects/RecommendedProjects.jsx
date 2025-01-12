@@ -1,37 +1,64 @@
 import Cards from "../Cards/Cards";
 import styles from "./RecommendedProjects.module.css"; // Import the module CSS
+import $ from "jquery";
+import { apiUrl } from "../../api_url";
+import { useEffect, useState } from "react";
 
 function RecommendedProjects({ userId }) {
+    const [projects, setProjects] = useState([]);
+
+    function getDeadline(dbDate) {
+        if (!dbDate) return;
+        const currentDate = new Date();
+        const [year, month, day] = dbDate.split("-");
+        const targetDate = new Date(year, month - 1, day);
+        const diffInMs = targetDate.getTime() - currentDate.getTime();
+        const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+        return diffInDays;
+    }
+
+    function getRecommendedProjects() {
+        if (!userId) return;
+        $.ajax({
+            url: apiUrl + "/recommendedProjects.php",
+            type: "POST",
+            data: {
+                userId: userId,
+            },
+            success: function (result) {
+                if (result.status) {
+                    setProjects(result.data);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    }
+
+    useEffect(() => {
+        getRecommendedProjects();
+    }, [userId]);
+
     return (
         <div className={styles.projects}>
             <div className={styles.name}>
                 <h3>Recommended Projects</h3>
             </div>
             <div className={styles.cards}>
-                <Cards
-                    id={3}
-                    img="https://via.placeholder.com/150"
-                    subimg="https://via.placeholder.com/150"
-                    title="Project 3"
-                    owner="Owner 3"
-                    deadline={10}
-                />
-                <Cards
-                    id={4}
-                    img="https://via.placeholder.com/150"
-                    subimg="https://via.placeholder.com/150"
-                    title="Project 4"
-                    owner="Owner 4"
-                    deadline={5}
-                />
-                <Cards
-                    id={5}
-                    img="https://via.placeholder.com/150"
-                    subimg="https://via.placeholder.com/150"
-                    title="Project 5"
-                    owner="Owner 5"
-                    deadline={20}
-                />
+                {projects.map((project) => (
+                    <Cards
+                        key={project.projectId}
+                        id={project.projectId}
+                        img={project.image[0]}
+                        subimg={
+                            project.image.length > 1 ? project.image[1] : ""
+                        }
+                        title={project.title}
+                        owner={project.owner}
+                        deadline={getDeadline(project.launchDate)}
+                    />
+                ))}
             </div>
         </div>
     );
