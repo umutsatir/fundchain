@@ -16,7 +16,8 @@
             foreach ($donations as $donation){
                 $stmt = $pdo->prepare("SELECT * FROM projects WHERE projectId = :projectId");
                 $stmt->execute(['projectId' => $donation["projectId"]]);
-                $projects[] = $stmt->fetch(PDO::FETCH_ASSOC);
+                $project = $stmt->fetch(PDO::FETCH_ASSOC);
+                $projects[] = $project;
             }
             echo json_encode(array('status' => true, 'data' => $projects));
         } else {

@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import styles from "./MyProjects.module.css";
 import PropTypes from "prop-types";
 import { useAccount } from "wagmi";
-import { writeContract } from "@wagmi/core";
+import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "../../config";
 import { abi } from "../../../contracts/abi/abi";
 
 function MyProjects(props) {
     const [deadlineInfo, setDeadlineInfo] = useState("");
+    const [isPending, setIsPending] = useState(false);
     const { isConnected } = useAccount();
 
     const getDeadline = (dbDate) => {
@@ -36,23 +37,42 @@ function MyProjects(props) {
                 "info"
             );
         else {
+            setIsPending(true);
             try {
-                await writeContract(config, {
+                const result = await writeContract(config, {
                     abi,
                     address: props.contractAddress,
                     functionName: "withdraw",
                 });
-                props.handleNotification(
-                    "Withdrawal successful. Please check your wallet account.",
-                    "success"
-                );
+                const tx = await waitForTransactionReceipt(config, {
+                    hash: result,
+                });
+
+                if (tx.status == "success") {
+                    props.handleNotification(
+                        "Withdrawal successful. Please check your wallet account.",
+                        "success"
+                    );
+                } else {
+                    props.handleNotification(
+                        "Withdrawal failed. Please try again.",
+                        "error"
+                    );
+                }
             } catch (error) {
-                console.log(error);
-                props.handleNotification(
-                    "An error occurred. Please check your wallet account. It should be the same as you created the project.",
-                    "error"
-                );
+                if (
+                    error.message.split("\n")[0] == "User rejected the request."
+                ) {
+                    props.handleNotification("Transaction rejected", "warning");
+                } else {
+                    props.handleNotification(
+                        error.message.split("\n")[1],
+                        "error"
+                    );
+                    console.log(error.message);
+                }
             }
+            setIsPending(false);
         }
     }
 
@@ -80,7 +100,7 @@ function MyProjects(props) {
             <button
                 onClick={handleWithdraw}
                 className={styles.button}
-                disabled={deadlineInfo !== "expired"}
+                disabled={deadlineInfo !== "expired" || isPending}
             >
                 {props.buttonName}
             </button>

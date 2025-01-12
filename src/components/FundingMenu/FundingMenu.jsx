@@ -1,14 +1,16 @@
 import { useState } from "react";
 import styles from "./FundingMenu.module.css";
 import PropTypes from "prop-types";
-import { useAccount, useWriteContract } from "wagmi";
+import { useAccount } from "wagmi";
+import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { abi } from "../../../contracts/abi/abi";
+import { config } from "../../config";
 import { parseEther } from "viem";
 
 function FundingMenu(props) {
-    const [amount, setAmount] = useState(0);
-    const { isConnected } = useAccount();
-    const { writeContract } = useWriteContract();
+    const [amount, setAmount] = useState(0.0);
+    const [isPending, setIsPending] = useState(false);
+    const account = useAccount();
 
     const handleAmount = (e) => {
         setAmount(e.target.value);
@@ -19,18 +21,73 @@ function FundingMenu(props) {
         props.setIsVisible(false);
     };
 
-    function handleFundProject(e) {
+    async function handleFundProject(e) {
         e.preventDefault();
-        fundProject(e.target.amount.value);
+        await fundProject(e.target.amount.value);
     }
 
-    function fundProject(value) {
-        writeContract({
-            abi,
-            address: props.contractAddress,
-            functionName: "fundProject",
-            value: parseEther(value),
+    function addDonator() {
+        $.ajax({
+            url: apiUrl + "/addDonator.php",
+            type: "POST",
+            data: {
+                projectId: props.id,
+                username: cookies.get("username"),
+                publicKey: account.address,
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.status) return true;
+                return false;
+            },
+            error: function (error) {
+                return false;
+            },
         });
+    }
+
+    async function fundProject(value) {
+        if (!account.isConnected) {
+            props.handleNotification(
+                "Please connect your wallet first",
+                "info"
+            );
+            return;
+        }
+        setIsPending(true);
+
+        try {
+            const result = await writeContract(config, {
+                abi,
+                address: props.contractAddress,
+                functionName: "fundProject",
+                value: parseEther(value),
+            });
+            const tx = await waitForTransactionReceipt(config, {
+                hash: result,
+            });
+            if (tx.status == "success") {
+                if (addDonator()) {
+                    props.setIsVisible(false);
+                    props.handleNotification("Funding successful", "success");
+                } else {
+                    props.setIsVisible(false);
+                    props.handleNotification("Funding failed", "error");
+                }
+            } else {
+                props.setIsVisible(false);
+                props.handleNotification("Funding failed", "error");
+            }
+        } catch (error) {
+            props.setIsVisible(false);
+            if (error.message.split("\n")[0] == "User rejected the request.") {
+                props.handleNotification("Transaction rejected", "warning");
+            } else {
+                props.handleNotification(error.message.split("\n")[1], "error");
+                console.log(error.message);
+            }
+        }
+        setIsPending(false);
     }
 
     if (!props.isVisible) return null;
@@ -78,11 +135,14 @@ function FundingMenu(props) {
                             >
                                 Cancel
                             </button>
-                            <button type="submit" className={styles.fundingButton}>
+                            <button
+                                type="submit"
+                                className={styles.fundingButton}
+                                disabled={isPending}
+                            >
                                 Fund {amount} ETH
                             </button>
                         </div>
-
                     </div>
                 </form>
             </div>

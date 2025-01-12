@@ -62,6 +62,7 @@
 .knowledgeSection .knowledge .projectDescription {
     font-size: 1.1em;
     margin-bottom: 0;
+    padding: 0 1rem;
 }
 
 .knowledgeSection .knowledge .projectBackers {
@@ -123,6 +124,12 @@
 
     height: 50px;
     width: 110px;
+    transition: all 0.3s ease;
+}
+
+.FundingMenuContent .fundingSection .buttons .fundingButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 .FundingMenuContent .cancelButton {
@@ -146,7 +153,7 @@
     background-color: var(--primary-color-hover);
 }
 
-@media screen and (max-width: 1200px){
+@media screen and (max-width: 1200px) {
     .FundingMenuContent {
         width: 40%;
     }
@@ -159,7 +166,7 @@
     .knowledgeSection .knowledge .projectTitle {
         font-size: 1.5em;
     }
-    
+
     .knowledgeSection .knowledge .projectDescription {
         font-size: 1em;
     }
@@ -181,11 +188,11 @@
     }
 }
 
-@media screen and (max-width: 992px){
+@media screen and (max-width: 992px) {
     .FundingMenuContent {
         width: 47%;
     }
-    
+
     .knowledgeSection .knowledge .projectDescription {
         font-size: 1em;
     }
@@ -203,11 +210,11 @@
     }
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
     .FundingMenuContent {
         width: 53%;
     }
-    
+
     .knowledgeSection .knowledge .projectDescription {
         font-size: 0.9em;
     }
@@ -245,7 +252,10 @@
     }
 }
 
-@media screen and (max-width: 576px){
+@media screen and (max-width: 576px) {
+    .FundingMenuContent {
+        width: 70%;
+    }
 
     .FundingMenuContent .knowledgeSection {
         flex-direction: column-reverse;

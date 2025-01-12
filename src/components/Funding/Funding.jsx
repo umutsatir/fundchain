@@ -168,6 +168,7 @@ const Funding = (props) => {
                     isVisible={backProject}
                     setIsVisible={setBackProject}
                     handleNotification={props.handleNotification}
+                    contractAddress={props.contractAddress}
                 />
             )}
             <div className={styles.progressBackground}>

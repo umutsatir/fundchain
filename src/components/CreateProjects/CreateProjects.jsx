@@ -12,6 +12,7 @@ const CreateProjects = ({ handleNotification }) => {
     const [activeTab, setActiveTab] = useState("My Projects");
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [onChange, setOnChange] = useState(0);
     const cookies = new Cookies();
 
     const handleTabClick = (tab) => {
@@ -53,7 +54,6 @@ const CreateProjects = ({ handleNotification }) => {
                     if (result.status) {
                         setProjects(result.data);
                     } else {
-                        handleNotification(result.message, "error");
                         setProjects([]);
                     }
                 },
@@ -64,7 +64,7 @@ const CreateProjects = ({ handleNotification }) => {
             });
         }
         setIsLoading(false);
-    }, [activeTab]);
+    }, [activeTab, setOnChange]);
 
     return isLoading ? (
         <Loading />
@@ -94,12 +94,14 @@ const CreateProjects = ({ handleNotification }) => {
                     <MyProjectsTab
                         projects={projects}
                         handleNotification={handleNotification}
+                        setOnChange={setOnChange}
                     />
                 )}
                 {activeTab === "Donations" && (
                     <DonationsTab
                         donations={projects}
                         handleNotification={handleNotification}
+                        setOnChange={setOnChange}
                     />
                 )}
             </div>
@@ -107,12 +109,13 @@ const CreateProjects = ({ handleNotification }) => {
     );
 };
 
-const MyProjectsTab = ({ projects, handleNotification }) => (
+const MyProjectsTab = ({ projects, handleNotification, setOnChange }) => (
     <div>
         {projects.length > 0 ? (
             projects.map((project) => (
                 <MyProjects
                     key={project.projectId}
+                    id={project.projectId}
                     title={project.title}
                     description={project.description}
                     backers={0}
@@ -121,6 +124,7 @@ const MyProjectsTab = ({ projects, handleNotification }) => (
                     buttonName="Withdraw Funds"
                     deadline={project.launchDate}
                     handleNotification={handleNotification}
+                    setOnChange={setOnChange}
                 />
             ))
         ) : (
@@ -129,12 +133,13 @@ const MyProjectsTab = ({ projects, handleNotification }) => (
     </div>
 );
 
-const DonationsTab = ({ donations, handleNotification }) => (
+const DonationsTab = ({ donations, handleNotification, setOnChange }) => (
     <div>
         {donations.length > 0 ? (
             donations.map((donation) => (
                 <Donations
                     key={donation.projectId}
+                    id={donation.projectId}
                     title={donation.title}
                     description={donation.description}
                     backers={0}
@@ -143,6 +148,7 @@ const DonationsTab = ({ donations, handleNotification }) => (
                     buttonName="Withdraw Donate"
                     deadline={donation.launchDate}
                     handleNotification={handleNotification}
+                    setOnChange={setOnChange}
                 />
             ))
         ) : (
