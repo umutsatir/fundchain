@@ -128,14 +128,6 @@ const SettingsTab = ({ handleNotification }) => {
                 >
                     Edit Profile
                 </button>
-                <button
-                    className={`${
-                        activeTab === "following" ? styles.activeTab : ""
-                    }`}
-                    onClick={() => handleTabClick("following")}
-                >
-                    Following
-                </button>
             </div>
             <div className={styles.content}>
                 {activeTab === "account" && (
@@ -150,7 +142,6 @@ const SettingsTab = ({ handleNotification }) => {
                 )}
                 {activeTab === "notifications" && <Notifications />}
                 {activeTab === "shippingAddress" && <ShippingAddress />}
-                {activeTab === "following" && <Following />}
             </div>
         </div>
     );
@@ -260,7 +251,5 @@ const EditProfile = ({ handleSubmit }) => (
         </form>
     </div>
 );
-
-const Following = () => <div>Following Settings</div>;
 
 export default SettingsTab;

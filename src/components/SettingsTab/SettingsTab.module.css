@@ -100,7 +100,6 @@
     left: 0;
     right: 0;
     height: 1px;
-    background-color: #ccc;
 }
 
 .settingsContainer > .content::before {
