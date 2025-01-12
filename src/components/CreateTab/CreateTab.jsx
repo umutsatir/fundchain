@@ -124,6 +124,35 @@ const CreateTab = ({ handleNotification }) => {
             .join(" ");
     };
 
+    const uploadImages = async () => {
+        const images = formData.basics.image;
+        updateBasics("image", []);
+        try {
+            // Upload files and get URLs
+            const uploadPromises = images.map(async (file) => {
+                const formData = new FormData();
+                formData.append("image", file);
+
+                const response = await fetch(apiUrl + "/uploadImage.php", {
+                    method: "POST",
+                    body: formData,
+                });
+                const data = await response.json();
+                if (data.status) {
+                    return data.url;
+                } else {
+                    throw new Error(`Failed to upload ${file.name}`);
+                }
+            });
+
+            const uploadedUrls = await Promise.all(uploadPromises);
+            updateBasics("image", uploadedUrls);
+        } catch (error) {
+            console.error("Image upload error:", error);
+            handleNotification("Failed to upload images", "error");
+        }
+    };
+
     const handleCreate = async () => {
         if (isInProgress) {
             handleNotification(
@@ -169,6 +198,9 @@ const CreateTab = ({ handleNotification }) => {
                 "Contract created successfully, waiting for project creation.",
                 "info"
             );
+
+            await uploadImages();
+
             setFormData((prevState) => ({
                 ...prevState,
                 basics: {
@@ -258,7 +290,11 @@ const CreateTab = ({ handleNotification }) => {
 
     const tabs = {
         basics: (
-            <BasicsTab updateBasics={updateBasics} formData={formData.basics} />
+            <BasicsTab
+                updateBasics={updateBasics}
+                formData={formData.basics}
+                handleNotification={handleNotification}
+            />
         ),
         funding: (
             <FundingTab
@@ -334,12 +370,16 @@ const CreateTab = ({ handleNotification }) => {
     );
 };
 
-const BasicsTab = ({ updateBasics, formData }) => (
+const BasicsTab = ({ updateBasics, formData, handleNotification }) => (
     <div>
         <Category updateBasics={updateBasics} formData={formData} />
         <Details updateBasics={updateBasics} formData={formData} />
         <Location updateBasics={updateBasics} formData={formData} />
-        <Image updateBasics={updateBasics} formData={formData} />
+        <Image
+            updateBasics={updateBasics}
+            formData={formData}
+            handleNotification={handleNotification}
+        />
         <Video updateBasics={updateBasics} formData={formData} />
         <Duration updateBasics={updateBasics} formData={formData} />
     </div>
