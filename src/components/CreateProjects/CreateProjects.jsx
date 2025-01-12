@@ -149,6 +149,7 @@ const DonationsTab = ({ donations, handleNotification, setOnChange }) => (
                     deadline={donation.launchDate}
                     handleNotification={handleNotification}
                     setOnChange={setOnChange}
+                    publicKey={donation.publicKey}
                 />
             ))
         ) : (

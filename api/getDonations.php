@@ -17,6 +17,7 @@
                 $stmt = $pdo->prepare("SELECT * FROM projects WHERE projectId = :projectId");
                 $stmt->execute(['projectId' => $donation["projectId"]]);
                 $project = $stmt->fetch(PDO::FETCH_ASSOC);
+                $project['publicKey'] = $donation["publicKey"];
                 $projects[] = $project;
             }
             echo json_encode(array('status' => true, 'data' => $projects));

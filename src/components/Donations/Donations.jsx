@@ -67,6 +67,15 @@ function Donations(props) {
             );
             return;
         }
+
+        if (props.publicKey != account.address) {
+            props.handleNotification(
+                "You have not donated with this wallet, please change the wallet and try again",
+                "warning"
+            );
+            return;
+        }
+
         setIsPending(true);
 
         try {
