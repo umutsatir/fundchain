@@ -9,7 +9,7 @@
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($user){
-            $stmt = $pdo->prepare("DELETE * FROM donations WHERE userId = :userId AND projectId = :projectId");
+            $stmt = $pdo->prepare("DELETE FROM donations WHERE userId = :userId AND projectId = :projectId");
             $stmt->execute(['userId' => $user["userId"], 'projectId' => $_POST['projectId']]);
             echo json_encode(array('status' => true, 'message' => 'Donation removed'));
         } else {

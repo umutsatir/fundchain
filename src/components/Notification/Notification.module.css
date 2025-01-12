@@ -1,132 +1,132 @@
 .Container {
-  position: fixed;
-  right: 20px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  color: #f5f5f5;
-  font-weight: 500;
-  opacity: 0.95;
-  z-index: 1000;
-  width: 300px;
-  max-width: 90%;
-  margin-bottom: 10px;
-  animation: fadeIn 0.5s ease-out;
-  display: flex;
-  align-items: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: visible;
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: normal;
-  min-height: 50px;
+    position: fixed;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: #f5f5f5;
+    font-weight: 500;
+    opacity: 0.95;
+    z-index: 99999;
+    width: 300px;
+    max-width: 90%;
+    margin-bottom: 10px;
+    animation: fadeIn 0.5s ease-out;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: visible;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    min-height: 50px;
 }
 
 .success {
-  background-color: #4caf50;
+    background-color: #4caf50;
 }
 
 .error {
-  background-color: #e74747;
+    background-color: #e74747;
 }
 
 .warning {
-  background-color: #fbad37;
-  color: #1c1c1c;
+    background-color: #fbad37;
+    color: #1c1c1c;
 }
 
 .info {
-  background-color: var(--primary-color);
+    background-color: var(--primary-color);
 }
 
 .fadeOut {
-  animation: fadeOut 0.5s ease-in forwards;
+    animation: fadeOut 0.5s ease-in forwards;
 }
 
 .icon {
-  margin-right: 12px;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.15);
-  color: #f5f5f5;
-  flex-shrink: 0;
+    margin-right: 12px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #f5f5f5;
+    flex-shrink: 0;
 }
 
 .warningIcon {
-  color: #1c1c1c;
+    color: #1c1c1c;
 }
 
 .text {
-  flex: 1;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  white-space: normal;
-  display: flex;
-  align-items: center;
+    flex: 1;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    display: flex;
+    align-items: center;
 }
 
 @keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes fadeOut {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
 }
 
 @media (max-width: 768px) {
-  .Container {
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 14px;
-    width: 260px;
-  }
+    .Container {
+        right: 10px;
+        padding: 8px 16px;
+        font-size: 14px;
+        width: 260px;
+    }
 
-  .icon {
-    width: 28px;
-    height: 28px;
-    font-size: 16px;
-    margin-right: 8px;
-  }
+    .icon {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+        margin-right: 8px;
+    }
 
-  .text {
-    font-size: 14px;
-  }
+    .text {
+        font-size: 14px;
+    }
 }
 
 @media (max-width: 480px) {
-  .Container {
-    right: 5px;
-    padding: 6px 12px;
-    font-size: 12px;
-    width: 220px;
-  }
+    .Container {
+        right: 5px;
+        padding: 6px 12px;
+        font-size: 12px;
+        width: 220px;
+    }
 
-  .icon {
-    width: 24px;
-    height: 24px;
-    font-size: 14px;
-    margin-right: 6px;
-  }
+    .icon {
+        width: 24px;
+        height: 24px;
+        font-size: 14px;
+        margin-right: 6px;
+    }
 
-  .text {
-    font-size: 12px;
-  }
+    .text {
+        font-size: 12px;
+    }
 }

@@ -64,7 +64,7 @@ const CreateProjects = ({ handleNotification }) => {
             });
         }
         setIsLoading(false);
-    }, [activeTab, setOnChange]);
+    }, [activeTab, onChange]);
 
     return isLoading ? (
         <Loading />

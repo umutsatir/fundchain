@@ -6,11 +6,15 @@ import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { abi } from "../../../contracts/abi/abi";
 import { config } from "../../config";
 import { parseEther } from "viem";
+import $ from "jquery";
+import { Cookies } from "react-cookie";
+import { apiUrl } from "../../api_url";
 
 function FundingMenu(props) {
     const [amount, setAmount] = useState(0.0);
     const [isPending, setIsPending] = useState(false);
     const account = useAccount();
+    const cookies = new Cookies();
 
     const handleAmount = (e) => {
         setAmount(e.target.value);
@@ -26,23 +30,33 @@ function FundingMenu(props) {
         await fundProject(e.target.amount.value);
     }
 
-    function addDonator() {
-        $.ajax({
-            url: apiUrl + "/addDonator.php",
-            type: "POST",
-            data: {
-                projectId: props.id,
-                username: cookies.get("username"),
-                publicKey: account.address,
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data.status) return true;
-                return false;
-            },
-            error: function (error) {
-                return false;
-            },
+    async function addDonator() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: apiUrl + "/addDonator.php",
+                type: "POST",
+                data: {
+                    projectId: props.id,
+                    username: cookies.get("username"),
+                    publicKey: account.address,
+                },
+                success: function (data) {
+                    try {
+                        data = JSON.parse(data);
+                        if (data.status) {
+                            resolve(true);
+                        } else {
+                            resolve(false);
+                        }
+                    } catch (error) {
+                        reject("Failed to parse response");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                    reject(error);
+                },
+            });
         });
     }
 
@@ -63,23 +77,24 @@ function FundingMenu(props) {
                 functionName: "fundProject",
                 value: parseEther(value),
             });
+            props.handleNotification(
+                "Wait for transaction to be completed",
+                "info"
+            );
             const tx = await waitForTransactionReceipt(config, {
                 hash: result,
             });
             if (tx.status == "success") {
-                if (addDonator()) {
-                    props.setIsVisible(false);
+                const result = await addDonator();
+                if (result) {
                     props.handleNotification("Funding successful", "success");
                 } else {
-                    props.setIsVisible(false);
                     props.handleNotification("Funding failed", "error");
                 }
             } else {
-                props.setIsVisible(false);
                 props.handleNotification("Funding failed", "error");
             }
         } catch (error) {
-            props.setIsVisible(false);
             if (error.message.split("\n")[0] == "User rejected the request.") {
                 props.handleNotification("Transaction rejected", "warning");
             } else {

@@ -101,9 +101,9 @@ contract Project {
 
     function withdrawDonate() public {
         require(fundedAmount[msg.sender] > 0, "You donated nothing");
-        (bool success, ) = payable(owner).call{value: fundedAmount[msg.sender]}(
-            ""
-        );
+        (bool success, ) = payable(msg.sender).call{
+            value: fundedAmount[msg.sender]
+        }("");
         require(success, "Transfer failed");
         emit DonationWithdrawn(msg.sender, fundedAmount[msg.sender]);
         fundedAmount[msg.sender] = 0;

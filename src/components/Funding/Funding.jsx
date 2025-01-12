@@ -104,8 +104,8 @@ const Funding = (props) => {
                     await readFromContract("getDeadline")
                 );
                 setETHValue({
-                    pledged: pledgedData / etherPrice,
-                    goal: goalData / etherPrice,
+                    pledged: (pledgedData / etherPrice).toFixed(1),
+                    goal: (goalData / etherPrice).toFixed(5),
                 });
                 setData({
                     pledged: pledgedData,
@@ -162,6 +162,7 @@ const Funding = (props) => {
         <div className={styles.progressContainer}>
             {backProject && (
                 <FundingMenu
+                    id={props.id}
                     title={props.title}
                     backers={data.backers}
                     photo={photop}
