@@ -60,9 +60,7 @@ function FundingMenu(props) {
 
                 <form onSubmit={(e) => handleFundProject(e)}>
                     <div className={styles.fundingSection}>
-                        <div>
-                            <label className={styles.label1}>Amount</label>
-                            <br />
+                        <div className={styles.entry}>
                             <label className={styles.label2}>ETH</label>
                             <input
                                 name="amount"
@@ -73,15 +71,18 @@ function FundingMenu(props) {
                             />
                         </div>
 
-                        <button
-                            className={styles.cancelButton}
-                            onClick={handleCancelButton}
-                        >
-                            Cancel
-                        </button>
-                        <button type="submit" className={styles.fundingButton}>
-                            Fund {amount} ETH
-                        </button>
+                        <div className={styles.buttons}>
+                            <button
+                                className={styles.cancelButton}
+                                onClick={handleCancelButton}
+                            >
+                                Cancel
+                            </button>
+                            <button type="submit" className={styles.fundingButton}>
+                                Fund {amount} ETH
+                            </button>
+                        </div>
+
                     </div>
                 </form>
             </div>
