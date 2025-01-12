@@ -115,6 +115,15 @@ const CreateTab = ({ handleNotification }) => {
         return Math.floor(daysDifference);
     };
 
+    const capitalAllFirstLetters = (str) => {
+        return str
+            .split(" ")
+            .map((word) => {
+                return word.charAt(0).toUpperCase() + word.slice(1);
+            })
+            .join(" ");
+    };
+
     const handleCreate = async () => {
         if (isInProgress) {
             handleNotification(
@@ -160,6 +169,14 @@ const CreateTab = ({ handleNotification }) => {
                 "Contract created successfully, waiting for project creation.",
                 "info"
             );
+            setFormData((prevState) => ({
+                ...prevState,
+                basics: {
+                    ...prevState.basics,
+                    location: capitalAllFirstLetters(formData.basics.location),
+                    title: capitalAllFirstLetters(formData.basics.title),
+                },
+            }));
             let newData = {
                 ...formData,
                 contractAddress: contractAddress,

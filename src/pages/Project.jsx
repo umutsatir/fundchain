@@ -20,6 +20,7 @@ function Project({ handleNotification }) {
     const [comments, setComments] = useState([]);
     const [activeTab, setActiveTab] = useState("Campaign");
     const [isLoading, setIsLoading] = useState(true);
+    const [mediaItems, setMediaItems] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -107,6 +108,7 @@ function Project({ handleNotification }) {
                 <Intro
                     project={project}
                     handleNotification={handleNotification}
+                    mediaItems={mediaItems}
                 />
                 <TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
                 <div className={styles.bottom}>

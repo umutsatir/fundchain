@@ -1,156 +1,158 @@
 .galleryContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 720px;
-  margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 720px;
+    margin: 0 auto;
 }
 
 .previewArea {
-  width: 100%;
-  height: 480px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  box-sizing: border-box;
+    width: 100%;
+    height: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
 }
 
 .previewImage,
 .previewVideo {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    object-fit: contain;
 }
 
 .thumbnailContainer {
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  width: 100%;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
 .thumbnailItem {
-  cursor: pointer;
-  border: 1px solid #ccc !important;
-  border-radius: 5px;
-  padding: 5px;
-  flex: 0 0 calc(20% - 10px);
-  max-width: calc(20% - 10px);
-  box-sizing: border-box;
-  transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: 1px solid #ccc !important;
+    border-radius: 5px;
+    padding: 5px;
+    flex: 0 0 calc(20% - 10px);
+    max-width: calc(20% - 10px);
+    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
 }
 
 .thumbnailItem:hover {
-  border-color: var(--primary-color-hover) !important;
-  background: rgba(108, 99, 255, 0.1);
-  box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
-  transform: scale(1.05);
+    border-color: var(--primary-color-hover) !important;
+    background: rgba(108, 99, 255, 0.1);
+    box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
+    transform: scale(1.05);
 }
 
 .thumbnailImage,
 .thumbnailVideoPlaceholder {
-  width: 100%;
-  height: 80px;
-  object-fit: contain;
-  transition: opacity 0.3s ease-in-out;
+    width: 100%;
+    height: 80px;
+    object-fit: contain;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .thumbnailItem:hover .thumbnailImage,
 .thumbnailItem:hover .thumbnailVideoPlaceholder {
-  opacity: 0.8;
+    opacity: 0.8;
 }
 
 .thumbnailVideoPlaceholder {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--primary-color);
-  color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary-color);
+    color: #fff;
 }
 
 .thumbnailItem:hover {
-  animation: fadeIn 0.3s forwards;
+    animation: fadeIn 0.3s forwards;
 }
 
 .thumbnailItem {
-  animation: fadeOut 0.3s forwards;
+    animation: fadeOut 0.3s forwards;
 }
 
 .thumbnailItem.selected {
-  border-color: var(--primary-color-hover) !important;
-  background: rgba(108, 99, 255, 0.1);
-  box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
-  transform: scale(1.05);
+    border-color: var(--primary-color-hover) !important;
+    background: rgba(108, 99, 255, 0.1);
+    box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
+    transform: scale(1.05);
 }
 
 .thumbnailItem.selected .thumbnailImage,
 .thumbnailItem.selected .thumbnailVideoPlaceholder {
-  opacity: 0.8;
+    opacity: 0.8;
 }
 
 @keyframes fadeIn {
-  0% {
-    border-color: transparent;
-    background: transparent;
-  }
-  100% {
-    border-color: var(--primary-color-hover);
-    background: rgba(108, 99, 255, 0.1);
-  }
+    0% {
+        border-color: transparent;
+        background: transparent;
+    }
+    100% {
+        border-color: var(--primary-color-hover);
+        background: rgba(108, 99, 255, 0.1);
+    }
 }
 
 @keyframes fadeOut {
-  0% {
-    border-color: var(--primary-color-hover);
-    background: rgba(108, 99, 255, 0.1);
-  }
-  100% {
-    border-color: transparent;
-    background: transparent;
-  }
+    0% {
+        border-color: var(--primary-color-hover);
+        background: rgba(108, 99, 255, 0.1);
+    }
+    100% {
+        border-color: transparent;
+        background: transparent;
+    }
 }
 
 @media (max-width: 768px) {
-  .galleryContainer {
-    width: 100%;
-    padding: 10px;
-  }
+    .galleryContainer {
+        width: 100%;
+        padding: 10px;
+    }
 
-  .previewArea {
-    height: 360px;
-  }
+    .previewArea {
+        height: 360px;
+    }
 
-  .thumbnailContainer {
-    gap: 5px;
-  }
+    .thumbnailContainer {
+        gap: 5px;
+    }
 
-  .thumbnailItem {
-    flex: 0 0 calc(33.33% - 5px);
-    max-width: calc(33.33% - 5px);
-  }
+    .thumbnailItem {
+        flex: 0 0 calc(33.33% - 5px);
+        max-width: calc(33.33% - 5px);
+    }
 
-  .thumbnailImage,
-  .thumbnailVideoPlaceholder {
-    height: 60px;
-  }
+    .thumbnailImage,
+    .thumbnailVideoPlaceholder {
+        height: 60px;
+    }
 }
 
 @media (max-width: 480px) {
-  .previewArea {
-    height: 240px;
-  }
+    .previewArea {
+        height: 240px;
+    }
 
-  .thumbnailItem {
-    flex: 0 0 calc(50% - 5px);
-    max-width: calc(50% - 5px);
-  }
+    .thumbnailItem {
+        flex: 0 0 calc(50% - 5px);
+        max-width: calc(50% - 5px);
+    }
 
-  .thumbnailImage,
-  .thumbnailVideoPlaceholder {
-    height: 50px;
-  }
+    .thumbnailImage,
+    .thumbnailVideoPlaceholder {
+        height: 50px;
+    }
 }

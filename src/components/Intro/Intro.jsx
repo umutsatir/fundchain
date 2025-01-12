@@ -2,8 +2,9 @@ import React from "react";
 import styles from "./Intro.module.css"; // CSS Modules import
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Funding from "../Funding/Funding";
+import MediaGallery from "../MediaGallery/MediaGallery";
 
-const Intro = ({ project, handleNotification }) => {
+const Intro = ({ project, handleNotification, mediaItems }) => {
     const getDeadline = (dbDate) => {
         if (!dbDate) return;
         const currentDate = new Date();
@@ -27,10 +28,7 @@ const Intro = ({ project, handleNotification }) => {
             <div className={styles.videoFundingContainer}>
                 {/* Video section */}
                 <div className={styles.video}>
-                    <video controls className={styles.projectVideo}>
-                        <source src="path_to_your_video.mp4" type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
+                    <MediaGallery mediaItems={mediaItems} />
                 </div>
                 <Funding
                     id={project.id}
