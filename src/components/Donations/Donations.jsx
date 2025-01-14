@@ -125,7 +125,7 @@ function Donations(props) {
                     <p className={styles.projectBackers}>{backers} backers</p>
                     <p
                         className={
-                            deadlineInfo === "expired"
+                            deadlineInfo === "Expired"
                                 ? styles.projectExpiredDeadline
                                 : styles.projectDeadline
                         }

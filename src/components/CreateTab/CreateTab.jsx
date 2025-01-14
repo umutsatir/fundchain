@@ -17,13 +17,13 @@ import { waitForTransactionReceipt, deployContract } from "@wagmi/core";
 import { abi } from "../../../contracts/abi/abi";
 import { bytecode } from "../../../contracts/bytecode/bytecode";
 import { config } from "../../config";
-import { sepolia } from "viem/chains";
 import { parseEther } from "viem";
 
 const CreateTab = ({ handleNotification }) => {
     const [activeTab, setActiveTab] = useState("basics");
     const [isSaved, setIsSaved] = useState(false);
     const [isInProgress, setIsInProgress] = useState(false);
+    const [imageData, setImageData] = useState([]);
     const [formData, setFormData] = useState({
         basics: {
             category: "",
@@ -68,7 +68,8 @@ const CreateTab = ({ handleNotification }) => {
             if (!formData.basics.title) errors.push("title");
             if (!formData.basics.description) errors.push("description");
             if (!formData.basics.location) errors.push("location");
-            if (formData.basics.image.length === 0) errors.push("image");
+            if (formData.basics.image.length === 0 && imageData.length === 0)
+                errors.push("image");
             if (
                 !formData.basics.duration.type ||
                 !formData.basics.duration.value
@@ -125,11 +126,9 @@ const CreateTab = ({ handleNotification }) => {
     };
 
     const uploadImages = async () => {
-        const images = formData.basics.image;
-        updateBasics("image", []);
         try {
             // Upload files and get URLs
-            const uploadPromises = images.map(async (file) => {
+            const uploadPromises = imageData.map(async (file) => {
                 const formData = new FormData();
                 formData.append("image", file);
 
@@ -138,15 +137,22 @@ const CreateTab = ({ handleNotification }) => {
                     body: formData,
                 });
                 const data = await response.json();
+                console.log(formData, data);
                 if (data.status) {
                     return data.url;
                 } else {
-                    throw new Error(`Failed to upload ${file.name}`);
+                    handleNotification("Failed to upload images", "error");
+                    throw new Error("Failed to upload images");
                 }
             });
 
-            const uploadedUrls = await Promise.all(uploadPromises);
-            updateBasics("image", uploadedUrls);
+            await Promise.all(uploadPromises)
+                .then((urls) => {
+                    updateBasics("image", urls);
+                })
+                .catch((error) => {
+                    throw error;
+                });
         } catch (error) {
             console.error("Image upload error:", error);
             handleNotification("Failed to upload images", "error");
@@ -294,6 +300,7 @@ const CreateTab = ({ handleNotification }) => {
                 updateBasics={updateBasics}
                 formData={formData.basics}
                 handleNotification={handleNotification}
+                setImageData={setImageData}
             />
         ),
         funding: (
@@ -370,15 +377,20 @@ const CreateTab = ({ handleNotification }) => {
     );
 };
 
-const BasicsTab = ({ updateBasics, formData, handleNotification }) => (
+const BasicsTab = ({
+    updateBasics,
+    formData,
+    handleNotification,
+    setImageData,
+}) => (
     <div>
         <Category updateBasics={updateBasics} formData={formData} />
         <Details updateBasics={updateBasics} formData={formData} />
         <Location updateBasics={updateBasics} formData={formData} />
         <Image
-            updateBasics={updateBasics}
             formData={formData}
             handleNotification={handleNotification}
+            setImageData={setImageData}
         />
         <Video updateBasics={updateBasics} formData={formData} />
         <Duration updateBasics={updateBasics} formData={formData} />

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./Image.module.css";
 import { apiUrl } from "../../api_url";
 
-function Image({ updateBasics, formData, handleNotification }) {
+function Image({ formData, handleNotification, setImageData }) {
     const [images, setImages] = useState(formData.image || []);
 
     const handleImageUpload = async (e) => {
@@ -36,7 +36,7 @@ function Image({ updateBasics, formData, handleNotification }) {
 
         if (validFiles.length === 0) return;
 
-        updateBasics("image", validFiles);
+        setImageData(validFiles);
         setImages(validFiles);
     };
 

@@ -111,7 +111,7 @@ function MyProjects(props) {
                 onClick={handleWithdraw}
                 className={styles.button}
                 disabled={
-                    deadlineInfo !== "expired" ||
+                    deadlineInfo !== "Expired" ||
                     isPending ||
                     props.status == -1
                 }
