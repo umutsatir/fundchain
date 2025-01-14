@@ -30,8 +30,8 @@ try {
         ]);
         exit;
     }
-    $stmt = $pdo->prepare("SELECT * FROM reports WHERE userId = :u_id");
-    $stmt->execute(['u_id' => $user['userId']]);
+    $stmt = $pdo->prepare("SELECT * FROM reports WHERE userId = :u_id AND projectId = :p_id");
+    $stmt->execute(['u_id' => $user['userId'], 'p_id' => $_POST['projectId']]);
     $reports = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if (!$reports) {
