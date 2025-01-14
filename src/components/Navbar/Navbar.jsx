@@ -56,6 +56,24 @@ function Navbar({ onLogout, loggedIn }) {
         });
     }, [loggedIn]);
 
+    // Close profile menu when clicked outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                !event.target.closest(`.${styles.profileImage}`) &&
+                !event.target.closest(`.${styles.dropdownCard}`)
+            ) {
+                setIsProfileMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     const handleStartProject = () => {
         setIsProfileMenuOpen(false);
         if (isLoggedIn) {

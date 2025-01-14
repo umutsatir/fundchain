@@ -38,47 +38,53 @@ const queryClient = new QueryClient();
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
+    const [loading, setLoading] = useState(true); // New loading state
     const cookies = new Cookies();
     const location = useLocation();
     const { disconnect } = useDisconnect();
     const notificationRef = useRef();
 
-    // Check cookie on initial load
     useEffect(() => {
-        setLoggedIn(cookies.get("loggedIn") || false);
+        const isLoggedIn = cookies.get("loggedIn") || false;
+        setLoggedIn(isLoggedIn);
+        setLoading(false); // Authentication check complete
     }, []);
 
     const onLogin = (token, username) => {
-        cookies.set("loggedIn", true);
-        cookies.set("token", token);
-        cookies.set("username", username);
-        setLoggedIn(true); // Update state on login
+        cookies.set("loggedIn", true, { path: "/" });
+        cookies.set("token", token, { path: "/" });
+        cookies.set("username", username, { path: "/" });
+        setLoggedIn(true);
     };
 
     const onLogout = () => {
-        cookies.remove("loggedIn");
-        cookies.remove("token");
-        setLoggedIn(false); // Update state on logout
-        disconnect(); // Disconnect from the blockchain
+        cookies.remove("loggedIn", { path: "/" });
+        cookies.remove("token", { path: "/" });
+        cookies.remove("username", { path: "/" });
+        setLoggedIn(false);
+        disconnect();
     };
 
     function handleNotification(msg, type) {
         notificationRef.current.addNotification(msg, type);
     }
 
-    // Check if the current path is for login or signup
-    const isAuthPage =
-        location.pathname === "/login" ||
-        location.pathname === "/signup" ||
-        location.pathname === "/error" ||
-        location.pathname === "/reset-password" ||
-        location.pathname === "/validation-email" ||
-        location.pathname === "/forgot-password";
+    const isAuthPage = [
+        "/login",
+        "/signup",
+        "/error",
+        "/reset-password",
+        "/validation-email",
+        "/forgot-password",
+    ].includes(location.pathname);
+
+    if (loading) {
+        return <div>Loading...</div>; // Optional loading indicator
+    }
 
     return (
         <div>
             <Notification ref={notificationRef} />
-            {/* Render Navbar only if not on the login or signup page */}
             {!isAuthPage && <Navbar loggedIn={loggedIn} onLogout={onLogout} />}
             <div className="content">
                 <Routes>
