@@ -9,6 +9,7 @@ import { abi } from "../../../contracts/abi/abi";
 function MyProjects(props) {
     const [deadlineInfo, setDeadlineInfo] = useState("");
     const [isPending, setIsPending] = useState(false);
+    const [backers, setBackers] = useState(0);
     const { isConnected } = useAccount();
 
     const getDeadline = (dbDate) => {
@@ -27,10 +28,16 @@ function MyProjects(props) {
     };
 
     useEffect(() => {
-        getDeadline(props.deadline);
+        const fetchBackers = async () => {
+            getDeadline(props.deadline);
+            setBackers(parseInt(await props.getBackers(props.contractAddress)));
+        };
+        fetchBackers();
     }, []);
 
     async function handleWithdraw() {
+        if (props.status == -1)
+            props.handleNotification("This project is banned", "error");
         if (!isConnected)
             props.handleNotification(
                 "Please connect your wallet first",
@@ -85,7 +92,7 @@ function MyProjects(props) {
                 <p className={styles.projectDescription}>{props.description}</p>
 
                 <div className={styles.projectAbout}>
-                    <p className={styles.projectBackers}>x backers</p>
+                    <p className={styles.projectBackers}>{backers} backers</p>
                     <p
                         className={
                             deadlineInfo !== "expired"
@@ -95,12 +102,19 @@ function MyProjects(props) {
                     >
                         {deadlineInfo}
                     </p>
+                    {props.status == -1 && (
+                        <p className={styles.projectExpiredDeadline}>Banned</p>
+                    )}
                 </div>
             </div>
             <button
                 onClick={handleWithdraw}
                 className={styles.button}
-                disabled={deadlineInfo !== "expired" || isPending}
+                disabled={
+                    deadlineInfo !== "expired" ||
+                    isPending ||
+                    props.status == -1
+                }
             >
                 {props.buttonName}
             </button>

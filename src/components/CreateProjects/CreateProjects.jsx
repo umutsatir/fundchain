@@ -5,6 +5,9 @@ import Donations from "../Donations/Donations";
 import $ from "jquery";
 import { Cookies } from "react-cookie";
 import { apiUrl } from "../../api_url";
+import { readContract } from "@wagmi/core";
+import { config } from "../../config";
+import { abi } from "../../../contracts/abi/abi";
 
 import Loading from "../Loading/Loading";
 
@@ -66,6 +69,14 @@ const CreateProjects = ({ handleNotification }) => {
         setIsLoading(false);
     }, [activeTab, onChange]);
 
+    const getBackers = async (contractAddress) => {
+        return await readContract(config, {
+            abi,
+            address: contractAddress,
+            functionName: "getDonatorCount",
+        });
+    };
+
     return isLoading ? (
         <Loading />
     ) : (
@@ -95,6 +106,7 @@ const CreateProjects = ({ handleNotification }) => {
                         projects={projects}
                         handleNotification={handleNotification}
                         setOnChange={setOnChange}
+                        getBackers={getBackers}
                     />
                 )}
                 {activeTab === "Donations" && (
@@ -102,6 +114,7 @@ const CreateProjects = ({ handleNotification }) => {
                         donations={projects}
                         handleNotification={handleNotification}
                         setOnChange={setOnChange}
+                        getBackers={getBackers}
                     />
                 )}
             </div>
@@ -109,7 +122,12 @@ const CreateProjects = ({ handleNotification }) => {
     );
 };
 
-const MyProjectsTab = ({ projects, handleNotification, setOnChange }) => (
+const MyProjectsTab = ({
+    projects,
+    handleNotification,
+    setOnChange,
+    getBackers,
+}) => (
     <div>
         {projects.length > 0 ? (
             projects.map((project) => (
@@ -118,11 +136,12 @@ const MyProjectsTab = ({ projects, handleNotification, setOnChange }) => (
                     id={project.projectId}
                     title={project.title}
                     description={project.description}
-                    backers={0}
+                    getBackers={getBackers}
                     photo={project.image}
                     contractAddress={project.contractAddress}
                     buttonName="Withdraw Funds"
                     deadline={project.launchDate}
+                    status={project.status}
                     handleNotification={handleNotification}
                     setOnChange={setOnChange}
                 />
@@ -133,7 +152,12 @@ const MyProjectsTab = ({ projects, handleNotification, setOnChange }) => (
     </div>
 );
 
-const DonationsTab = ({ donations, handleNotification, setOnChange }) => (
+const DonationsTab = ({
+    donations,
+    handleNotification,
+    setOnChange,
+    getBackers,
+}) => (
     <div>
         {donations.length > 0 ? (
             donations.map((donation) => (
@@ -142,11 +166,12 @@ const DonationsTab = ({ donations, handleNotification, setOnChange }) => (
                     id={donation.projectId}
                     title={donation.title}
                     description={donation.description}
-                    backers={0}
+                    getBackers={getBackers}
                     photo={donation.image}
                     contractAddress={donation.contractAddress}
                     buttonName="Withdraw Donate"
                     deadline={donation.launchDate}
+                    status={donation.status}
                     handleNotification={handleNotification}
                     setOnChange={setOnChange}
                     publicKey={donation.publicKey}

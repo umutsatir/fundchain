@@ -36,6 +36,10 @@ function Project({ handleNotification }) {
             },
             success: function (data) {
                 data = JSON.parse(data);
+                if (data.status == -1) {
+                    navigate("/error");
+                    return;
+                }
                 if (data.success) setProject(data);
                 else navigate("/error");
             },

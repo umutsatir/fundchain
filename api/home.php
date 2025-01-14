@@ -3,11 +3,11 @@
     include './pdo.php';
     $pdo = (new PDOClass())->connect();
 
-    $stmt = $pdo->prepare("SELECT * FROM projects ORDER BY launchDate DESC LIMIT 20"); // limit can be added here
+    $stmt = $pdo->prepare("SELECT * FROM projects WHERE status != -1 AND status != 2 ORDER BY launchDate DESC LIMIT 20"); // limit can be added here
     $stmt->execute();
     $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $stmt = $pdo->prepare("SELECT * FROM projects ORDER BY fundCount DESC LIMIT 20"); // limit can be added here
+    $stmt = $pdo->prepare("SELECT * FROM projects WHERE status != -1 AND status != 2 ORDER BY fundCount DESC LIMIT 20"); // limit can be added here
     $stmt->execute();
     $popular = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

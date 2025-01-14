@@ -86,8 +86,11 @@ function Cards(props) {
                     <h2
                         className={styles.cardTitle}
                         onClick={(e) => handlePage(e)}
+                        title={props.title}
                     >
-                        {props.title}
+                        {props.title.split(" ")[0].length > 12
+                            ? `${props.title.substring(0, 12)}...`
+                            : props.title}
                     </h2>
                     <p className={styles.cardOwner}>{props.owner}</p>
                     <p className={styles.cardDeadline}>

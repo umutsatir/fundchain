@@ -59,6 +59,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 10px;
 }
 
 .knowledgeSection .knowledge .projectAbout .projectBackers {
@@ -66,8 +67,6 @@
     border-radius: 7px;
     font-size: 1em;
     padding: 6px;
-
-    margin-right: 20px;
 }
 
 .knowledgeSection .knowledge .projectAbout .projectDeadline {

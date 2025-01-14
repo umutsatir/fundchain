@@ -12,6 +12,7 @@ import { apiUrl } from "../../api_url";
 function Donations(props) {
     const [deadlineInfo, setDeadlineInfo] = useState("");
     const [isPending, setIsPending] = useState(false);
+    const [backers, setBackers] = useState(0);
     const account = useAccount();
     const cookies = new Cookies();
 
@@ -31,8 +32,12 @@ function Donations(props) {
     };
 
     useEffect(() => {
-        getDeadline(props.deadline);
-    }, [props.deadline]);
+        const fetchBackers = async () => {
+            getDeadline(props.deadline);
+            setBackers(parseInt(await props.getBackers(props.contractAddress)));
+        };
+        fetchBackers();
+    }, []);
 
     function removeDonation() {
         console.log(props.id, cookies.get("username"));
@@ -117,9 +122,7 @@ function Donations(props) {
                 <p className={styles.projectDescription}>{props.description}</p>
 
                 <div className={styles.projectAbout}>
-                    <p className={styles.projectBackers}>
-                        {props.backers} backers
-                    </p>
+                    <p className={styles.projectBackers}>{backers} backers</p>
                     <p
                         className={
                             deadlineInfo === "expired"
@@ -129,6 +132,9 @@ function Donations(props) {
                     >
                         {deadlineInfo}
                     </p>
+                    {props.status == -1 && (
+                        <p className={styles.projectExpiredDeadline}>Banned</p>
+                    )}
                 </div>
             </div>
 
