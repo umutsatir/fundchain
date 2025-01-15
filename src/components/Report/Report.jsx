@@ -12,6 +12,7 @@ const Report = ({ id }) => {
     const cookies = new Cookies();
 
     useEffect(() => {
+        if (!cookies.get("username")) return;
         $.ajax({
             url: apiUrl + "/checkReport.php",
             type: "POST",

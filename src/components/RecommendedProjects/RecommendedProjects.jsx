@@ -26,6 +26,7 @@ function RecommendedProjects({ userId }) {
                 userId: userId,
             },
             success: function (result) {
+                result = JSON.parse(result);
                 if (result.status) {
                     setProjects(result.data);
                 }
@@ -50,9 +51,11 @@ function RecommendedProjects({ userId }) {
                     <Cards
                         key={project.projectId}
                         id={project.projectId}
-                        img={project.image[0]}
+                        img={JSON.parse(project.image)}
                         subimg={
-                            project.image.length > 1 ? project.image[1] : ""
+                            JSON.parse(project.image).length > 1
+                                ? JSON.parse(project.image)[1]
+                                : ""
                         }
                         title={project.title}
                         owner={project.owner}
