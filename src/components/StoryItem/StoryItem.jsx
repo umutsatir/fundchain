@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styles from "./StoryItem.module.css";
 
 const StoryItem = ({
@@ -7,15 +7,21 @@ const StoryItem = ({
     paragraphs = [""],
     updateStoryItem,
     removeStoryItem,
+    setStoryWarning,
 }) => {
     const paragraphRefs = useRef([]);
     const [titleWarning, setTitleWarning] = useState(false);
     const [contentWarnings, setContentWarnings] = useState([]);
 
+    useEffect(() => {
+        const hasWarning = titleWarning || contentWarnings.includes(true);
+        setStoryWarning(hasWarning);
+    }, [titleWarning, contentWarnings, setStoryWarning]);
+
     const handleTitleChange = (e) => {
         let { value } = e.target;
 
-        if (value.length < 5 || value.length > 50) {
+        if (value.length != 0 && (value.length < 5 || value.length > 50)) {
             setTitleWarning(true);
             value = value.slice(0, 50);
         } else {
@@ -28,7 +34,7 @@ const StoryItem = ({
         let { value } = e.target;
         const warnings = [...contentWarnings];
 
-        if (value.length < 10 || value.length > 500) {
+        if (value.length != 0 && (value.length < 10 || value.length > 500)) {
             warnings[index] = true;
             value = value.slice(0, 500);
         } else {

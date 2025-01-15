@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import styles from './Location.module.css';
 
-function Location({updateBasics, formData}) {
+function Location({updateBasics, formData, setLocationWarning}) {
     const [warning, setWarning] = useState(false);
 
     const handleInputChange = (e) => {
         const { id } = e.target;
         let { value } = e.target;
 
-        if (value.length > 100 || value.length < 5) {
+        if (value.length != 0 && (value.length > 100 || value.length < 5)) {
             setWarning(true);
+            setLocationWarning(true);
             value = value.slice(0, 100);
         } else {
             setWarning(false);
+            setLocationWarning(false);
         }
         updateBasics(id, value);
     };

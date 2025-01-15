@@ -3,7 +3,7 @@ import styles from "./Category.module.css";
 import $ from "jquery";
 import { apiUrl } from "../../api_url";
 
-function Category({ updateBasics, formData, activeTab }) {
+function Category({ updateBasics, formData, setCategoryWarning }) {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [categoryOptions, setCategoryOptions] = useState([]);
 
