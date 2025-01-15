@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import $ from "jquery";
+import $, { type } from "jquery";
 import Intro from "../components/Intro/Intro";
 import Campaign from "../components/Campaign/Campaign";
 import ProjectOwner from "../components/ProjectOwner/ProjectOwner";
@@ -82,8 +82,28 @@ function Project({ handleNotification }) {
                 handleNotification("Failed to fetch comments", "error");
             },
         });
+
         setIsLoading(false);
     }, []);
+
+    useEffect(() => {
+        if (!project.img) return;
+        const images = JSON.parse(project.img).map((image) => {
+            return {
+                type: "image",
+                src: image,
+            };
+        });
+        const video = project.video
+            ? JSON.parse(project.video).map((video) => {
+                  return {
+                      type: "video",
+                      src: video,
+                  };
+              })
+            : [];
+        setMediaItems([...video, ...images]);
+    }, [project]);
 
     const handleCommentRefresh = () => {
         $.ajax({

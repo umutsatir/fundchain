@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./MediaGallery.module.css";
 
-const MediaGallery = ({ mediaItems }) => {
-    const [selectedMedia, setSelectedMedia] = useState(
-        mediaItems.length > 0 ? mediaItems[0] : null
-    );
+const MediaGallery = ({ mediaItems = [] }) => {
+    const [selectedMedia, setSelectedMedia] = useState(null);
+
+    useEffect(() => {
+        if (mediaItems.length > 0) {
+            setSelectedMedia(mediaItems[0]);
+        } else {
+            setSelectedMedia(null);
+        }
+    }, [mediaItems]);
 
     return (
         <div className={styles.galleryContainer}>
@@ -31,35 +37,42 @@ const MediaGallery = ({ mediaItems }) => {
                         // ></iframe>
                     )
                 ) : (
-                    <p>Select a media item below</p>
+                    <p>No media available. Select an item below.</p>
                 )}
             </div>
 
             <div className={styles.thumbnailContainer}>
-                {mediaItems.map((item, index) => (
-                    <div
-                        key={`${item.type}-${index}`}
-                        className={`${styles.thumbnailItem} ${
-                            selectedMedia.type === item.type &&
-                            selectedMedia.src === item.src
-                                ? styles.selected
-                                : ""
-                        }`}
-                        onClick={() => setSelectedMedia(item)}
-                    >
-                        {item.type === "image" ? (
-                            <img
-                                src={item.src}
-                                alt={`Thumbnail ${index + 1}`}
-                                className={styles.thumbnailImage}
-                            />
-                        ) : (
-                            <div className={styles.thumbnailVideoPlaceholder}>
-                                Video
-                            </div>
-                        )}
-                    </div>
-                ))}
+                {mediaItems.length > 0 ? (
+                    mediaItems.map((item, index) => (
+                        <div
+                            key={`${item.type}-${index}`}
+                            className={`${styles.thumbnailItem} ${
+                                selectedMedia &&
+                                selectedMedia.type === item.type &&
+                                selectedMedia.src === item.src
+                                    ? styles.selected
+                                    : ""
+                            }`}
+                            onClick={() => setSelectedMedia(item)}
+                        >
+                            {item.type === "image" ? (
+                                <img
+                                    src={item.src}
+                                    alt={`Thumbnail ${index + 1}`}
+                                    className={styles.thumbnailImage}
+                                />
+                            ) : (
+                                <div
+                                    className={styles.thumbnailVideoPlaceholder}
+                                >
+                                    Video
+                                </div>
+                            )}
+                        </div>
+                    ))
+                ) : (
+                    <p>No thumbnails to display</p>
+                )}
             </div>
         </div>
     );

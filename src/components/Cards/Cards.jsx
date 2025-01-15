@@ -73,9 +73,16 @@ function Cards(props) {
         window.location.href = "/project/" + props.id;
     };
 
+    const getImageSrc = () => {
+        if (Array.isArray(props.img) && props.img.length > 0) {
+            return props.img[0];
+        }
+        return props.img;
+    };
+
     return (
         <div className={styles.card}>
-            <img className={styles.cardImage} src={props.img} alt="Photo" />
+            <img className={styles.cardImage} src={getImageSrc()} alt="Photo" />
             <div className={styles.cardHeader}>
                 <img
                     className={styles.cardSubimage}
@@ -116,7 +123,7 @@ function Cards(props) {
 
 Cards.propTypes = {
     id: PropTypes.number.isRequired,
-    img: PropTypes.string,
+    img: PropTypes.array,
     subimg: PropTypes.string,
     title: PropTypes.string,
     owner: PropTypes.string,

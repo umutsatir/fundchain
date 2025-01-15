@@ -31,7 +31,7 @@
             return array(
                 'id' => $project['projectId'],
                 'title' => $project['title'],
-                'img' => $image[0],
+                'img' => $image,
                 'subimg' => $project['subimage'],
                 'owner' => $project['owner'],
                 'deadline' => $project['launchDate']

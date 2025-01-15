@@ -137,7 +137,6 @@ const CreateTab = ({ handleNotification }) => {
                     body: formData,
                 });
                 const data = await response.json();
-                console.log(formData, data);
                 if (data.status) {
                     return data.url;
                 } else {
