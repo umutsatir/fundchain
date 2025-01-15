@@ -19,7 +19,7 @@ $projectId_input = $_POST['projectId'];
 $title_input = $_POST['title'];
 $description_input = $_POST['description'];
 $rate_input = $_POST['rate'];
-$maksNumOfComments = 5;
+$maksNumOfComments = 1;
 
 if($username_input && $projectId_input){
 	$stmt = $pdo->prepare("SELECT userId FROM users WHERE username = :u_n");
@@ -29,6 +29,16 @@ if($username_input && $projectId_input){
 	if($user){
 		$user_id = $user['userId'];
 		
+		// Check if the user is commenting on their own project
+		$stmt = $pdo->prepare("SELECT userId FROM projects WHERE projectId = :p_id");
+		$stmt->execute(['p_id' => $projectId_input]);
+		$project = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		if($project && $project['userId'] == $user_id){
+			echo json_encode(['status' => false, 'message' => 'You cannot comment on your own project']);
+			exit;
+		}
+
 		$stmt = $pdo->prepare("SELECT COUNT(*) AS comment_count FROM comments WHERE userId = :u_id AND projectId = :p_id");
 		$stmt->execute(['u_id' => $user_id,'p_id'=>$projectId_input]);
 		$result = $stmt->fetch();// Extract userId from the fetched result
@@ -39,9 +49,9 @@ if($username_input && $projectId_input){
 		else{
 			if($projectId_input && $title_input && $description_input && $rate_input){
 				$stmt = $pdo->prepare("INSERT INTO comments (projectId, userId, title, description, rate, creationDate) VALUES (:p_id, :u_id, :ttle, :desc, :rte, NOW())");
-            	$stmt->execute(['p_id' => $projectId_input, 'u_id' => $user_id, 'ttle' => $title_input, 'desc'=>$description_input,'rte'=>$rate_input ]);
+				$stmt->execute(['p_id' => $projectId_input, 'u_id' => $user_id, 'ttle' => $title_input, 'desc'=>$description_input,'rte'=>$rate_input ]);
 
-				echo json_encode(['status' => true, 'message' => 'Comment made succesfully']);
+				echo json_encode(['status' => true, 'message' => 'Comment made successfully']);
 			}
 			else{
 				echo json_encode(['status' => false, 'message' => 'Comment creation failed! All of the title, content and rate must be filled']);//If one of the $projectId_input && $title_input && $description_input && $rate_input is null
@@ -51,15 +61,8 @@ if($username_input && $projectId_input){
 	else{
 		echo json_encode(['status' => false, 'message' => 'Login required! If you already logged in, try re-login']);//If user not found
 	}
-
-		
-
 }
 else{
 	echo json_encode(['status' => false, 'message' => 'Comment creation failed']);//If one of the $username_input && $description_input is null
 }
-
-
-
-
 ?>

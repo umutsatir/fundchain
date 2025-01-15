@@ -49,6 +49,16 @@ try {
 
     $userId = $user['userId'];
 
+    $stmt = $pdo->prepare("SELECT userId FROM projects WHERE projectId = :projectId");
+    $stmt->execute(['projectId' => $projectId]);
+    $projectUser = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($projectUser['userId'] == $userId) {
+        echo json_encode(['status' => false, 'message' => 'You cannot report your own project.']);
+        exit;
+    }
+
+
     // Check if the user already reported the project
     $stmt = $pdo->prepare("SELECT 1 FROM reports WHERE userId = :userId AND projectId = :projectId");
     $stmt->execute(['userId' => $userId, 'projectId' => $projectId]);

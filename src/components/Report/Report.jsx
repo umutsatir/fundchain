@@ -46,7 +46,7 @@ const Report = ({ id }) => {
                 if (data.status) {
                     setFeedback("Report submitted successfully");
                     setIsButtonDisabled(true);
-                } else setFeedback("Failed to submit report");
+                } else setFeedback(data.message);
             },
             error: function (error) {
                 console.log(error);
