@@ -6,6 +6,7 @@ import {
     Routes,
     Route,
     useLocation,
+    useNavigate,
     Navigate,
 } from "react-router-dom";
 import Home from "./pages/Home";
@@ -43,6 +44,7 @@ const App = () => {
     const location = useLocation();
     const { disconnect } = useDisconnect();
     const notificationRef = useRef();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const isLoggedIn = cookies.get("loggedIn") || false;
@@ -61,6 +63,17 @@ const App = () => {
         cookies.remove("loggedIn", { path: "/" });
         cookies.remove("token", { path: "/" });
         cookies.remove("username", { path: "/" });
+        if (
+            [
+                "/profile",
+                "/settings",
+                "/create",
+                "/projects",
+                "/saved-projects",
+            ].includes(location.pathname)
+        ) {
+            navigate("/");
+        }
         setLoggedIn(false);
         disconnect();
     };
