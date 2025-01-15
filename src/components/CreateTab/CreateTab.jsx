@@ -48,15 +48,17 @@ const CreateTab = ({ handleNotification }) => {
             collaborators: [],
         },
     });
-    const [detailsWarning, setDetailsWarning] = useState(null);
-    const [locationWarning, setLocationWarning] = useState(null);
-    const [durationWarning, setDurationWarning] = useState(null);
-    const [videoWarning, setVideoWarning] = useState(null);
-    const [fundingWarning, setFundingWarning] = useState(null);
-    const [storyWarning, setStoryWarning] = useState(null);
+    const [warnings, setWarnings] = useState({
+        details: null,
+        location: null,
+        duration: null,
+        video: null,
+        funding: null,
+        story: null,
+    });
 
     const isFormValid = () => {
-        return !videoWarning && !detailsWarning && !locationWarning && !durationWarning && !fundingWarning && !storyWarning;
+        return !Object.values(warnings).some((warning) => warning);
     };
 
     const cookies = new Cookies();
@@ -274,6 +276,13 @@ const CreateTab = ({ handleNotification }) => {
         }
     };
 
+    const updateWarnings = (key, value) => {
+        setWarnings((prevState) => ({
+            ...prevState,
+            [key]: value,
+        }));
+    };
+
     const updateBasics = (key, value) => {
         setFormData((prevState) => ({
             ...prevState,
@@ -321,25 +330,24 @@ const CreateTab = ({ handleNotification }) => {
                 formData={formData.basics}
                 handleNotification={handleNotification}
                 setImageData={setImageData}
-                setDetailsWarning={setDetailsWarning}
-                setLocationWarning={setLocationWarning}
-                setVideoWarning={setVideoWarning}
-                setDurationWarning={setDurationWarning}
+                updateWarnings={updateWarnings}
             />
         ),
         funding: (
             <FundingTab
                 updateFunding={updateFunding}
                 formData={formData.funding}
-                setFundingWarning={setFundingWarning}
+                updateWarnings={updateWarnings}
             />
         ),
-        story: <StoryTab 
-                updateStory={updateStory} 
-                formData={formData.story} 
-                setStoryWarning={setStoryWarning} 
+        story: (
+            <StoryTab
+                updateStory={updateStory}
+                formData={formData.story}
+                updateWarnings={updateWarnings}
                 handleNotification={handleNotification}
-                />,
+            />
+        ),
         collaborators: (
             <CollaboratorsTab
                 updateCollaborators={updateCollaborators}
@@ -416,34 +424,47 @@ const BasicsTab = ({
     formData,
     handleNotification,
     setImageData,
-    setDetailsWarning,
-    setLocationWarning,
-    setVideoWarning,
-    setDurationWarning,
+    updateWarnings,
 }) => (
     <div>
-        <Category updateBasics={updateBasics} formData={formData}/>
-        <Details updateBasics={updateBasics} formData={formData} setDetailsWarning={setDetailsWarning}/>
-        <Location updateBasics={updateBasics} formData={formData} setLocationWarning={setLocationWarning}/>
+        <Category updateBasics={updateBasics} formData={formData} />
+        <Details
+            updateBasics={updateBasics}
+            formData={formData}
+            setDetailsWarning={(value) => updateWarnings("details", value)}
+        />
+        <Location
+            updateBasics={updateBasics}
+            formData={formData}
+            setLocationWarning={(value) => updateWarnings("location", value)}
+        />
         <Image
             formData={formData}
             handleNotification={handleNotification}
             setImageData={setImageData}
         />
-        <Video updateBasics={updateBasics} formData={formData} setVideoWarning={setVideoWarning} />
-        <Duration updateBasics={updateBasics} formData={formData} setDurationWarning={setDurationWarning}/>
+        <Video
+            updateBasics={updateBasics}
+            formData={formData}
+            setVideoWarning={(value) => updateWarnings("video", value)}
+        />
+        <Duration
+            updateBasics={updateBasics}
+            formData={formData}
+            setDurationWarning={(value) => updateWarnings("duration", value)}
+        />
     </div>
 );
 
-const FundingTab = ({ updateFunding, formData, setFundingWarning }) => (
+const FundingTab = ({ updateFunding, formData, updateWarnings }) => (
     <div>
-        <FundingGoal updateFunding={updateFunding} formData={formData} setFundingWarning={setFundingWarning}/>
+        <FundingGoal updateFunding={updateFunding} formData={formData} setFundingWarning={(value) => updateWarnings("funding", value)}/>
     </div>
 );
 
-const StoryTab = ({ updateStory, formData, setStoryWarning, handleNotification }) => (
+const StoryTab = ({ updateStory, formData, updateWarnings, handleNotification }) => (
     <div>
-        <Story updateStory={updateStory} formData={formData} setStoryWarning={setStoryWarning} handleNotification={handleNotification}/>
+        <Story updateStory={updateStory} formData={formData} setStoryWarning={(value) => updateWarnings("story", value)} handleNotification={handleNotification}/>
     </div>
 );
 

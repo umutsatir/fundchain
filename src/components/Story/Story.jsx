@@ -15,7 +15,7 @@ const Story = ({ updateStory, formData, setStoryWarning, handleNotification }) =
     useEffect(() => {
         const hasAnyWarning = warnings.some((warning) => warning === true);
         setStoryWarning(hasAnyWarning);
-    }, [warnings, setStoryWarning]);
+    }, [warnings, setStoryWarning]);    
 
     const addStoryItem = () => {
         const lastItem = storyItems[storyItems.length - 1];
@@ -73,8 +73,6 @@ const Story = ({ updateStory, formData, setStoryWarning, handleNotification }) =
             setWarnings(updatedWarnings);
         });
     };
-    
-    
 
     const handleItemWarning = (id, warning) => {
         setWarnings((prevWarnings) => {
