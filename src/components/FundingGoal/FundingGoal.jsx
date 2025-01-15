@@ -53,6 +53,7 @@ function FundingGoal({ updateFunding, formData }) {
         // Check if the entered amount exceeds the maximum allowed amount
         if (convertedAmount > maxAmount) {
             setWarning(true);
+            updateFunding("amount", (parseFloat(maxAmount) / etherPrice).toFixed(2) );
         } else {
             setWarning(false);
         }

@@ -33,6 +33,16 @@
     font-size: 16px;
 }
 
+.input.invalidInput {
+    border-color: red;
+    background-color: #f8d7da;
+}
+
+.warning {
+    color: red;
+    margin-top: 10px;
+}
+
 .formGroup textarea {
     resize: none;
 }

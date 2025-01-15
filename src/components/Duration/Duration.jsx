@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./Duration.module.css";
 import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
 
@@ -11,6 +11,37 @@ function Duration({ updateBasics, formData }) {
     const buttonRef = useRef(null);
     const [durationOption, setDurationOption] = useState(formData.duration.type || "fixed");
     const [numDays, setNumDays] = useState(formData.duration.type === "fixed" ? formData.duration.value : "");
+    const [weekWarning, setWeekWarning] = useState(false);
+    const [yearWarning, setYearWarning] = useState(false);
+    const [daysWarning, setDaysWarning] = useState(false);
+
+    useEffect(() => {
+        if (date) {
+            const now = new Date();
+            const weekafter = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7);
+            const yearsafter = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate());
+            if (date < weekafter) {
+                setWeekWarning(true);
+                setYearWarning(false);
+            } else if (date > yearsafter) {
+                setYearWarning(true);
+                setWeekWarning(false);
+            } else {
+                setWeekWarning(false);
+                setYearWarning(false);
+            }
+        }
+    }, [date]);
+
+    useEffect(() => {
+        if (durationOption === "fixed" && numDays && parseInt(numDays, 10) < 7) {
+            setDaysWarning(true);
+        } else if (durationOption === "fixed" && numDays && parseInt(numDays, 10) > 60) {
+            setDaysWarning(true);
+        } else {
+            setDaysWarning(false);
+        }
+    }, [durationOption, numDays]);
 
     const handleDateChange = (selectedDate) => {
         setDate(selectedDate);
@@ -18,7 +49,7 @@ function Duration({ updateBasics, formData }) {
         setMonth(selectedDate.getMonth() + 1);
         setYear(selectedDate.getFullYear());
         setCalendarOpen(false);
-
+        
         updateBasics("duration", { type: "specificDate", value: selectedDate.toISOString() });
     };
 
@@ -52,7 +83,24 @@ function Duration({ updateBasics, formData }) {
         if (field === "year") setYear(value);
 
         if (newDay && newMonth && newYear) {
-            const selectedDate = new Date(newYear, newMonth - 1, newDay);
+            let selectedDate = new Date(newYear, newMonth - 1, newDay);
+
+            const now = new Date();
+            const weekafter = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7);
+            const yearsafter = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate());
+            if (selectedDate < weekafter) {
+                setWeekWarning(true);
+                setYearWarning(false);
+                selectedDate = weekafter;
+            } else if (selectedDate > yearsafter) {
+                setYearWarning(true);
+                setWeekWarning(false);
+                selectedDate = yearsafter;
+            } else {
+                setWeekWarning(false);
+                setYearWarning(false);
+            }
+
             updateBasics("duration", { type: "specificDate", value: selectedDate.toISOString() });
         }
     };
@@ -60,6 +108,55 @@ function Duration({ updateBasics, formData }) {
     const handleNumDaysChange = (value) => {
         setNumDays(value);
         updateBasics("duration", { type: "fixed", value });
+    };
+
+    const validateAndSetDate = () => {
+        let newDay = parseInt(day, 10);
+        let newMonth = parseInt(month, 10);
+        let newYear = parseInt(year, 10);
+        const currentYear = new Date().getFullYear();
+
+        if (newDay < 1) newDay = 1;
+        if (newDay > 31) newDay = 31;
+        if (newMonth < 1) newMonth = 1;
+        if (newMonth > 12) newMonth = 12;
+        if (newYear < currentYear) newYear = currentYear;
+        if (newYear > 3000) newYear = 3000;
+
+        setDay(newDay);
+        setMonth(newMonth);
+        setYear(newYear);
+
+        const selectedDate = new Date(newYear, newMonth - 1, newDay);
+
+        // const now = new Date();
+        // const weekafter = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7);
+        // const yearsafter = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate());
+        // if (selectedDate < weekafter) {
+        //     setWeekWarning(true);
+        //     setYearWarning(false);
+        //     setDate(weekafter);
+        // } else if (selectedDate > yearsafter) {
+        //     setYearWarning(true);
+        //     setWeekWarning(false);
+        //     setDate(yearsafter);
+        // } else {
+        //     setWeekWarning(false);
+        //     setYearWarning(false);
+        //     setDate(selectedDate);
+        // }
+
+        setDate(selectedDate);
+        updateBasics("duration", { type: "specificDate", value: selectedDate.toISOString() });
+    };
+
+    const validateDays = () => {
+        let newNumDays = parseInt(numDays, 10);
+        if (newNumDays < 7) newNumDays = 7;
+        if (newNumDays > 60) newNumDays = 60;
+
+        setNumDays(newNumDays);
+        updateBasics("duration", { type: "fixed", value: newNumDays });
     };
 
     return (
@@ -91,7 +188,7 @@ function Duration({ updateBasics, formData }) {
 
             {durationOption === "fixed" && (
                 <div className={styles.fixedDuration}>
-                    <label htmlFor="numDays">Number of days (up to 60):</label>
+                    <label htmlFor="numDays">Number of days (7-60):</label>
                     <input
                         type="number"
                         id="numDays"
@@ -99,8 +196,14 @@ function Duration({ updateBasics, formData }) {
                         max="60"
                         value={numDays}
                         onChange={(e) => handleNumDaysChange(e.target.value)}
-                        className={styles.input}
+                        onBlur={validateDays}
+                        className={`${styles.input} ${daysWarning ? styles.invalidInput : ''}`}
                     />
+                    {daysWarning && (
+                        <div className={styles.warning}>
+                            <p>Warning: The campaign duration must be between 7 and 60 days.</p>
+                        </div>
+                    )}
                 </div>
             )}
 
@@ -116,7 +219,8 @@ function Duration({ updateBasics, formData }) {
                                 max="31"
                                 value={day}
                                 onChange={(e) => handleInputChange("day", e.target.value)}
-                                className={styles.input}
+                                onBlur={validateAndSetDate}
+                                className={`${styles.input} ${weekWarning || yearWarning ? styles.invalidInput : ''}`}
                                 disabled={calendarOpen}
                             />
                         </div>
@@ -129,7 +233,8 @@ function Duration({ updateBasics, formData }) {
                                 max="12"
                                 value={month}
                                 onChange={(e) => handleInputChange("month", e.target.value)}
-                                className={styles.input}
+                                onBlur={validateAndSetDate}
+                                className={`${styles.input} ${weekWarning || yearWarning ? styles.invalidInput : ''}`}
                                 disabled={calendarOpen}
                             />
                         </div>
@@ -141,7 +246,8 @@ function Duration({ updateBasics, formData }) {
                                 min="2024"
                                 value={year}
                                 onChange={(e) => handleInputChange("year", e.target.value)}
-                                className={styles.input}
+                                onBlur={validateAndSetDate}
+                                className={`${styles.input} ${weekWarning || yearWarning ? styles.invalidInput : ''}`}
                                 disabled={calendarOpen}
                             />
                         </div>
@@ -160,6 +266,16 @@ function Duration({ updateBasics, formData }) {
                         buttonRef={buttonRef}
                         open={calendarOpen}
                     />
+                    {weekWarning && (
+                        <div className={styles.warning}>
+                            <p>Warning: The campaign duration must be at least 7 days.</p>
+                        </div>
+                    )}
+                    {yearWarning && (
+                        <div className={styles.warning}>
+                            <p>Warning: The campaign duration must be at most 10 years.</p>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
