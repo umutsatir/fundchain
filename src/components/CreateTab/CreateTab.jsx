@@ -48,6 +48,17 @@ const CreateTab = ({ handleNotification }) => {
             collaborators: [],
         },
     });
+    const [detailsWarning, setDetailsWarning] = useState(null);
+    const [locationWarning, setLocationWarning] = useState(null);
+    const [durationWarning, setDurationWarning] = useState(null);
+    const [videoWarning, setVideoWarning] = useState(null);
+    const [fundingWarning, setFundingWarning] = useState(null);
+    const [storyWarning, setStoryWarning] = useState(null);
+
+    const isFormValid = () => {
+        return !videoWarning && !detailsWarning && !locationWarning && !durationWarning && !fundingWarning && !storyWarning;
+    };
+
     const cookies = new Cookies();
     const { isConnected } = useAccount();
 
@@ -56,56 +67,61 @@ const CreateTab = ({ handleNotification }) => {
     };
 
     const handleSave = async () => {
-        try {
-            const errors = [];
-            let isStoryTyped = true;
-            formData.story.story.forEach((data) => {
-                if (data.title == "" || data.paragraphs[0] == "")
-                    isStoryTyped = false;
-            });
+        if (isFormValid()) {
+            try {
+                const errors = [];
+                let isStoryTyped = true;
+                formData.story.story.forEach((data) => {
+                    if (data.title == "" || data.paragraphs[0] == "")
+                        isStoryTyped = false;
+                });
 
-            if (!formData.basics.category) errors.push("category");
-            if (!formData.basics.title) errors.push("title");
-            if (!formData.basics.description) errors.push("description");
-            if (!formData.basics.location) errors.push("location");
-            if (formData.basics.image.length === 0 && imageData.length === 0)
-                errors.push("image");
-            if (
-                !formData.basics.duration.type ||
-                !formData.basics.duration.value
-            ) {
-                errors.push("duration");
-            }
-            if (!formData.funding.amount) errors.push("funding amount");
-            if (
-                parseFloat(formData.funding.amount) <= 0 ||
-                parseFloat(formData.funding.amount) >= 250
-            )
-                errors.push("funding");
-            if (formData.story.story.length === 0 || !isStoryTyped)
-                errors.push("story");
+                if (!formData.basics.category) errors.push("category");
+                if (!formData.basics.title) errors.push("title");
+                if (!formData.basics.description) errors.push("description");
+                if (!formData.basics.location) errors.push("location");
+                if (formData.basics.image.length === 0 && imageData.length === 0)
+                    errors.push("image");
+                if (
+                    !formData.basics.duration.type ||
+                    !formData.basics.duration.value
+                ) {
+                    errors.push("duration");
+                }
+                if (!formData.funding.amount) errors.push("funding amount");
+                if (
+                    parseFloat(formData.funding.amount) <= 0 ||
+                    parseFloat(formData.funding.amount) >= 250
+                )
+                    errors.push("funding");
+                if (formData.story.story.length === 0 || !isStoryTyped)
+                    errors.push("story");
 
-            if (errors.length > 0) {
-                handleNotification(
-                    `Please fill in the following fields:\n\n${errors.join(
-                        ", "
-                    )}`,
-                    "error"
-                );
-                return;
-            }
-            if (formData.basics.description.length > 85) {
-                handleNotification(
-                    "Description should not exceed 85 characters",
-                    "error"
-                );
-            }
+                if (errors.length > 0) {
+                    handleNotification(
+                        `Please fill in the following fields:\n\n${errors.join(
+                            ", "
+                        )}`,
+                        "error"
+                    );
+                    return;
+                }
+                if (formData.basics.description.length > 85) {
+                    handleNotification(
+                        "Description should not exceed 85 characters",
+                        "error"
+                    );
+                }
 
-            handleNotification("Changes have been saved!", "success");
-            setIsSaved(true);
-        } catch (error) {
-            alert("An error occurred: " + error.message);
+                handleNotification("Changes have been saved!", "success");
+                setIsSaved(true);
+            } catch (error) {
+                alert("An error occurred: " + error.message);
+            }
+        } else {
+            handleNotification("Please fill in the required fields correctly", "error");
         }
+
     };
 
     const getDaysFromDuration = (duration) => {
@@ -159,97 +175,102 @@ const CreateTab = ({ handleNotification }) => {
     };
 
     const handleCreate = async () => {
-        if (isInProgress) {
-            handleNotification(
-                "You can only create the same project once.",
-                "warning"
-            );
-            return;
-        }
-        if (!isConnected) {
-            handleNotification("Please connect your wallet first", "info");
-            return;
-        }
-        setIsInProgress(true);
 
-        try {
-            handleNotification(
-                "Please wait for the transaction to complete. This may take a few seconds.",
-                "info"
-            );
-            const duration =
-                formData.basics.duration.type === "fixed"
-                    ? formData.basics.duration.value
-                    : getDaysFromDuration(formData.basics.duration.value);
-            const timestamp = new Date().getTime() / 1000;
-            const currDate = new Date();
-            currDate.setDate(currDate.getDate() + parseInt(duration));
-            const launchDate = currDate.toISOString().split("T")[0];
+        if (isFormValid()) {
+            if (isInProgress) {
+                handleNotification(
+                    "You can only create the same project once.",
+                    "warning"
+                );
+                return;
+            }
+            if (!isConnected) {
+                handleNotification("Please connect your wallet first", "info");
+                return;
+            }
+            setIsInProgress(true);
 
-            const hash = await deployContract(config, {
-                abi: abi,
-                args: [
-                    parseInt(timestamp + duration * 24 * 60 * 60),
-                    parseEther(formData.funding.amount),
-                ],
-                bytecode: bytecode,
-                gas: 3000000,
-            });
-            const receipt = await waitForTransactionReceipt(config, {
-                hash: hash,
-            });
-            const contractAddress = receipt.contractAddress;
-            handleNotification(
-                "Contract created successfully, waiting for project creation.",
-                "info"
-            );
+            try {
+                handleNotification(
+                    "Please wait for the transaction to complete. This may take a few seconds.",
+                    "info"
+                );
+                const duration =
+                    formData.basics.duration.type === "fixed"
+                        ? formData.basics.duration.value
+                        : getDaysFromDuration(formData.basics.duration.value);
+                const timestamp = new Date().getTime() / 1000;
+                const currDate = new Date();
+                currDate.setDate(currDate.getDate() + parseInt(duration));
+                const launchDate = currDate.toISOString().split("T")[0];
 
-            await uploadImages();
+                const hash = await deployContract(config, {
+                    abi: abi,
+                    args: [
+                        parseInt(timestamp + duration * 24 * 60 * 60),
+                        parseEther(formData.funding.amount),
+                    ],
+                    bytecode: bytecode,
+                    gas: 3000000,
+                });
+                const receipt = await waitForTransactionReceipt(config, {
+                    hash: hash,
+                });
+                const contractAddress = receipt.contractAddress;
+                handleNotification(
+                    "Contract created successfully, waiting for project creation.",
+                    "info"
+                );
 
-            setFormData((prevState) => ({
-                ...prevState,
-                basics: {
-                    ...prevState.basics,
-                    location: capitalAllFirstLetters(formData.basics.location),
-                    title: capitalAllFirstLetters(formData.basics.title),
-                },
-            }));
-            let newData = {
-                ...formData,
-                contractAddress: contractAddress,
-                username: cookies.get("username"),
-                launchDate: launchDate,
-            };
-            newData = JSON.stringify(newData);
+                await uploadImages();
 
-            $.ajax({
-                url: apiUrl + "/createProject.php",
-                type: "POST",
-                data: {
-                    data: newData,
-                },
-                success: function (data) {
-                    data = JSON.parse(data);
-                    if (data.status) {
-                        handleNotification(data.message, "success");
-                    } else {
-                        handleNotification(data.message, "error");
-                    }
-                    setIsInProgress(false);
-                },
-                error: function (error) {
-                    console.log(error);
-                    handleNotification("Failed to create project", "error");
-                    setIsInProgress(false);
-                },
-            });
-        } catch (error) {
-            console.error("Error while creating the project:", error);
-            handleNotification(
-                "Failed to create project. Please try again.",
-                "error"
-            );
-            setIsInProgress(false);
+                setFormData((prevState) => ({
+                    ...prevState,
+                    basics: {
+                        ...prevState.basics,
+                        location: capitalAllFirstLetters(formData.basics.location),
+                        title: capitalAllFirstLetters(formData.basics.title),
+                    },
+                }));
+                let newData = {
+                    ...formData,
+                    contractAddress: contractAddress,
+                    username: cookies.get("username"),
+                    launchDate: launchDate,
+                };
+                newData = JSON.stringify(newData);
+
+                $.ajax({
+                    url: apiUrl + "/createProject.php",
+                    type: "POST",
+                    data: {
+                        data: newData,
+                    },
+                    success: function (data) {
+                        data = JSON.parse(data);
+                        if (data.status) {
+                            handleNotification(data.message, "success");
+                        } else {
+                            handleNotification(data.message, "error");
+                        }
+                        setIsInProgress(false);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        handleNotification("Failed to create project", "error");
+                        setIsInProgress(false);
+                    },
+                });
+            } catch (error) {
+                console.error("Error while creating the project:", error);
+                handleNotification(
+                    "Failed to create project. Please try again.",
+                    "error"
+                );
+                setIsInProgress(false);
+            }
+        } else {
+            handleNotification("Please fill in the required fields correctly", "error");
         }
     };
 
@@ -300,15 +321,25 @@ const CreateTab = ({ handleNotification }) => {
                 formData={formData.basics}
                 handleNotification={handleNotification}
                 setImageData={setImageData}
+                setDetailsWarning={setDetailsWarning}
+                setLocationWarning={setLocationWarning}
+                setVideoWarning={setVideoWarning}
+                setDurationWarning={setDurationWarning}
             />
         ),
         funding: (
             <FundingTab
                 updateFunding={updateFunding}
                 formData={formData.funding}
+                setFundingWarning={setFundingWarning}
             />
         ),
-        story: <StoryTab updateStory={updateStory} formData={formData.story} />,
+        story: <StoryTab 
+                updateStory={updateStory} 
+                formData={formData.story} 
+                setStoryWarning={setStoryWarning} 
+                handleNotification={handleNotification}
+                />,
         collaborators: (
             <CollaboratorsTab
                 updateCollaborators={updateCollaborators}
@@ -366,7 +397,11 @@ const CreateTab = ({ handleNotification }) => {
                     >
                         Create
                     </button>
-                    <button className={styles.saveButton} onClick={handleSave}>
+                    <button 
+                        className={styles.saveButton} 
+                        onClick={handleSave}
+                        disabled={!isFormValid()}
+                    >
                         Save
                     </button>
                 </div>
@@ -381,30 +416,34 @@ const BasicsTab = ({
     formData,
     handleNotification,
     setImageData,
+    setDetailsWarning,
+    setLocationWarning,
+    setVideoWarning,
+    setDurationWarning,
 }) => (
     <div>
-        <Category updateBasics={updateBasics} formData={formData} />
-        <Details updateBasics={updateBasics} formData={formData} />
-        <Location updateBasics={updateBasics} formData={formData} />
+        <Category updateBasics={updateBasics} formData={formData}/>
+        <Details updateBasics={updateBasics} formData={formData} setDetailsWarning={setDetailsWarning}/>
+        <Location updateBasics={updateBasics} formData={formData} setLocationWarning={setLocationWarning}/>
         <Image
             formData={formData}
             handleNotification={handleNotification}
             setImageData={setImageData}
         />
-        <Video updateBasics={updateBasics} formData={formData} />
-        <Duration updateBasics={updateBasics} formData={formData} />
+        <Video updateBasics={updateBasics} formData={formData} setVideoWarning={setVideoWarning} />
+        <Duration updateBasics={updateBasics} formData={formData} setDurationWarning={setDurationWarning}/>
     </div>
 );
 
-const FundingTab = ({ updateFunding, formData }) => (
+const FundingTab = ({ updateFunding, formData, setFundingWarning }) => (
     <div>
-        <FundingGoal updateFunding={updateFunding} formData={formData} />
+        <FundingGoal updateFunding={updateFunding} formData={formData} setFundingWarning={setFundingWarning}/>
     </div>
 );
 
-const StoryTab = ({ updateStory, formData }) => (
+const StoryTab = ({ updateStory, formData, setStoryWarning, handleNotification }) => (
     <div>
-        <Story updateStory={updateStory} formData={formData} />
+        <Story updateStory={updateStory} formData={formData} setStoryWarning={setStoryWarning} handleNotification={handleNotification}/>
     </div>
 );
 

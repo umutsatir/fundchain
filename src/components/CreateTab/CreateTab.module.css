@@ -58,6 +58,11 @@
     background-color: darken(var(--primary-color), 10%);
 }
 
+.tabs .saveButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
 .tabs button:enabled:hover {
     color: var(--primary-color);
 }

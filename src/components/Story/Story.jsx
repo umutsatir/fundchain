@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import styles from "./Story.module.css";
 import StoryItem from "../StoryItem/StoryItem";
 
-const Story = ({ updateStory, formData }) => {
+const Story = ({ updateStory, formData, setStoryWarning, handleNotification }) => {
     const [storyItems, setStoryItems] = useState([]);
+    const [warnings, setWarnings] = useState([]);
 
     useEffect(() => {
         if (formData.story && formData.story.length > 0) {
@@ -11,18 +12,31 @@ const Story = ({ updateStory, formData }) => {
         }
     }, [formData.story]);
 
+    useEffect(() => {
+        const hasAnyWarning = warnings.some((warning) => warning === true);
+        setStoryWarning(hasAnyWarning);
+    }, [warnings, setStoryWarning]);
+
     const addStoryItem = () => {
+        const lastItem = storyItems[storyItems.length - 1];
+        if (lastItem && (!lastItem.heading || lastItem.paragraphs.some((p) => !p.trim()))) {
+            handleNotification("Please fill all of current storys to add new one!", "warning")
+            return;
+        }
+    
         const newStoryItem = {
             id: storyItems.length,
             heading: "",
             paragraphs: [""],
         };
-
+    
         setStoryItems((prevItems) => {
             const updatedItems = [...prevItems, newStoryItem];
             updateStory("story", updatedItems);
             return updatedItems;
         });
+    
+        setWarnings((prevWarnings) => [...prevWarnings, false]);
     };
 
     const updateStoryItem = (id, updatedData) => {
@@ -36,16 +50,37 @@ const Story = ({ updateStory, formData }) => {
     };
 
     const removeStoryItem = (id) => {
-        setStoryItems((prevItems) => {
-            const updatedItems = prevItems.filter((item) => item.id !== id);
+        const updateStoryItems = new Promise((resolve) => {
+            setStoryItems((prevItems) => {
+                const updatedItems = prevItems.filter((item) => item.id !== id);
+        
+                const updatedItemsWithNewIds = updatedItems.map((item, index) => ({
+                    ...item,
+                    id: index,
+                }));
+                updateStory("story", updatedItemsWithNewIds);
+        
+                resolve(updatedItemsWithNewIds);
+                return updatedItemsWithNewIds;
+            });
+        });
+    
+        updateStoryItems.then(() => {
+            const updatedWarnings = warnings
+                    .filter((_, index) => index !== id)
+                    .slice(0, storyItems.length - 1);
+    
+            setWarnings(updatedWarnings);
+        });
+    };
+    
+    
 
-            const updatedItemsWithNewIds = updatedItems.map((item, index) => ({
-                ...item,
-                id: index,
-            }));
-
-            updateStory("story", updatedItemsWithNewIds);
-            return updatedItemsWithNewIds;
+    const handleItemWarning = (id, warning) => {
+        setWarnings((prevWarnings) => {
+            const updatedWarnings = [...prevWarnings];
+            updatedWarnings[id] = warning;
+            return updatedWarnings;
         });
     };
 
@@ -62,7 +97,7 @@ const Story = ({ updateStory, formData }) => {
                 </div>
 
                 <div className={styles.storyContent}>
-                    {storyItems.map((item) => (
+                    {storyItems.map((item, index) => (
                         <div key={item.id} className={styles.storyItem}>
                             <StoryItem
                                 id={item.id}
@@ -70,6 +105,9 @@ const Story = ({ updateStory, formData }) => {
                                 paragraphs={item.paragraphs}
                                 updateStoryItem={updateStoryItem}
                                 removeStoryItem={removeStoryItem}
+                                setStoryWarning={(warning) =>
+                                    handleItemWarning(index, warning)
+                                }
                             />
                         </div>
                     ))}

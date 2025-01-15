@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Details.module.css";
 
-function Details({ updateBasics, formData }) {
+function Details({ updateBasics, formData, setDetailsWarning }) {
     const [titleWarning, setTitleWarning] = useState(false);
     const [descWarning, setDescWarning] = useState(false);
 
@@ -9,7 +9,7 @@ function Details({ updateBasics, formData }) {
         const { id } = e.target;
         let { value } = e.target;
 
-        if (value.length > 100 || value.length < 5) {
+        if (value.length != 0 && (value.length > 100 || value.length < 5)) {
             setTitleWarning(true);
             value = value.slice(0, 100);
         } else {
@@ -23,7 +23,7 @@ function Details({ updateBasics, formData }) {
         const { id } = e.target;
         let { value } = e.target;
     
-        if (value.length > 500 || value.length < 10) {
+        if (value.length != 0 && (value.length > 500 || value.length < 10)) {
             setDescWarning(true);
             value = value.slice(0, 500);
         } else {
@@ -32,6 +32,14 @@ function Details({ updateBasics, formData }) {
     
         updateBasics(id, value);
     };
+
+    useEffect(() => {
+        if (titleWarning || descWarning) {
+            setDetailsWarning(true);
+        } else {
+            setDetailsWarning(false);
+        }
+    }, [titleWarning, descWarning]);
     
 
     return (
