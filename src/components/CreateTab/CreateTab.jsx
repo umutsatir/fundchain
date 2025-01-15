@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styles from "./CreateTab.module.css";
 import Category from "../Category/Category";
 import Story from "../Story/Story";
-import Collaborators from "../Collaborators/Collaborators";
 import Details from "../Details/Details";
 import Location from "../Location/Location";
 import Image from "../Image/Image";
@@ -43,9 +42,6 @@ const CreateTab = ({ handleNotification }) => {
         },
         story: {
             story: [],
-        },
-        collaborators: {
-            collaborators: [],
         },
     });
     const [warnings, setWarnings] = useState({
@@ -326,16 +322,6 @@ const CreateTab = ({ handleNotification }) => {
         }));
     };
 
-    const updateCollaborators = (key, value) => {
-        setFormData((prevState) => ({
-            ...prevState,
-            collaborators: {
-                ...prevState.collaborators,
-                [key]: value,
-            },
-        }));
-    };
-
     const updateFunding = (key, value) => {
         setFormData((prevState) => ({
             ...prevState,
@@ -371,12 +357,6 @@ const CreateTab = ({ handleNotification }) => {
                 handleNotification={handleNotification}
             />
         ),
-        collaborators: (
-            <CollaboratorsTab
-                updateCollaborators={updateCollaborators}
-                formData={formData.collaborators}
-            />
-        ),
     };
 
     <div className={styles.content}>{tabs[activeTab]}</div>;
@@ -409,16 +389,6 @@ const CreateTab = ({ handleNotification }) => {
                     >
                         Story
                     </button>
-                    <button
-                        className={`${
-                            activeTab === "collaborators"
-                                ? styles.activeTab
-                                : ""
-                        }`}
-                        onClick={() => handleTabClick("collaborators")}
-                    >
-                        Collaborators
-                    </button>
                 </div>
                 <div className={styles.saveGroup}>
                     <button
@@ -433,7 +403,7 @@ const CreateTab = ({ handleNotification }) => {
                         onClick={handleSave}
                         disabled={!isFormValid()}
                     >
-                        Save
+                        Save All
                     </button>
                 </div>
             </div>
@@ -501,15 +471,6 @@ const StoryTab = ({
             formData={formData}
             setStoryWarning={(value) => updateWarnings("story", value)}
             handleNotification={handleNotification}
-        />
-    </div>
-);
-
-const CollaboratorsTab = ({ updateCollaborators, formData }) => (
-    <div>
-        <Collaborators
-            updateCollaborators={updateCollaborators}
-            formData={formData}
         />
     </div>
 );
