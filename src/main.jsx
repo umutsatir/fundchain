@@ -34,6 +34,7 @@ import ValidationEmail from "./pages/ValidationEmail";
 import ForgotPassword from "./pages/ForgotPassword";
 import DisplayProjects from "./pages/DisplayProjects";
 import Notification from "./components/Notification/Notification";
+import { mainUrl } from "./api_url";
 
 const queryClient = new QueryClient();
 
@@ -53,27 +54,17 @@ const App = () => {
     }, []);
 
     const onLogin = (token, username) => {
-        cookies.set("loggedIn", true, { path: "/" });
-        cookies.set("token", token, { path: "/" });
-        cookies.set("username", username, { path: "/" });
+        cookies.set("loggedIn", true, { path: "/", domain: mainUrl });
+        cookies.set("token", token, { path: "/", domain: mainUrl });
+        cookies.set("username", username, { path: "/", domain: mainUrl });
         setLoggedIn(true);
     };
 
     const onLogout = () => {
-        cookies.remove("loggedIn", { path: "/" });
-        cookies.remove("token", { path: "/" });
-        cookies.remove("username", { path: "/" });
-        if (
-            [
-                "/profile",
-                "/settings",
-                "/create",
-                "/projects",
-                "/saved-projects",
-            ].includes(location.pathname)
-        ) {
-            navigate("/");
-        }
+        navigate("/");
+        cookies.remove("loggedIn", { path: "/", domain: mainUrl });
+        cookies.remove("token", { path: "/", domain: mainUrl });
+        cookies.remove("username", { path: "/", domain: mainUrl });
         setLoggedIn(false);
         disconnect();
     };
