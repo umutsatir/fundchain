@@ -1,40 +1,46 @@
-import React, {useState} from 'react';
-import styles from './Video.module.css';
+import React, { useState } from "react";
+import styles from "./Video.module.css";
 
-function Video({updateBasics, formData}) {
-    const [video, setVideo] = useState(formData.video || null);
+function Video({ updateBasics, formData }) {
+    const [warning, setWarning] = useState(null);
 
-    const handleVideoUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setVideo(URL.createObjectURL(file));
+    const handleInputChange = (e) => {
+        let value = e.target.value;
+        let warningMessage = null;
+
+        if (value.length < 5 || value.length > 100) {
+            warningMessage = "Link should consist of minimum 5 and maximum 100 characters.";
+            value = value.slice(0, 100);
+        } 
+        else if (!value.startsWith("https://")) {
+            warningMessage = "The link must start with 'https://'.";
+        } 
+        else if (!/^(https:\/\/)?(www\.)?(youtube\.com|youtu\.be)/.test(value)) {
+            warningMessage = "The link must be a valid YouTube URL.";
         }
-        updateBasics("video", URL.createObjectURL(file));
+
+        setWarning(warningMessage);
+        updateBasics("video", value);
     };
 
     return (
-    <div className={styles.section}>
-        <h2>Project Video (optional)</h2>
-        <p>Add a video to showcase your project. Recommended file formats are MP4 or MOV.</p>
-        <div className={styles.uploadWrapper}>
-            <button
-                type="button"
-                className={styles.button}
-                onClick={() => document.getElementById('videoInput').click()}
-            >
-                Upload a video
-            </button>
+        <div className={styles.section}>
+            <h2>Project Video (optional)</h2>
+            <p>Add a video to showcase your project. (Only YouTube links)</p>
             <input
-                type="file"
-                id="videoInput"
-                accept="video/*"
-                style={{ display: 'none' }}
-                onChange={handleVideoUpload}
+                type="text"
+                placeholder="Video link..."
+                className={`${styles.input} ${warning ? styles.invalidInput : ""}`}
+                id="video"
+                value={formData.video}
+                onChange={handleInputChange}
             />
-            {video && <video src={video} controls className={styles.previewVideo} />}
-            <p>Drop a video here, or select a file. MP4 or MOV up to 500MB.</p>
+            {warning && (
+                <div className={styles.warning}>
+                    <p>{warning}</p>
+                </div>
+            )}
         </div>
-    </div>
     );
 }
 

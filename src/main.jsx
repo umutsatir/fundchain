@@ -110,6 +110,14 @@ const App = () => {
                     />
                     <Route path="/search" element={<Search />} />
                     <Route path="/error" element={<Error />} />
+                    <Route
+                                path="/create"
+                                element={
+                                    <Create
+                                        handleNotification={handleNotification}
+                                    />
+                                }
+                            />
                     {loggedIn ? (
                         <>
                             <Route

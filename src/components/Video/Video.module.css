@@ -1,3 +1,16 @@
+.input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.input.invalidInput {
+    border-color: red;
+    background-color: #f8d7da;
+}
+
 .section {
     margin: 30px 0;
     padding: 20px 0;
@@ -30,6 +43,11 @@
 
 .button:hover {
     background-color: var(--primary-color-hover);
+}
+
+.warning {
+    color: red;
+    margin-top: 10px;
 }
 
 .previewVideo {
