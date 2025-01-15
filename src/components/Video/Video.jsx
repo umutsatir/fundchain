@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import styles from "./Video.module.css";
 
-function Video({ updateBasics, formData }) {
+function Video({ updateBasics, formData, setVideoWarning }) {
     const [warning, setWarning] = useState(null);
 
     const handleInputChange = (e) => {
         let value = e.target.value;
         let warningMessage = null;
 
-        if (value.length < 5 || value.length > 100) {
+        if (value.length === 0) {
+            warningMessage = null;
+        }
+        else if (value.length < 5 || value.length > 100) {
             warningMessage = "Link should consist of minimum 5 and maximum 100 characters.";
             value = value.slice(0, 100);
         } 
@@ -20,6 +23,7 @@ function Video({ updateBasics, formData }) {
         }
 
         setWarning(warningMessage);
+        setVideoWarning(warningMessage);
         updateBasics("video", value);
     };
 

@@ -23,7 +23,7 @@ const formatNumber = (number) => {
     }).format(number);
 };
 
-function FundingGoal({ updateFunding, formData }) {
+function FundingGoal({ updateFunding, formData, setFundingWarning }) {
     const [etherPrice, setEtherPrice] = useState(4000);
     const [amount, setAmount] = useState(formData.amount * etherPrice || "");
     const [currency, setCurrency] = useState(formData.currency || "USD");
@@ -53,9 +53,11 @@ function FundingGoal({ updateFunding, formData }) {
         // Check if the entered amount exceeds the maximum allowed amount
         if (convertedAmount > maxAmount) {
             setWarning(true);
+            setFundingWarning(true);
             updateFunding("amount", (parseFloat(maxAmount) / etherPrice).toFixed(2) );
         } else {
             setWarning(false);
+            setFundingWarning(false);
         }
     }, [amount, currency, convertedAmount, etherPrice, etherValue]);
 

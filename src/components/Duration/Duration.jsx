@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./Duration.module.css";
 import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
 
-function Duration({ updateBasics, formData }) {
+function Duration({ updateBasics, formData, setDurationWarning }) {
     const [date, setDate] = useState(formData.duration.type === "specificDate" ? new Date(formData.duration.value) : null);
     const [day, setDay] = useState(formData.duration.type === "specificDate" ? new Date(formData.duration.value).getDate() : "");
     const [month, setMonth] = useState(formData.duration.type === "specificDate" ? new Date(formData.duration.value).getMonth() + 1 : "");
@@ -42,6 +42,16 @@ function Duration({ updateBasics, formData }) {
             setDaysWarning(false);
         }
     }, [durationOption, numDays]);
+
+    useEffect(() => { 
+        if (durationOption === "fixed" && daysWarning) {
+            setDurationWarning(true);
+        } else if (durationOption === "specificDate" && (weekWarning || yearWarning)) {
+            setDurationWarning(true);
+        } else {
+            setDurationWarning(false);
+        }
+    }, [durationOption, daysWarning, weekWarning, yearWarning]);
 
     const handleDateChange = (selectedDate) => {
         setDate(selectedDate);
