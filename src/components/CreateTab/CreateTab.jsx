@@ -82,7 +82,10 @@ const CreateTab = ({ handleNotification }) => {
                 if (!formData.basics.title) errors.push("title");
                 if (!formData.basics.description) errors.push("description");
                 if (!formData.basics.location) errors.push("location");
-                if (formData.basics.image.length === 0 && imageData.length === 0)
+                if (
+                    formData.basics.image.length === 0 &&
+                    imageData.length === 0
+                )
                     errors.push("image");
                 if (
                     !formData.basics.duration.type ||
@@ -121,9 +124,11 @@ const CreateTab = ({ handleNotification }) => {
                 alert("An error occurred: " + error.message);
             }
         } else {
-            handleNotification("Please fill in the required fields correctly", "error");
+            handleNotification(
+                "Please fill in the required fields correctly",
+                "error"
+            );
         }
-
     };
 
     const getDaysFromDuration = (duration) => {
@@ -162,22 +167,26 @@ const CreateTab = ({ handleNotification }) => {
                     throw new Error("Failed to upload images");
                 }
             });
-
-            await Promise.all(uploadPromises)
-                .then((urls) => {
-                    updateBasics("image", urls);
-                })
-                .catch((error) => {
-                    throw error;
-                });
+            const urls = await getLinks(uploadPromises);
+            console.log("Image URLs:", urls);
+            updateBasics("image", urls);
         } catch (error) {
             console.error("Image upload error:", error);
             handleNotification("Failed to upload images", "error");
         }
     };
 
-    const handleCreate = async () => {
+    const getLinks = async (uploadPromises) => {
+        try {
+            const urls = await Promise.all(uploadPromises);
+            return urls;
+        } catch (error) {
+            console.error("Error getting links:", error);
+            throw error;
+        }
+    };
 
+    const handleCreate = async () => {
         if (isFormValid()) {
             if (isInProgress) {
                 handleNotification(
@@ -226,42 +235,53 @@ const CreateTab = ({ handleNotification }) => {
 
                 await uploadImages();
 
-                setFormData((prevState) => ({
-                    ...prevState,
-                    basics: {
-                        ...prevState.basics,
-                        location: capitalAllFirstLetters(formData.basics.location),
-                        title: capitalAllFirstLetters(formData.basics.title),
-                    },
-                }));
-                let newData = {
-                    ...formData,
-                    contractAddress: contractAddress,
-                    username: cookies.get("username"),
-                    launchDate: launchDate,
-                };
-                newData = JSON.stringify(newData);
+                setFormData((prevState) => {
+                    const updatedFormData = {
+                        ...prevState,
+                        basics: {
+                            ...prevState.basics,
+                            location: capitalAllFirstLetters(
+                                formData.basics.location
+                            ),
+                            title: capitalAllFirstLetters(
+                                formData.basics.title
+                            ),
+                        },
+                    };
+                    let newData = {
+                        ...updatedFormData,
+                        contractAddress: contractAddress,
+                        username: cookies.get("username"),
+                        launchDate: launchDate,
+                    };
+                    newData = JSON.stringify(newData);
 
-                $.ajax({
-                    url: apiUrl + "/createProject.php",
-                    type: "POST",
-                    data: {
-                        data: newData,
-                    },
-                    success: function (data) {
-                        data = JSON.parse(data);
-                        if (data.status) {
-                            handleNotification(data.message, "success");
-                        } else {
-                            handleNotification(data.message, "error");
-                        }
-                        setIsInProgress(false);
-                    },
-                    error: function (error) {
-                        console.log(error);
-                        handleNotification("Failed to create project", "error");
-                        setIsInProgress(false);
-                    },
+                    $.ajax({
+                        url: apiUrl + "/createProject.php",
+                        type: "POST",
+                        data: {
+                            data: newData,
+                        },
+                        success: function (data) {
+                            data = JSON.parse(data);
+                            if (data.status) {
+                                handleNotification(data.message, "success");
+                            } else {
+                                handleNotification(data.message, "error");
+                            }
+                            setIsInProgress(false);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            handleNotification(
+                                "Failed to create project",
+                                "error"
+                            );
+                            setIsInProgress(false);
+                        },
+                    });
+
+                    return updatedFormData;
                 });
             } catch (error) {
                 console.error("Error while creating the project:", error);
@@ -272,7 +292,10 @@ const CreateTab = ({ handleNotification }) => {
                 setIsInProgress(false);
             }
         } else {
-            handleNotification("Please fill in the required fields correctly", "error");
+            handleNotification(
+                "Please fill in the required fields correctly",
+                "error"
+            );
         }
     };
 
@@ -405,8 +428,8 @@ const CreateTab = ({ handleNotification }) => {
                     >
                         Create
                     </button>
-                    <button 
-                        className={styles.saveButton} 
+                    <button
+                        className={styles.saveButton}
                         onClick={handleSave}
                         disabled={!isFormValid()}
                     >
@@ -458,13 +481,27 @@ const BasicsTab = ({
 
 const FundingTab = ({ updateFunding, formData, updateWarnings }) => (
     <div>
-        <FundingGoal updateFunding={updateFunding} formData={formData} setFundingWarning={(value) => updateWarnings("funding", value)}/>
+        <FundingGoal
+            updateFunding={updateFunding}
+            formData={formData}
+            setFundingWarning={(value) => updateWarnings("funding", value)}
+        />
     </div>
 );
 
-const StoryTab = ({ updateStory, formData, updateWarnings, handleNotification }) => (
+const StoryTab = ({
+    updateStory,
+    formData,
+    updateWarnings,
+    handleNotification,
+}) => (
     <div>
-        <Story updateStory={updateStory} formData={formData} setStoryWarning={(value) => updateWarnings("story", value)} handleNotification={handleNotification}/>
+        <Story
+            updateStory={updateStory}
+            formData={formData}
+            setStoryWarning={(value) => updateWarnings("story", value)}
+            handleNotification={handleNotification}
+        />
     </div>
 );
 
