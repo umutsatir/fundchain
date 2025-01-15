@@ -29,6 +29,7 @@
             'img' => $project['image'],
             'subimg' => $project['subimage'],
             'goal' => $project['goal'],
+            'video' => $project['video'],
             'contractAddress' => $project['contractAddress'],
             'launchDate' => $project['launchDate'],
             'status' => $project['status'],

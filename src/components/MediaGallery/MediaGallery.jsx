@@ -23,18 +23,15 @@ const MediaGallery = ({ mediaItems = [] }) => {
                             className={styles.previewImage}
                         />
                     ) : (
-                        <video controls className={styles.previewVideo}>
-                            <source src={selectedMedia.src} />
-                        </video>
-                        //     <iframe
-                        //     className={styles.previewVideo}
-                        //     width="560"
-                        //     height="315"
-                        //     src={`https://www.youtube.com/embed/${selectedMedia.src}`}
-                        //     title="YouTube video player"
-                        //     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        //     allowFullScreen
-                        // ></iframe>
+                        <iframe
+                            className={styles.previewVideo}
+                            width="560"
+                            height="315"
+                            src={`https://www.youtube.com/embed/${selectedMedia.src}`}
+                            title="YouTube video player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
                     )
                 ) : (
                     <p>No media available. Select an item below.</p>

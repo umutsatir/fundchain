@@ -242,6 +242,7 @@ const CreateTab = ({ handleNotification }) => {
                             title: capitalAllFirstLetters(
                                 formData.basics.title
                             ),
+                            video: formData.basics.video.split("v=")[1],
                         },
                     };
                     let newData = {
