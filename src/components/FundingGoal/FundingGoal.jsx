@@ -16,6 +16,8 @@ const exchangeRates = {
     TRY: 27.5, // 1 USD = 27.5 TRY (example rate)
 };
 
+const etherPrice = 4000;
+
 const formatNumber = (number) => {
     return new Intl.NumberFormat("en-US", {
         minimumFractionDigits: 2,
@@ -24,42 +26,30 @@ const formatNumber = (number) => {
 };
 
 function FundingGoal({ updateFunding, formData, setFundingWarning }) {
-    const [etherPrice, setEtherPrice] = useState(4000);
-    const [amount, setAmount] = useState(formData.amount * etherPrice || "");
+    const [amount, setAmount] = useState(formData.amount || "");
     const [currency, setCurrency] = useState(formData.currency || "USD");
     const [warning, setWarning] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
     const [etherValue, setEtherValue] = useState(0);
 
     const maxAmount = 1000000;
-    const convertedAmount =
-        parseFloat(amount) / (exchangeRates[currency] || 1) || 0;
 
     useEffect(() => {
-        if (currency === "EUR") {
-            setEtherPrice(3900);
-        } else if (currency === "GBP") {
-            setEtherPrice(3100);
-        } else if (currency === "TRY") {
-            setEtherPrice(130000);
-        }
-        // Update funding whenever amount or currency changes
-        setEtherValue(
-            amount ? (parseFloat(amount) / etherPrice).toFixed(2) : 0
-        );
         updateFunding("currency", currency);
-        updateFunding("amount", etherValue);
-
+        updateFunding("amount", amount);
+        const convertedAmount =
+            parseFloat(amount) / (exchangeRates[currency] || 1) || 0;
+        setEtherValue(convertedAmount / etherPrice);
         // Check if the entered amount exceeds the maximum allowed amount
         if (convertedAmount > maxAmount) {
             setWarning(true);
             setFundingWarning(true);
-            updateFunding("amount", (parseFloat(maxAmount) / etherPrice).toFixed(2) );
+            updateFunding("amount", maxAmount);
         } else {
             setWarning(false);
             setFundingWarning(false);
         }
-    }, [amount, currency, convertedAmount, etherPrice, etherValue]);
+    }, [amount, currency, etherPrice, etherValue]);
 
     const handleAmountChange = (e) => {
         const value = e.target.value;
@@ -122,8 +112,12 @@ function FundingGoal({ updateFunding, formData, setFundingWarning }) {
 
                     <div className={styles.convertedAmount}>
                         <p>
-                            Converted Amount: {formatNumber(convertedAmount)} $
-                            = {formatNumber(etherValue)} ETH
+                            Converted Amount:{" "}
+                            {formatNumber(
+                                parseFloat(amount) /
+                                    (exchangeRates[currency] || 1) || 0
+                            )}{" "}
+                            $ = {formatNumber(etherValue)} ETH
                         </p>
                     </div>
 

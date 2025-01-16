@@ -53,6 +53,15 @@ const CreateTab = ({ handleNotification }) => {
         story: null,
     });
 
+    const exchangeRates = {
+        USD: 1, // USD remains at its own value
+        EUR: 0.93, // 1 USD = 0.93 EUR (example rate)
+        GBP: 0.82, // 1 USD = 0.82 GBP (example rate)
+        TRY: 27.5, // 1 USD = 27.5 TRY (example rate)
+    };
+
+    const etherPrice = 4000;
+
     const isFormValid = () => {
         return !Object.values(warnings).some((warning) => warning);
     };
@@ -90,10 +99,7 @@ const CreateTab = ({ handleNotification }) => {
                     errors.push("duration");
                 }
                 if (!formData.funding.amount) errors.push("funding amount");
-                if (
-                    parseFloat(formData.funding.amount) <= 0 ||
-                    parseFloat(formData.funding.amount) >= 250
-                )
+                if (parseFloat(formData.funding.amount) <= 0)
                     errors.push("funding");
                 if (formData.story.story.length === 0 || !isStoryTyped)
                     errors.push("story");
@@ -196,7 +202,7 @@ const CreateTab = ({ handleNotification }) => {
                 handleNotification("Please connect your wallet first", "info");
                 return;
             }
-            setIsInProgress(true);
+            // setIsInProgress(true);
 
             try {
                 handleNotification(
@@ -212,11 +218,16 @@ const CreateTab = ({ handleNotification }) => {
                 currDate.setDate(currDate.getDate() + parseInt(duration));
                 const launchDate = currDate.toISOString().split("T")[0];
 
+                const convertedAmount =
+                    parseFloat(formData.funding.amount) /
+                        (exchangeRates[formData.funding.currency] || 1) || 0;
+                const etherValue = convertedAmount / etherPrice;
+
                 const hash = await deployContract(config, {
                     abi: abi,
                     args: [
                         parseInt(timestamp + duration * 24 * 60 * 60),
-                        parseEther(formData.funding.amount),
+                        parseEther(etherValue.toString()),
                     ],
                     bytecode: bytecode,
                     gas: 3000000,
