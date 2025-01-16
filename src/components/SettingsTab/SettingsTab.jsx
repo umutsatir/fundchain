@@ -216,7 +216,7 @@ const Account = ({
                             type="password"
                             name="newPassword"
                         />
-                        <label>Minimum 6 characters!</label>
+                        <label>Minimum 8 characters!</label>
                     </div>
                     <div>
                         <h3>Confirm New Password</h3>
