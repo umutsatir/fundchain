@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/EnteringEmail.module.css";
+import $ from "jquery";
+import { apiUrl } from "../api_url";
 
-function EnteringEmail() {
+function EnteringEmail({ handleNotification }) {
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -13,7 +15,27 @@ function EnteringEmail() {
 
     const handleSubmit = (event) => {
         event.preventDefault(); // Prevent default form submission
-        navigate("/validation-email", { state: { isValidated: true } });
+        $.ajax({
+            url: apiUrl + "/checkEmail.php",
+            type: "POST",
+            data: {
+                email: email,
+            },
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result.status) {
+                    navigate("/validation-email", {
+                        state: { isValidated: true, email: email },
+                    });
+                } else {
+                    handleNotification(result.message, "error");
+                }
+            },
+            error: function (error) {
+                console.log(error);
+                handleNotification("An error occurred", "error");
+            },
+        });
     };
 
     const handleBack = () => {

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "../styles/ValidationEmail.module.css";
+import $ from "jquery";
+import { apiUrl } from "../api_url";
 
-function ValidationEmail() {
+function ValidationEmail({ handleNotification }) {
     const navigate = useNavigate();
     const location = useLocation();
     if (!location.state || !location.state.isValidated) {
@@ -21,10 +23,10 @@ function ValidationEmail() {
         if (number.length != 6) {
             setError("Please enter a valid 6-digit number.");
         } else {
-            console.log(number);
             if (number == code) {
-                // todo connect it to email service
-                navigate("/reset-password", { state: { isValidated: true } });
+                navigate("/reset-password", {
+                    state: { isValidated: true, email: location.state.email },
+                });
             }
         }
     };
@@ -46,6 +48,24 @@ function ValidationEmail() {
     const handleBack = () => {
         navigate("/forgot-password");
     };
+
+    useEffect(() => {
+        $.ajax({
+            url: apiUrl + "/send_code.php",
+            type: "POST",
+            data: {
+                email: location.state.email,
+                code: code,
+            },
+            success: function (result) {
+                handleNotification("Code sent to the email", "success");
+            },
+            error: function (error) {
+                console.log(error);
+                handleNotification("An error occurred", "error");
+            },
+        });
+    }, []);
 
     return (
         <div className={styles.ValidationEmailContainer}>

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "../styles/ForgotPassword.module.css";
+import $ from "jquery";
+import { apiUrl } from "../api_url";
 
-function ForgotPassword() {
+function ForgotPassword({ handleNotification }) {
     const navigate = useNavigate();
     const location = useLocation();
     if (!location.state || !location.state.isValidated) {
@@ -28,7 +30,30 @@ function ForgotPassword() {
         if (password !== passwordAgain) {
             setError("Both passwords must be the same.");
         } else {
-            navigate("/login");
+            $.ajax({
+                url: apiUrl + "/resetPassword.php",
+                type: "POST",
+                data: {
+                    email: location.state.email,
+                    password: password,
+                },
+                success: function (result) {
+                    result = JSON.parse(result);
+                    if (result.status) {
+                        handleNotification(
+                            "Password reset successfully",
+                            "success"
+                        );
+                        navigate("/login");
+                    } else {
+                        handleNotification(result.message, "error");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                    handleNotification("An error occurred", "error");
+                },
+            });
         }
     };
 

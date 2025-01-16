@@ -165,15 +165,27 @@ const App = () => {
                             />
                             <Route
                                 path="/forgot-password"
-                                element={<EnteringEmail />}
+                                element={
+                                    <EnteringEmail
+                                        handleNotification={handleNotification}
+                                    />
+                                }
                             />
                             <Route
                                 path="/validation-email"
-                                element={<ValidationEmail />}
+                                element={
+                                    <ValidationEmail
+                                        handleNotification={handleNotification}
+                                    />
+                                }
                             />
                             <Route
                                 path="/reset-password"
-                                element={<ForgotPassword />}
+                                element={
+                                    <ForgotPassword
+                                        handleNotification={handleNotification}
+                                    />
+                                }
                             />
                         </>
                     )}
