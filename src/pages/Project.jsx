@@ -87,18 +87,21 @@ function Project({ handleNotification }) {
     }, []);
 
     useEffect(() => {
-        if (!project.img || !project.video) return;
+        if (!project.img) return;
         const images = JSON.parse(project.img).map((image) => {
             return {
                 type: "image",
                 src: image,
             };
         });
-        const video = project.video && {
-            type: "video",
-            src: project.video,
-        };
-        setMediaItems([video, ...images]);
+        const video = project.video
+            ? {
+                  type: "video",
+                  src: project.video,
+              }
+            : null;
+        const newMediaItems = video ? [video, ...images] : images;
+        setMediaItems(newMediaItems);
     }, [project]);
 
     const handleCommentRefresh = () => {
