@@ -16,15 +16,9 @@ $pdo = (new PDOClass())->connect();
 $gump = new GUMP();
 $_POST = $gump->sanitize($_POST);
 
-$u_name = $_POST['username'];
-
-$stmt = $pdo->prepare("SELECT * FROM users WHERE username = :userName");
-$stmt->execute(['userName' => $u_name]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if ($user) {
+if ($_POST['userId']) {
     $stmt = $pdo->prepare("SELECT * FROM savedProjects WHERE userId = :u_id");
-    $stmt->execute(['u_id' => $user['userId']]);
+    $stmt->execute(['u_id' => $_POST['userId']]);
     $savedProjectsByUser = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if ($savedProjectsByUser) {
@@ -48,7 +42,7 @@ if ($user) {
         // Get random projects from the top categories (excluding the user's own projects)
         foreach ($TopThreeCategoryId as $categoryId) {
             $stmt = $pdo->prepare("SELECT * FROM projects WHERE categoryId = :c_id AND userId != :u_id");
-            $stmt->execute(['c_id' => $categoryId, 'u_id' => $user['userId']]);
+            $stmt->execute(['c_id' => $categoryId, 'u_id' => $_POST['userId']]);
             $projectsByCategory = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             if (!empty($projectsByCategory)) {
@@ -62,7 +56,7 @@ if ($user) {
             $neededProjects = 3 - count($ProjectsWillBeRecommended);
 
             $stmt = $pdo->prepare("SELECT * FROM projects WHERE userId != :u_id ORDER BY fundCount DESC LIMIT :limit");
-            $stmt->bindValue(':u_id', $user['userId'], PDO::PARAM_INT);
+            $stmt->bindValue(':u_id', $_POST['userId'], PDO::PARAM_INT);
             $stmt->bindValue(':limit', $neededProjects, PDO::PARAM_INT);
             $stmt->execute();
             $topFundedProjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -78,7 +72,7 @@ if ($user) {
     } else {
         // Recommend top 3 funded projects if user has no saved projects
         $stmt = $pdo->prepare("SELECT * FROM projects WHERE userId != :u_id ORDER BY fundCount DESC LIMIT 3");
-        $stmt->execute(['u_id' => $user['userId']]);
+        $stmt->execute(['u_id' => $_POST['userId']]);
         $randomProjectsToRecommend = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         echo json_encode([
