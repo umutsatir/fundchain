@@ -12,8 +12,6 @@ import { formatEther } from "viem";
 import { abi } from "../../../contracts/abi/abi";
 import { config } from "../../config";
 
-import photop from "/public/profilePicture.png"; //temporarily added.
-
 const Funding = (props) => {
     const cookies = new Cookies();
     const navigate = useNavigate();
@@ -166,8 +164,8 @@ const Funding = (props) => {
                 <FundingMenu
                     id={props.id}
                     title={props.title}
+                    description={props.description}
                     backers={data.backers}
-                    photo={photop}
                     isVisible={backProject}
                     setIsVisible={setBackProject}
                     handleNotification={props.handleNotification}

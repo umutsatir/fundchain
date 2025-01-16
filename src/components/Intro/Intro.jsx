@@ -33,6 +33,7 @@ const Intro = ({ project, handleNotification, mediaItems }) => {
                 <Funding
                     id={project.id}
                     title={project.title}
+                    description={project.description}
                     contractAddress={project.contractAddress}
                     handleNotification={handleNotification}
                 />

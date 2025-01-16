@@ -114,20 +114,12 @@ function FundingMenu(props) {
                     <div className={styles.knowledge}>
                         <h3 className={styles.projectTitle}>{props.title}</h3>
                         <p className={styles.projectDescription}>
-                            Lorem ipsum dolor sit amet consectetur, adipisicing
-                            elit. Accusamus quisquam in consequatur unde iste
-                            harum nesciunt corporis deleniti. Iste, accusantium?
+                            {props.description}
                         </p>
                         <p className={styles.projectBackers}>
                             {props.backers} backers
                         </p>
                     </div>
-
-                    <img
-                        className={styles.picture}
-                        src={props.photo}
-                        alt="SubPhoto"
-                    />
                 </div>
 
                 <form onSubmit={(e) => handleFundProject(e)}>
