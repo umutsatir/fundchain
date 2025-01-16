@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import styles from './Location.module.css';
+import React, { useState } from "react";
+import styles from "./Location.module.css";
+import { countries } from "./countries";
 
-function Location({updateBasics, formData, setLocationWarning}) {
+function Location({ updateBasics, formData, setLocationWarning }) {
     const [warning, setWarning] = useState(false);
 
     const handleInputChange = (e) => {
@@ -22,18 +23,31 @@ function Location({updateBasics, formData, setLocationWarning}) {
     return (
         <div className={styles.section}>
             <h2>Project Location</h2>
-            <p>Enter the location that best describes where your project is based.</p>
-            <input
-                type="text"
-                placeholder="Start typing your location..."
-                className={`${styles.input} ${warning ? styles.invalidInput : ''}`}
-                id='location'
+            <p>
+                Enter the location that best describes where your project is
+                based.
+            </p>
+            <select
+                className={`${styles.input} ${
+                    warning ? styles.invalidInput : ""
+                }`}
+                id="location"
                 value={formData.location}
                 onChange={handleInputChange}
-            />
+            >
+                <option value="">Select a country...</option>
+                {countries.map((country, index) => (
+                    <option key={index} value={country}>
+                        {country}
+                    </option>
+                ))}
+            </select>
             {warning && (
                 <div className={styles.warning}>
-                    <p>Warning: Location should consist of minimum 5 and maximum 100 characters.</p>
+                    <p>
+                        Warning: Location should consist of minimum 5 and
+                        maximum 100 characters.
+                    </p>
                 </div>
             )}
         </div>
