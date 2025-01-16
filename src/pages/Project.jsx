@@ -94,7 +94,7 @@ function Project({ handleNotification }) {
                 src: image,
             };
         });
-        const video = {
+        const video = project.video && {
             type: "video",
             src: project.video,
         };

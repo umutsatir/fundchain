@@ -165,6 +165,7 @@ const CreateTab = ({ handleNotification }) => {
             });
             const urls = await getLinks(uploadPromises);
             console.log("Image URLs:", urls);
+            console.log("Image Data:", imageData);
             updateBasics("image", urls);
         } catch (error) {
             console.error("Image upload error:", error);
@@ -242,7 +243,9 @@ const CreateTab = ({ handleNotification }) => {
                             title: capitalAllFirstLetters(
                                 formData.basics.title
                             ),
-                            video: formData.basics.video.split("v=")[1],
+                            video: formData.basics.video
+                                ? formData.basics.video.split("v=")[1]
+                                : "",
                         },
                     };
                     let newData = {
