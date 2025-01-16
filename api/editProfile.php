@@ -33,7 +33,7 @@ $u_id = $user['userId'];
 ///////////TEST/////////////////////
 
 $stmt= $pdo->prepare("SELECT * FROM users WHERE username = :u_name");
-$stmt->execute(params:['u_name'=>$u_name]);
+$stmt->execute(params:['u_name'=>$username]);
 $old_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($old_data){
@@ -50,12 +50,12 @@ if ($old_data){
 	if($biography_input){$biographyToChange = $biography_input;}
 
 	$stmt= $pdo->prepare("UPDATE users SET name = :setName ,surname = :setSurname , profilePic = :setProfilePic , location = :setLocation , description=:setDescription  WHERE username= :u_name");
-	$stmt->execute(params:['setName'=>$nameToChange,'setSurname'=>$surnameToChange,'setProfilePic'=>$profilePicToChange,'setLocation'=>$locationToChange,'setDescription'=>$biographyToChange, 'u_name' =>$u_name]);
+	$stmt->execute(params:['setName'=>$nameToChange,'setSurname'=>$surnameToChange,'setProfilePic'=>$profilePicToChange,'setLocation'=>$locationToChange,'setDescription'=>$biographyToChange, 'u_name' =>$username]);
 
 	echo json_encode(['status' => true, 'message' => "Made changes on user:$u_id"]);
 }
 else{
-	echo json_encode(['status' => false, 'message' => "User:$u_name not Found!"]);
+	echo json_encode(['status' => false, 'message' => "User:$username not Found!"]);
 }
 
 /*

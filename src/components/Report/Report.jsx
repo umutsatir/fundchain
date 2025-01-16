@@ -33,6 +33,11 @@ const Report = ({ id }) => {
         e.preventDefault();
         if (isButtonDisabled) return;
 
+        if (additionalDetails.length < 10) {
+            setFeedback("Description must be at least 10 characters long");
+            return;
+        }
+
         $.ajax({
             url: apiUrl + "/createReport.php",
             type: "POST",

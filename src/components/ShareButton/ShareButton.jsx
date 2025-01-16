@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./ShareButton.module.css"; // Dosya adı Share.module.css
 
 const Share = ({ isOpen, handleNotification }) => {
-    const [copyMessage, setCopyMessage] = useState(""); // Mesaj durumu
     const modalRef = useRef(null);
 
     const handleSocialClick = (platform) => {
@@ -40,9 +39,32 @@ const Share = ({ isOpen, handleNotification }) => {
     };
 
     const handleCopyLink = () => {
-        navigator.clipboard.writeText(window.location.href).then(() => {
-            handleNotification("Link copied to clipboard", "success");
-        });
+        const urlToCopy = window.location.href;
+
+        if (navigator.clipboard) {
+            // Modern browsers
+            navigator.clipboard
+                .writeText(urlToCopy)
+                .then(() => {
+                    handleNotification("Link copied to clipboard", "success");
+                })
+                .catch((err) => {
+                    console.error("Clipboard API error:", err);
+                    handleNotification("Failed to copy link", "error");
+                });
+        } else {
+            // Fallback for older browsers
+            const tempInput = document.createElement("input");
+            tempInput.value = urlToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            handleNotification(
+                "Link copied to clipboard (fallback)",
+                "success"
+            );
+        }
     };
 
     return (
@@ -84,11 +106,6 @@ const Share = ({ isOpen, handleNotification }) => {
                                 <i className="fas fa-link"></i>
                             </div>
                         </div>
-                        {copyMessage && (
-                            <div className={styles.copyMessage}>
-                                {copyMessage}
-                            </div>
-                        )}
                     </div>
                 </div>
             )}

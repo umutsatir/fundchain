@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./MediaGallery.module.css";
 
-const MediaGallery = ({ mediaItems = [] }) => {
+const MediaGallery = ({ mediaItems }) => {
     const [selectedMedia, setSelectedMedia] = useState(null);
 
     useEffect(() => {

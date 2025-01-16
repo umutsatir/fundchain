@@ -77,6 +77,9 @@ const SettingsTab = ({ handleNotification }) => {
         } else {
             return;
         }
+
+        if (!checkPassword(e.target.newPassword.value)) return;
+
         const formData = new FormData(e.target);
         const data = {};
         formData.forEach((value, key) => {
@@ -91,7 +94,6 @@ const SettingsTab = ({ handleNotification }) => {
                 username: cookies.get("username"),
             },
             success: function (result) {
-                console.log(result);
                 result = JSON.parse(result);
                 if (result.status) {
                     handleNotification(
@@ -108,6 +110,41 @@ const SettingsTab = ({ handleNotification }) => {
             },
         });
     }
+
+    const checkPassword = (password) => {
+        let valid = true;
+        const newErrors = {
+            password: "",
+            confirmPassword: "",
+        };
+
+        if (!password) {
+            newErrors.password = "Password is required.";
+            valid = false;
+        } else if (password.length < 8) {
+            newErrors.password = "Password must be at least 8 characters.";
+            valid = false;
+        } else if (!/[A-Z]/.test(password)) {
+            newErrors.password =
+                "Password must contain at least one uppercase letter.";
+            valid = false;
+        } else if (!/[a-z]/.test(password)) {
+            newErrors.password =
+                "Password must contain at least one lowercase letter.";
+            valid = false;
+        } else if (!/[0-9]/.test(password)) {
+            newErrors.password = "Password must contain at least one number.";
+            valid = false;
+        }
+        // else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+        //     newErrors.password = "Password must contain at least one special character.";
+        //     valid = false;
+        // }
+
+        if (valid) return true;
+        handleNotification("Error: " + newErrors.password, "error");
+        return false;
+    };
 
     return (
         <div className={styles.settingsContainer}>

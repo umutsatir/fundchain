@@ -3,14 +3,34 @@ import styles from "./Duration.module.css";
 import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
 
 function Duration({ updateBasics, formData, setDurationWarning }) {
-    const [date, setDate] = useState(formData.duration.type === "specificDate" ? new Date(formData.duration.value) : null);
-    const [day, setDay] = useState(formData.duration.type === "specificDate" ? new Date(formData.duration.value).getDate() : "");
-    const [month, setMonth] = useState(formData.duration.type === "specificDate" ? new Date(formData.duration.value).getMonth() + 1 : "");
-    const [year, setYear] = useState(formData.duration.type === "specificDate" ? new Date(formData.duration.value).getFullYear() : "");
+    const [date, setDate] = useState(
+        formData.duration.type === "specificDate"
+            ? new Date(formData.duration.value)
+            : null
+    );
+    const [day, setDay] = useState(
+        formData.duration.type === "specificDate"
+            ? new Date(formData.duration.value).getDate()
+            : ""
+    );
+    const [month, setMonth] = useState(
+        formData.duration.type === "specificDate"
+            ? new Date(formData.duration.value).getMonth() + 1
+            : ""
+    );
+    const [year, setYear] = useState(
+        formData.duration.type === "specificDate"
+            ? new Date(formData.duration.value).getFullYear()
+            : ""
+    );
     const [calendarOpen, setCalendarOpen] = useState(false);
     const buttonRef = useRef(null);
-    const [durationOption, setDurationOption] = useState(formData.duration.type || "fixed");
-    const [numDays, setNumDays] = useState(formData.duration.type === "fixed" ? formData.duration.value : "");
+    const [durationOption, setDurationOption] = useState(
+        formData.duration.type || "fixed"
+    );
+    const [numDays, setNumDays] = useState(
+        formData.duration.type === "fixed" ? formData.duration.value : ""
+    );
     const [weekWarning, setWeekWarning] = useState(false);
     const [yearWarning, setYearWarning] = useState(false);
     const [daysWarning, setDaysWarning] = useState(false);
@@ -18,12 +38,20 @@ function Duration({ updateBasics, formData, setDurationWarning }) {
     useEffect(() => {
         if (date) {
             const now = new Date();
-            const weekafter = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7);
-            const yearsafter = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate());
+            const weekafter = new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                now.getDate() + 7
+            );
+            const monthsafter = new Date(
+                now.getFullYear(),
+                now.getMonth() + 2,
+                now.getDate()
+            );
             if (date < weekafter) {
                 setWeekWarning(true);
                 setYearWarning(false);
-            } else if (date > yearsafter) {
+            } else if (date > monthsafter) {
                 setYearWarning(true);
                 setWeekWarning(false);
             } else {
@@ -34,19 +62,30 @@ function Duration({ updateBasics, formData, setDurationWarning }) {
     }, [date]);
 
     useEffect(() => {
-        if (durationOption === "fixed" && numDays && parseInt(numDays, 10) < 7) {
+        if (
+            durationOption === "fixed" &&
+            numDays &&
+            parseInt(numDays, 10) < 7
+        ) {
             setDaysWarning(true);
-        } else if (durationOption === "fixed" && numDays && parseInt(numDays, 10) > 60) {
+        } else if (
+            durationOption === "fixed" &&
+            numDays &&
+            parseInt(numDays, 10) > 60
+        ) {
             setDaysWarning(true);
         } else {
             setDaysWarning(false);
         }
     }, [durationOption, numDays]);
 
-    useEffect(() => { 
+    useEffect(() => {
         if (durationOption === "fixed" && daysWarning) {
             setDurationWarning(true);
-        } else if (durationOption === "specificDate" && (weekWarning || yearWarning)) {
+        } else if (
+            durationOption === "specificDate" &&
+            (weekWarning || yearWarning)
+        ) {
             setDurationWarning(true);
         } else {
             setDurationWarning(false);
@@ -59,8 +98,11 @@ function Duration({ updateBasics, formData, setDurationWarning }) {
         setMonth(selectedDate.getMonth() + 1);
         setYear(selectedDate.getFullYear());
         setCalendarOpen(false);
-        
-        updateBasics("duration", { type: "specificDate", value: selectedDate.toISOString() });
+
+        updateBasics("duration", {
+            type: "specificDate",
+            value: selectedDate.toISOString(),
+        });
     };
 
     const handleCalendarToggle = () => {
@@ -96,8 +138,16 @@ function Duration({ updateBasics, formData, setDurationWarning }) {
             let selectedDate = new Date(newYear, newMonth - 1, newDay);
 
             const now = new Date();
-            const weekafter = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7);
-            const yearsafter = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate());
+            const weekafter = new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                now.getDate() + 7
+            );
+            const yearsafter = new Date(
+                now.getFullYear() + 10,
+                now.getMonth(),
+                now.getDate()
+            );
             if (selectedDate < weekafter) {
                 setWeekWarning(true);
                 setYearWarning(false);
@@ -111,7 +161,10 @@ function Duration({ updateBasics, formData, setDurationWarning }) {
                 setYearWarning(false);
             }
 
-            updateBasics("duration", { type: "specificDate", value: selectedDate.toISOString() });
+            updateBasics("duration", {
+                type: "specificDate",
+                value: selectedDate.toISOString(),
+            });
         }
     };
 
@@ -157,7 +210,10 @@ function Duration({ updateBasics, formData, setDurationWarning }) {
         // }
 
         setDate(selectedDate);
-        updateBasics("duration", { type: "specificDate", value: selectedDate.toISOString() });
+        updateBasics("duration", {
+            type: "specificDate",
+            value: selectedDate.toISOString(),
+        });
     };
 
     const validateDays = () => {
@@ -207,11 +263,16 @@ function Duration({ updateBasics, formData, setDurationWarning }) {
                         value={numDays}
                         onChange={(e) => handleNumDaysChange(e.target.value)}
                         onBlur={validateDays}
-                        className={`${styles.input} ${daysWarning ? styles.invalidInput : ''}`}
+                        className={`${styles.input} ${
+                            daysWarning ? styles.invalidInput : ""
+                        }`}
                     />
                     {daysWarning && (
                         <div className={styles.warning}>
-                            <p>Warning: The campaign duration must be between 7 and 60 days.</p>
+                            <p>
+                                Warning: The campaign duration must be between 7
+                                and 60 days.
+                            </p>
                         </div>
                     )}
                 </div>
@@ -228,9 +289,15 @@ function Duration({ updateBasics, formData, setDurationWarning }) {
                                 min="1"
                                 max="31"
                                 value={day}
-                                onChange={(e) => handleInputChange("day", e.target.value)}
+                                onChange={(e) =>
+                                    handleInputChange("day", e.target.value)
+                                }
                                 onBlur={validateAndSetDate}
-                                className={`${styles.input} ${weekWarning || yearWarning ? styles.invalidInput : ''}`}
+                                className={`${styles.input} ${
+                                    weekWarning || yearWarning
+                                        ? styles.invalidInput
+                                        : ""
+                                }`}
                                 disabled={calendarOpen}
                             />
                         </div>
@@ -242,9 +309,15 @@ function Duration({ updateBasics, formData, setDurationWarning }) {
                                 min="1"
                                 max="12"
                                 value={month}
-                                onChange={(e) => handleInputChange("month", e.target.value)}
+                                onChange={(e) =>
+                                    handleInputChange("month", e.target.value)
+                                }
                                 onBlur={validateAndSetDate}
-                                className={`${styles.input} ${weekWarning || yearWarning ? styles.invalidInput : ''}`}
+                                className={`${styles.input} ${
+                                    weekWarning || yearWarning
+                                        ? styles.invalidInput
+                                        : ""
+                                }`}
                                 disabled={calendarOpen}
                             />
                         </div>
@@ -255,9 +328,15 @@ function Duration({ updateBasics, formData, setDurationWarning }) {
                                 id="year"
                                 min="2024"
                                 value={year}
-                                onChange={(e) => handleInputChange("year", e.target.value)}
+                                onChange={(e) =>
+                                    handleInputChange("year", e.target.value)
+                                }
                                 onBlur={validateAndSetDate}
-                                className={`${styles.input} ${weekWarning || yearWarning ? styles.invalidInput : ''}`}
+                                className={`${styles.input} ${
+                                    weekWarning || yearWarning
+                                        ? styles.invalidInput
+                                        : ""
+                                }`}
                                 disabled={calendarOpen}
                             />
                         </div>
@@ -278,12 +357,18 @@ function Duration({ updateBasics, formData, setDurationWarning }) {
                     />
                     {weekWarning && (
                         <div className={styles.warning}>
-                            <p>Warning: The campaign duration must be at least 7 days.</p>
+                            <p>
+                                Warning: The campaign duration must be at least
+                                7 days.
+                            </p>
                         </div>
                     )}
                     {yearWarning && (
                         <div className={styles.warning}>
-                            <p>Warning: The campaign duration must be at most 10 years.</p>
+                            <p>
+                                Warning: The campaign duration must be at most 2
+                                months.
+                            </p>
                         </div>
                     )}
                 </div>
