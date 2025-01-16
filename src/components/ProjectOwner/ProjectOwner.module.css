@@ -25,12 +25,18 @@
     top: 30px;
 }
 
-.profileImage img {
+.profileImage {
     width: 80px;
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
-    z-index: 1;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
 }
 
 .profileInfo {

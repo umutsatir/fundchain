@@ -6,6 +6,8 @@ import $ from "jquery";
 import { Cookies } from "react-cookie";
 import { apiUrl } from "../../api_url";
 
+import photop from "../../../public/profilePicture.png";
+
 function Cards(props) {
     const cookies = new Cookies();
     const [isSaved, setIsSaved] = useState(props.isSaved);
@@ -86,7 +88,7 @@ function Cards(props) {
             <div className={styles.cardHeader}>
                 <img
                     className={styles.cardSubimage}
-                    src={props.subimg}
+                    src={props.subimg ? props.subimg : photop}
                     alt="SubPhoto"
                 />
                 <div className={styles.cardProperties}>

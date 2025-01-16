@@ -24,9 +24,13 @@ const CreateProjects = ({ handleNotification }) => {
 
     useEffect(() => {
         setIsLoading(true);
-        if (activeTab === "My Projects") {
+        const fetchData = () => {
+            const url =
+                activeTab === "My Projects"
+                    ? "/getProjects.php"
+                    : "/getDonations.php";
             $.ajax({
-                url: apiUrl + "/getProjects.php",
+                url: apiUrl + url,
                 type: "POST",
                 data: {
                     username: cookies.get("username"),
@@ -36,37 +40,19 @@ const CreateProjects = ({ handleNotification }) => {
                     if (result.status) {
                         setProjects(result.data);
                     } else {
-                        handleNotification(result.message, "error");
+                        console.log(result.message);
                         setProjects([]);
                     }
+                    setIsLoading(false);
                 },
                 error: function (error) {
                     console.log(error);
                     setProjects([]);
+                    setIsLoading(false);
                 },
             });
-        } else {
-            $.ajax({
-                url: apiUrl + "/getDonations.php",
-                type: "POST",
-                data: {
-                    username: cookies.get("username"),
-                },
-                success: function (result) {
-                    result = JSON.parse(result);
-                    if (result.status) {
-                        setProjects(result.data);
-                    } else {
-                        setProjects([]);
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                    setProjects([]);
-                },
-            });
-        }
-        setIsLoading(false);
+        };
+        fetchData();
     }, [activeTab, onChange]);
 
     const getBackers = async (contractAddress) => {
@@ -77,9 +63,7 @@ const CreateProjects = ({ handleNotification }) => {
         });
     };
 
-    return isLoading ? (
-        <Loading />
-    ) : (
+    return (
         <div className={styles.container}>
             <div className={styles.tabGroup}>
                 <button
@@ -101,21 +85,27 @@ const CreateProjects = ({ handleNotification }) => {
             </div>
 
             <div className={styles.content}>
-                {activeTab === "My Projects" && (
-                    <MyProjectsTab
-                        projects={projects}
-                        handleNotification={handleNotification}
-                        setOnChange={setOnChange}
-                        getBackers={getBackers}
-                    />
-                )}
-                {activeTab === "Donations" && (
-                    <DonationsTab
-                        donations={projects}
-                        handleNotification={handleNotification}
-                        setOnChange={setOnChange}
-                        getBackers={getBackers}
-                    />
+                {isLoading ? (
+                    <Loading />
+                ) : (
+                    <>
+                        {activeTab === "My Projects" && (
+                            <MyProjectsTab
+                                projects={projects}
+                                handleNotification={handleNotification}
+                                setOnChange={setOnChange}
+                                getBackers={getBackers}
+                            />
+                        )}
+                        {activeTab === "Donations" && (
+                            <DonationsTab
+                                donations={projects}
+                                handleNotification={handleNotification}
+                                setOnChange={setOnChange}
+                                getBackers={getBackers}
+                            />
+                        )}
+                    </>
                 )}
             </div>
         </div>

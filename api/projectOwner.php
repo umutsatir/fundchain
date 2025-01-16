@@ -32,6 +32,8 @@
             'message' => 'User found',
             'id' => $user['userId'],
             'username' => $user['username'],
+            'name' => $user['name'],
+            'surname' => $user['surname'],
             'email' => $user['email'],
             'profilePic' => $user['profilePic'],
             'description' => $user['description'],

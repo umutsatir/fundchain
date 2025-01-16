@@ -15,6 +15,8 @@ function Profile({ handleNotification }) {
     const navigate = useNavigate();
 
     useEffect(() => {
+        setLoading(true); // Set loading to true before making requests
+
         $.ajax({
             url: apiUrl + "/profile.php",
             type: "POST",
@@ -53,10 +55,11 @@ function Profile({ handleNotification }) {
                 console.log(error);
                 navigate("/error");
             },
+            complete: function () {
+                setLoading(false); // Set loading to false after requests are completed
+            },
         });
-
-        setLoading(false);
-    }, [loading]);
+    }, []);
 
     const handleProjectClick = (id) => {
         navigate("/project/" + id);
@@ -76,7 +79,9 @@ function Profile({ handleNotification }) {
         />
     ) : (
         <div className={styles.profileImage}>
-            {getInitials(user.name_php, user.surname_php)}
+            {user.name_php && user.surname_php
+                ? getInitials(user.name_php, user.surname_php)
+                : getInitials(user.username_php, "")}
         </div>
     );
 
@@ -125,7 +130,10 @@ function Profile({ handleNotification }) {
                     </p>
                     {projects.map((project) => {
                         return (
-                            <a onClick={() => handleProjectClick(project.id)}>
+                            <a
+                                key={project.id}
+                                onClick={() => handleProjectClick(project.id)}
+                            >
                                 {project.title}
                             </a>
                         );
