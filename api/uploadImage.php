@@ -15,12 +15,12 @@
         if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFilePath)) {
             // File uploaded successfully
             $imageURL = "http://164.92.134.219:80/api/uploads/" . $uniqueFileName;
-            echo json_encode(["status" => "success", "url" => $imageURL]);
+            echo json_encode(["status" => true, "url" => $imageURL]);
         } else {
             // File upload failed
             echo json_encode([
-                "status" => "error",
-                "message" => "Failed to move file",
+                "status" => false,
+                "message" => "Failed to upload file",
                 "targetDir" => $targetDir,
                 "targetFilePath" => $targetFilePath,
                 "tmpName" => $_FILES['image']['tmp_name'],
@@ -28,6 +28,6 @@
             ]);
         }
     } else {
-        echo json_encode(["status" => "error", "message" => "No file uploaded"]);
+        echo json_encode(["status" => false, "message" => "No file uploaded"]);
     }
 ?>

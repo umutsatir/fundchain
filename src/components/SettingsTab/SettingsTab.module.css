@@ -137,6 +137,13 @@
     border: 1px solid #ccc;
 }
 
+.locationBox {
+    width: 100%;
+    padding: 8px 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+}
+
 .settingsContainer > .content form label {
     margin-top: 2px;
     font-size: 14px;

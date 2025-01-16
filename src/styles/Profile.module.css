@@ -12,9 +12,7 @@
     position: relative;
 }
 
-.profileImage {
-    width: 120px;
-    height: 120px;
+/* .profileImage {
     border-radius: 50%;
     border: 3px solid #fff;
     overflow: hidden;
@@ -22,6 +20,25 @@
     bottom: -60px;
     left: 50%;
     transform: translateX(-50%);
+} */
+
+.profileImage {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: var(--primary-color);
+    overflow: hidden;
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
 }
 
 .profileImage img {

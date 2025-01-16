@@ -4,6 +4,7 @@ import $, { isEmptyObject } from "jquery";
 import { useNavigate } from "react-router-dom";
 import { Cookies } from "react-cookie";
 import { apiUrl } from "../../api_url";
+import { countries } from "../Location/countries";
 
 const SettingsTab = ({ handleNotification }) => {
     const [activeTab, setActiveTab] = useState("account");
@@ -19,7 +20,31 @@ const SettingsTab = ({ handleNotification }) => {
         setActivePasswordChange(!activePasswordChange);
     };
 
-    function handleEditProfileSubmit(e) {
+    const uploadImage = async (value) => {
+        try {
+            if (!value || value.name == "") return;
+            // Upload files and get URLs
+            const formData = new FormData();
+            formData.append("image", value);
+
+            const response = await fetch(apiUrl + "/uploadImage.php", {
+                method: "POST",
+                body: formData,
+            });
+            const data = await response.json();
+            if (data.status) {
+                return data.url;
+            } else {
+                handleNotification("Failed to upload images", "error");
+                return null;
+            }
+        } catch (error) {
+            console.error("Image upload error:", error);
+            handleNotification("Failed to upload images", "error");
+        }
+    };
+
+    async function handleEditProfileSubmit(e) {
         e.preventDefault();
         if (
             e.target.avatar.files.length === 0 &&
@@ -32,11 +57,20 @@ const SettingsTab = ({ handleNotification }) => {
 
         const formData = new FormData(e.target);
         const data = {};
-        formData.forEach((value, key) => {
+        for (const [key, value] of formData.entries()) {
             if (key === "avatar") {
-                data[key] = URL.createObjectURL(value);
-            } else data[key] = value;
-        });
+                try {
+                    const url = await uploadImage(value);
+                    console.log("Image uploaded successfully", url);
+                    data[key] = url;
+                } catch (error) {
+                    console.error("Image upload error:", error);
+                    handleNotification("Failed to upload images", "error");
+                }
+            } else {
+                data[key] = value;
+            }
+        }
 
         $.ajax({
             url: apiUrl + "/editProfile.php",
@@ -175,7 +209,10 @@ const SettingsTab = ({ handleNotification }) => {
                     />
                 )}
                 {activeTab === "editProfile" && (
-                    <EditProfile handleSubmit={handleEditProfileSubmit} />
+                    <EditProfile
+                        handleSubmit={handleEditProfileSubmit}
+                        handleNotification={handleNotification}
+                    />
                 )}
                 {activeTab === "notifications" && <Notifications />}
                 {activeTab === "shippingAddress" && <ShippingAddress />}
@@ -244,49 +281,83 @@ const Account = ({
     </div>
 );
 
-const EditProfile = ({ handleSubmit }) => (
-    <div className={styles.editProfileTab}>
-        <form onSubmit={handleSubmit}>
-            <div>
-                <div>
-                    <h3>Name</h3>
-                    <input className={styles.nameBox} name="name" type="text" />
-                </div>
-                <div>
-                    <h3>Surname</h3>
-                    <input
-                        className={styles.nameBox}
-                        name="surname"
-                        type="text"
-                    />
-                </div>
-                <div>
-                    <h3>Avatar</h3>
-                    <input
-                        className={styles.avatarBox}
-                        name="avatar"
-                        type="file"
-                    />
-                </div>
-                <div>
-                    <h3>Location</h3>
-                    <input
-                        className={styles.locationBox}
-                        name="location"
-                        type="text"
-                    />
-                </div>
-                <button className={styles.saveButton} type="submit">
-                    Save Changes
-                </button>
-            </div>
+const EditProfile = ({ handleSubmit, handleNotification }) => {
+    const validateFile = (file) => {
+        const validTypes = ["image/jpeg", "image/png", "image/gif"];
+        if (file.size > 5 * 1024 * 1024) {
+            return "File size should be less than 5MB.";
+        }
+        if (!validTypes.includes(file.type)) {
+            return "Invalid file type. Only JPEG, PNG, and GIF are allowed.";
+        }
+        return null;
+    };
 
-            <div>
-                <h3>Biography</h3>
-                <textarea className={styles.biographyBox} name="biography" />
-            </div>
-        </form>
-    </div>
-);
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        const error = validateFile(file);
+        if (error) {
+            handleNotification(error, "error");
+            e.target.value = null;
+        }
+    };
+
+    return (
+        <div className={styles.editProfileTab}>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <div>
+                        <h3>Name</h3>
+                        <input
+                            className={styles.nameBox}
+                            name="name"
+                            type="text"
+                        />
+                    </div>
+                    <div>
+                        <h3>Surname</h3>
+                        <input
+                            className={styles.nameBox}
+                            name="surname"
+                            type="text"
+                        />
+                    </div>
+                    <div>
+                        <h3>Avatar</h3>
+                        <input
+                            className={styles.avatarBox}
+                            name="avatar"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                        />
+                    </div>
+                    <div>
+                        <h3>Location</h3>
+                        <select className={styles.locationBox} name="location">
+                            <option value="">Select a country...</option>
+                            {countries.map((country, index) => (
+                                <option key={index} value={country}>
+                                    {country}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <button className={styles.saveButton} type="submit">
+                        Save Changes
+                    </button>
+                </div>
+
+                <div>
+                    <h3>Biography</h3>
+                    <textarea
+                        className={styles.biographyBox}
+                        name="biography"
+                    />
+                </div>
+            </form>
+        </div>
+    );
+};
 
 export default SettingsTab;

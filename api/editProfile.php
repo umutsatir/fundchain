@@ -49,8 +49,8 @@ if ($old_data){
 	if($location_input){$locationToChange = $location_input;}
 	if($biography_input){$biographyToChange = $biography_input;}
 
-	$stmt= $pdo->prepare("UPDATE users SET name = :setName ,surname = :setSurname , profilePic = :setProfilePic , location = :setLocation , description=:setDescription  WHERE username= :u_name");
-	$stmt->execute(params:['setName'=>$nameToChange,'setSurname'=>$surnameToChange,'setProfilePic'=>$profilePicToChange,'setLocation'=>$locationToChange,'setDescription'=>$biographyToChange, 'u_name' =>$username]);
+	$stmt= $pdo->prepare("UPDATE users SET name = :setName, surname = :setSurname, profilePic = :setProfilePic, location = :setLocation ,description= :setDescription WHERE username = :u_name");
+	$stmt->execute(['setName'=>$nameToChange,'setSurname'=>$surnameToChange,'setProfilePic'=>$profilePicToChange,'setLocation'=>$locationToChange,'setDescription'=>$biographyToChange, 'u_name' =>$username]);
 
 	echo json_encode(['status' => true, 'message' => "Made changes on user:$u_id"]);
 }

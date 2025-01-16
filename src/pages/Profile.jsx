@@ -46,7 +46,7 @@ function Profile({ handleNotification }) {
                 if (result.status) {
                     setProjects(result.data);
                 } else {
-                    handleNotification(result.message, "error");
+                    console.log(result.message);
                 }
             },
             error: function (error) {
@@ -62,6 +62,24 @@ function Profile({ handleNotification }) {
         navigate("/project/" + id);
     };
 
+    const getInitials = (name, surname) => {
+        const nameInitial = name && name.charAt(0).toUpperCase();
+        const surnameInitial = surname && surname.charAt(0).toUpperCase();
+        return `${nameInitial}${surnameInitial}`;
+    };
+
+    const profileImageContent = user.profileImage_php ? (
+        <img
+            src={user.profileImage_php}
+            alt={`${user.name_php} ${user.surname_php}`}
+            className={styles.profileImage}
+        />
+    ) : (
+        <div className={styles.profileImage}>
+            {getInitials(user.name_php, user.surname_php)}
+        </div>
+    );
+
     return loading ? (
         <Loading />
     ) : (
@@ -71,12 +89,7 @@ function Profile({ handleNotification }) {
                     className={styles.profileCover}
                     style={{ backgroundImage: `url(${user.coverImage_php})` }}
                 >
-                    <div className={styles.profileImage}>
-                        <img
-                            src={user.profileImage_php}
-                            alt={`${user.name_php} ${user.surname_php}`}
-                        />
-                    </div>
+                    {profileImageContent}
                 </div>
                 <div className={styles.profileName}>
                     <h2>
