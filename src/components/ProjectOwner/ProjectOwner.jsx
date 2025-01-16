@@ -4,10 +4,11 @@ import $ from "jquery";
 import { apiUrl } from "../../api_url";
 
 const ProjectOwner = ({ userId }) => {
-    const rating = 4.5;
     const [user, setUser] = useState({});
+    const [rating, setRating] = useState(0);
 
     useEffect(() => {
+        if (!userId) return;
         $.ajax({
             url: apiUrl + "/projectOwner.php",
             type: "GET",
@@ -17,6 +18,21 @@ const ProjectOwner = ({ userId }) => {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.status) setUser(data);
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+
+        $.ajax({
+            url: apiUrl + "/getTotalRate.php",
+            type: "GET",
+            data: {
+                userId: userId,
+            },
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result.status) setRating(result.data);
             },
             error: function (error) {
                 console.log(error);
