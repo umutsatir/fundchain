@@ -83,10 +83,13 @@ const CreateTab = ({ handleNotification }) => {
                         isStoryTyped = false;
                 });
 
-                if (!formData.basics.category) errors.push("category");
-                if (!formData.basics.title) errors.push("title");
+                if (!formData.basics.category || formData.basics.category == "")
+                    errors.push("category");
+                if (!formData.basics.title || formData.basics.title == "")
+                    errors.push("title");
                 if (!formData.basics.description) errors.push("description");
-                if (!formData.basics.location) errors.push("location");
+                if (!formData.basics.location || formData.basics.location == "")
+                    errors.push("location");
                 if (
                     formData.basics.image.length === 0 &&
                     imageData.length === 0
@@ -435,7 +438,11 @@ const BasicsTab = ({
     updateWarnings,
 }) => (
     <div>
-        <Category updateBasics={updateBasics} formData={formData} />
+        <Category
+            updateBasics={updateBasics}
+            formData={formData}
+            setCategoryWarning={(value) => updateWarnings("category", value)}
+        />
         <Details
             updateBasics={updateBasics}
             formData={formData}

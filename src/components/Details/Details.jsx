@@ -9,27 +9,27 @@ function Details({ updateBasics, formData, setDetailsWarning }) {
         const { id } = e.target;
         let { value } = e.target;
 
-        if (value.length != 0 && (value.length > 100 || value.length < 5)) {
+        if (value.length != 0 && (value.length > 65 || value.length < 5)) {
             setTitleWarning(true);
-            value = value.slice(0, 100);
+            value = value.slice(0, 65);
         } else {
             setTitleWarning(false);
         }
-        
+
         updateBasics(id, value);
     };
 
     const handleDescChange = (e) => {
         const { id } = e.target;
         let { value } = e.target;
-    
-        if (value.length != 0 && (value.length > 500 || value.length < 10)) {
+
+        if (value.length != 0 && (value.length > 100 || value.length < 5)) {
             setDescWarning(true);
-            value = value.slice(0, 500);
+            value = value.slice(0, 100);
         } else {
             setDescWarning(false);
         }
-    
+
         updateBasics(id, value);
     };
 
@@ -40,7 +40,6 @@ function Details({ updateBasics, formData, setDetailsWarning }) {
             setDetailsWarning(false);
         }
     }, [titleWarning, descWarning]);
-    
 
     return (
         <div className={styles.formWrapper}>
@@ -60,12 +59,17 @@ function Details({ updateBasics, formData, setDetailsWarning }) {
                         id="title"
                         value={formData.title}
                         placeholder="e.g., The Community Microscope Kit"
-                        className={`${styles.input} ${titleWarning ? styles.invalidInput : ''}`}
+                        className={`${styles.input} ${
+                            titleWarning ? styles.invalidInput : ""
+                        }`}
                         onChange={handleTitleChange}
                     />
                     {titleWarning && (
                         <div className={styles.warning}>
-                            <p>Warning: Title should consist of minimum 5 and maximum 50 characters.</p>
+                            <p>
+                                Warning: Title should consist of minimum 5 and
+                                maximum 65 characters.
+                            </p>
                         </div>
                     )}
                 </div>
@@ -76,12 +80,17 @@ function Details({ updateBasics, formData, setDetailsWarning }) {
                         id="description"
                         rows="5"
                         value={formData.description}
-                        className={`${styles.input} ${descWarning ? styles.invalidInput : ''}`}
+                        className={`${styles.input} ${
+                            descWarning ? styles.invalidInput : ""
+                        }`}
                         onChange={handleDescChange}
                     />
                     {descWarning && (
                         <div className={styles.warning}>
-                            <p>Warning: Description should consist of minimum 10 and maximum 500 characters.</p>
+                            <p>
+                                Warning: Description should consist of minimum 5
+                                and maximum 100 characters.
+                            </p>
                         </div>
                     )}
                 </div>

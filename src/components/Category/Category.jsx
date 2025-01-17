@@ -6,6 +6,7 @@ import { apiUrl } from "../../api_url";
 function Category({ updateBasics, formData, setCategoryWarning }) {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [categoryOptions, setCategoryOptions] = useState([]);
+    const [categoryWar, setCategoryWar] = useState(false);
 
     useEffect(() => {
         $.ajax({
@@ -30,6 +31,13 @@ function Category({ updateBasics, formData, setCategoryWarning }) {
         const category = e.target.value;
         setSelectedCategory(category);
         updateBasics("category", category);
+        if (category === "") {
+            setCategoryWarning(true);
+            setCategoryWar(true);
+        } else {
+            setCategoryWarning(false);
+            setCategoryWar(false);
+        }
     };
 
     return (
@@ -50,7 +58,9 @@ function Category({ updateBasics, formData, setCategoryWarning }) {
                     <label>Category</label>
                     <br />
                     <select
-                        className={styles.categoryFormControl}
+                        className={`${styles.categoryFormControl} ${
+                            categoryWar ? styles.warning : ""
+                        }`}
                         name="category"
                         onChange={handleCategoryChange}
                         value={selectedCategory}
@@ -63,6 +73,14 @@ function Category({ updateBasics, formData, setCategoryWarning }) {
                                 </option>
                             ))}
                     </select>
+                    {categoryWar && (
+                        <div className={styles.warningText}>
+                            <p>
+                                Warning: You have to select a category to
+                                proceed.
+                            </p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

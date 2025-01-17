@@ -10,15 +10,15 @@ function Video({ updateBasics, formData, setVideoWarning }) {
 
         if (value.length === 0) {
             warningMessage = null;
-        }
-        else if (value.length < 5 || value.length > 100) {
-            warningMessage = "Link should consist of minimum 5 and maximum 100 characters.";
+        } else if (value.length < 5 || value.length > 100) {
+            warningMessage =
+                "Link should consist of minimum 5 and maximum 100 characters.";
             value = value.slice(0, 100);
-        } 
-        else if (!value.startsWith("https://")) {
+        } else if (!value.startsWith("https://")) {
             warningMessage = "The link must start with 'https://'.";
-        } 
-        else if (!/^(https:\/\/)?(www\.)?(youtube\.com|youtu\.be)/.test(value)) {
+        } else if (
+            !/^(https:\/\/)?(www\.)?(youtube\.com\/|youtu\.be\/)/.test(value)
+        ) {
             warningMessage = "The link must be a valid YouTube URL.";
         }
 
@@ -34,7 +34,9 @@ function Video({ updateBasics, formData, setVideoWarning }) {
             <input
                 type="text"
                 placeholder="Video link..."
-                className={`${styles.input} ${warning ? styles.invalidInput : ""}`}
+                className={`${styles.input} ${
+                    warning ? styles.invalidInput : ""
+                }`}
                 id="video"
                 value={formData.video}
                 onChange={handleInputChange}

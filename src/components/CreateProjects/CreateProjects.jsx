@@ -112,6 +112,13 @@ const CreateProjects = ({ handleNotification }) => {
     );
 };
 
+const getImageSrc = (image) => {
+    if (Array.isArray(image) && image.length > 0) {
+        return image[0];
+    }
+    return image;
+};
+
 const MyProjectsTab = ({
     projects,
     handleNotification,
@@ -127,7 +134,7 @@ const MyProjectsTab = ({
                     title={project.title}
                     description={project.description}
                     getBackers={getBackers}
-                    photo={project.image}
+                    photo={getImageSrc(project.image)}
                     contractAddress={project.contractAddress}
                     buttonName="Withdraw Funds"
                     deadline={project.launchDate}
@@ -157,7 +164,7 @@ const DonationsTab = ({
                     title={donation.title}
                     description={donation.description}
                     getBackers={getBackers}
-                    photo={donation.image}
+                    photo={getImageSrc(donation.image)}
                     contractAddress={donation.contractAddress}
                     buttonName="Withdraw Donate"
                     deadline={donation.launchDate}

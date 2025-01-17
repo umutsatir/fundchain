@@ -9,10 +9,9 @@ function Location({ updateBasics, formData, setLocationWarning }) {
         const { id } = e.target;
         let { value } = e.target;
 
-        if (value.length != 0 && (value.length > 100 || value.length < 5)) {
+        if (value == "") {
             setWarning(true);
             setLocationWarning(true);
-            value = value.slice(0, 100);
         } else {
             setWarning(false);
             setLocationWarning(false);
@@ -44,10 +43,7 @@ function Location({ updateBasics, formData, setLocationWarning }) {
             </select>
             {warning && (
                 <div className={styles.warning}>
-                    <p>
-                        Warning: Location should consist of minimum 5 and
-                        maximum 100 characters.
-                    </p>
+                    <p>Warning: You should select a country to proceed.</p>
                 </div>
             )}
         </div>

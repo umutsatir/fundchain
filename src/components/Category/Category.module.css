@@ -48,6 +48,15 @@
     margin-bottom: -10px;
 }
 
+.warning {
+    border-color: red;
+    background-color: #f8d7da;
+}
+
+.warningText {
+    color: red;
+}
+
 @media screen and (max-width: 768px) {
     .categoryContainer {
         flex-direction: column;

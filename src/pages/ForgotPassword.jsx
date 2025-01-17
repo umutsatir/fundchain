@@ -27,8 +27,14 @@ function ForgotPassword({ handleNotification }) {
     const handleSubmit = (event) => {
         event.preventDefault(); // Prevent default form submission
 
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
         if (password !== passwordAgain) {
             setError("Both passwords must be the same.");
+        } else if (!passwordRegex.test(password)) {
+            setError(
+                "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number."
+            );
         } else {
             $.ajax({
                 url: apiUrl + "/resetPassword.php",

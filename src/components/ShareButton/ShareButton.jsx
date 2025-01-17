@@ -60,10 +60,7 @@ const Share = ({ isOpen, handleNotification }) => {
             tempInput.select();
             document.execCommand("copy");
             document.body.removeChild(tempInput);
-            handleNotification(
-                "Link copied to clipboard (fallback)",
-                "success"
-            );
+            handleNotification("Link copied to clipboard", "success");
         }
     };
 

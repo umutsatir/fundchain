@@ -24,9 +24,12 @@ function ValidationEmail({ handleNotification }) {
             setError("Please enter a valid 6-digit number.");
         } else {
             if (number == code) {
+                handleNotification("Code validated", "success");
                 navigate("/reset-password", {
                     state: { isValidated: true, email: location.state.email },
                 });
+            } else {
+                handleNotification("Invalid code", "error");
             }
         }
     };

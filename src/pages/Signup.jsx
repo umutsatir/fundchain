@@ -104,6 +104,7 @@ function Signup({ handleNotification }) {
                 success: function (data) {
                     data = JSON.parse(data);
                     if (data.status) {
+                        handleNotification(data.message, "success");
                         navigate("/login");
                     } else {
                         handleNotification(data.message, "error");

@@ -125,7 +125,10 @@ const Funding = (props) => {
     }, [data]);
 
     const setSavedProject = () => {
-        if (!cookies.get("loggedIn")) navigate("/login");
+        if (!cookies.get("loggedIn")) {
+            navigate("/login");
+            return;
+        }
         $.ajax({
             url: apiUrl + "/save.php",
             type: "POST",
@@ -139,7 +142,7 @@ const Funding = (props) => {
                 if (data.status) {
                     setIsSaved(!isSaved);
                 } else {
-                    props.handleNotification(data.message, "error");
+                    console.log(data.message);
                 }
             },
             error: function (error) {
