@@ -63,10 +63,12 @@ function RecommendedProjects({ userId }) {
                     />
                 ))}
             </div>
-            <p className={styles.noProjects}>
-                It seems that you have already looked up all excellent projects
-                :)
-            </p>
+            {projects.length == 0 && (
+                <p className={styles.noProjects}>
+                    It seems that you have already looked up all excellent
+                    projects :)
+                </p>
+            )}
         </div>
     );
 }
