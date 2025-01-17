@@ -113,10 +113,7 @@ const CreateProjects = ({ handleNotification }) => {
 };
 
 const getImageSrc = (image) => {
-    if (Array.isArray(image) && image.length > 0) {
-        return image[0];
-    }
-    return image;
+    return JSON.parse(image)[0];
 };
 
 const MyProjectsTab = ({

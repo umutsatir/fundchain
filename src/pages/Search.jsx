@@ -9,15 +9,14 @@ function Search() {
     const [projects, setProjects] = useState([]);
     const [savedProjects, setSavedProjects] = useState({}); // Track saved status
     const [isLoading, setIsLoading] = useState(true);
+    const searchText = new URLSearchParams(window.location.search).get("q");
 
     useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchText = urlParams.get("q");
         if (searchText) {
             getResults(searchText);
         }
         setIsLoading(false);
-    }, []);
+    }, [searchText]);
 
     const handleSaveToggle = (projectId) => {
         setSavedProjects((prevSavedProjects) => ({

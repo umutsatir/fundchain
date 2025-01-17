@@ -17,7 +17,9 @@ function Video({ updateBasics, formData, setVideoWarning }) {
         } else if (!value.startsWith("https://")) {
             warningMessage = "The link must start with 'https://'.";
         } else if (
-            !/^(https:\/\/)?(www\.)?(youtube\.com\/|youtu\.be\/)/.test(value)
+            !/^https:\/\/(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)/.test(
+                value
+            )
         ) {
             warningMessage = "The link must be a valid YouTube URL.";
         }
